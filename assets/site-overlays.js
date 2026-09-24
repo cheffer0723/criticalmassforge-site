@@ -1,5 +1,5 @@
 (() => {
-  const LAB_EMAIL = "chris.heffernan@criticalmasstoken.com";
+  const LAB_EMAIL = "admin@asymmetria.io";
   const PROJECTS = [
     ["", "General / the lab"],
     ["ASYMMETRY", "01 / ASYMMETRY"],
