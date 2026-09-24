@@ -1,0 +1,317 @@
+/* Public register: atlas-only index, studio merge, correspondence, privacy. */
+
+.portfolio-section {
+  display: none !important;
+}
+
+.about-section .method-content {
+  max-width: 70rem;
+  margin-top: 0;
+}
+
+.about-section .method-grid {
+  margin: 4.5rem 0 0;
+}
+
+.atlas-row {
+  grid-template-columns: 3rem 2.5rem 1fr auto auto;
+}
+
+.atlas-stage {
+  min-width: 10rem;
+  color: var(--quiet);
+  font: 400 0.58rem var(--mono);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding-right: 1.25rem;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.atlas-row.is-public .atlas-stage {
+  color: var(--cyan);
+}
+
+.atlas-row.is-active .atlas-stage {
+  color: var(--violet-bright);
+}
+
+.active-rail {
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+  max-width: 120rem;
+  margin: 0 auto;
+  padding: 0 clamp(1.25rem, 9.5vw, 10rem) clamp(5rem, 10vw, 8rem);
+}
+
+.active-rail-intro {
+  max-width: 36rem;
+  margin-bottom: 2.5rem;
+}
+
+.active-rail-intro > p:not(.eyebrow) {
+  margin: 0;
+  color: var(--muted);
+  font: 400 0.82rem / 1.8 var(--mono);
+}
+
+.active-rail-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+}
+
+.active-rail-card {
+  min-height: 14rem;
+  padding: 1.5rem;
+  background: linear-gradient(135deg, rgba(15, 17, 38, 0.82), rgba(7, 8, 18, 0.94));
+}
+
+.active-rail-card > span {
+  color: var(--violet);
+  font: 400 0.62rem var(--mono);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.active-rail-card h3 {
+  margin: 2.2rem 0 0.9rem;
+  color: var(--text);
+  font: 500 1.3rem var(--serif);
+  letter-spacing: 0.02em;
+}
+
+.active-rail-card p {
+  margin: 0;
+  color: var(--muted);
+  font: 400 0.75rem / 1.7 var(--mono);
+}
+
+.featured-subprojects a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  color: inherit;
+}
+
+.featured-subprojects a:hover {
+  color: var(--violet-bright);
+}
+
+.correspondence-section {
+  --section-haze: rgba(38, 176, 199, 0.16);
+  background:
+    radial-gradient(circle at 14% 42%, rgba(126, 74, 224, 0.12), transparent 24rem),
+    linear-gradient(135deg, #090e1ba8, #070812b3);
+}
+
+.correspondence-section .lead-copy {
+  max-width: 38rem;
+}
+
+.signal-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem 1.5rem;
+  max-width: 42rem;
+  margin: 3.5rem 0 0 24%;
+}
+
+.signal-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.signal-field-wide {
+  grid-column: 1 / -1;
+}
+
+.signal-honey {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.signal-field label {
+  color: var(--violet);
+  font: 400 0.62rem var(--mono);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.signal-field input,
+.signal-field select,
+.signal-field textarea {
+  width: 100%;
+  padding: 0.85rem 0.95rem;
+  border: 1px solid var(--line);
+  border-radius: 0;
+  background: rgba(7, 8, 18, 0.72);
+  color: var(--text);
+  font: 400 0.82rem / 1.6 var(--mono);
+}
+
+.signal-field input:focus-visible,
+.signal-field select:focus-visible,
+.signal-field textarea:focus-visible {
+  outline: 2px solid var(--cyan);
+  outline-offset: 3px;
+  border-color: var(--violet-bright);
+}
+
+.signal-field textarea {
+  min-height: 9.5rem;
+  resize: vertical;
+}
+
+.signal-field select {
+  appearance: none;
+  background-image: linear-gradient(45deg, transparent 50%, var(--cyan) 50%),
+    linear-gradient(135deg, var(--cyan) 50%, transparent 50%);
+  background-position: calc(100% - 1.15rem) 1.15rem, calc(100% - 0.85rem) 1.15rem;
+  background-size: 0.32rem 0.32rem, 0.32rem 0.32rem;
+  background-repeat: no-repeat;
+}
+
+.signal-form .button {
+  cursor: pointer;
+}
+
+.signal-actions {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1.4rem;
+  margin-top: 0.4rem;
+}
+
+.signal-note,
+.signal-status {
+  margin: 0;
+  color: var(--quiet);
+  font: 400 0.72rem / 1.7 var(--mono);
+}
+
+.signal-status[data-tone="ok"] {
+  color: var(--cyan);
+}
+
+.signal-status[data-tone="error"] {
+  color: #ffb4b4;
+}
+
+.status-dialog {
+  max-height: min(46rem, calc(100vh - 1.5rem));
+}
+
+.status-dialog .dialog-actions {
+  gap: 0.95rem 1.15rem;
+  padding-bottom: 0.15rem;
+}
+
+.site-footer .footer-meta {
+  flex-wrap: wrap;
+}
+
+.privacy-page .site-shell {
+  min-height: 100vh;
+}
+
+.privacy-page .privacy-home {
+  margin-left: auto;
+}
+
+@media (min-width: 901px) {
+  .privacy-page .privacy-home {
+    display: none;
+  }
+}
+
+.privacy-article {
+  max-width: 42rem;
+  margin: 0;
+}
+
+.privacy-article h1 {
+  margin: 0 0 1.5rem;
+  font: 500 clamp(2.4rem, 6vw, 4.5rem) / 0.98 var(--serif);
+  letter-spacing: -0.05em;
+}
+
+.privacy-article p,
+.privacy-article li {
+  color: var(--muted);
+  font: 400 0.9rem / 1.8 var(--mono);
+}
+
+.privacy-article a {
+  color: var(--violet-bright);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+@media (max-width: 900px) {
+  .active-rail-grid,
+  .signal-form {
+    display: block;
+  }
+
+  .signal-form {
+    margin: 2rem 0 0;
+  }
+
+  .signal-field + .signal-field {
+    margin-top: 1.1rem;
+  }
+
+  .signal-actions {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 1.2rem;
+  }
+
+  .active-rail-card + .active-rail-card {
+    border-top: 1px solid var(--line);
+  }
+}
+
+@media (max-width: 640px) {
+  .atlas-row {
+    grid-template-columns: 2.4rem 1.8rem 1fr auto;
+  }
+
+  .atlas-action {
+    display: none;
+  }
+
+  .atlas-stage {
+    display: block;
+    padding-right: 0;
+    font-size: 0.5rem;
+    letter-spacing: 0.08em;
+  }
+
+  .about-section .method-grid,
+  .about-section .method-content {
+    margin-left: 0;
+  }
+
+  .active-rail {
+    padding: 0 1.25rem 3.5rem;
+  }
+
+  .active-rail-card {
+    min-height: 0;
+    padding: 1.2rem 0 1.5rem;
+    background: none;
+    border: 0;
+  }
+}

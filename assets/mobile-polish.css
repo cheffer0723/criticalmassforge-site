@@ -242,6 +242,12 @@
     min-height: 3.7rem;
   }
 
+  .atlas-stage {
+    max-width: 7.5rem;
+    white-space: normal;
+    text-align: right;
+  }
+
   .featured-art {
     min-height: 12.5rem;
   }
