@@ -178,7 +178,14 @@
             <p class="eyebrow"><span class="eyebrow-line" aria-hidden="true"></span>${esc(asymmetry.featuredEyebrow)}</p>
             <h2 id="featured-title">${esc(asymmetry.featuredTitle)} <em>${esc(asymmetry.featuredTitleEm)}</em></h2>
             <p>${esc(asymmetry.featuredBody)}</p>
-            <a class="button button-outline" href="${esc(asymmetry.link)}" target="_blank" rel="noreferrer">${esc(asymmetry.linkLabel)} ${ICON.arrow}</a>
+            <div class="featured-actions">
+              <a class="button button-outline" href="${esc(asymmetry.link)}" target="_blank" rel="noreferrer">${esc(asymmetry.linkLabel)} ${ICON.arrow}</a>
+              ${
+                asymmetry.extraLink
+                  ? `<a class="text-link" href="${esc(asymmetry.extraLink)}" target="_blank" rel="noreferrer">${esc(asymmetry.extraLinkLabel)} ${ICON.arrow}</a>`
+                  : ""
+              }
+            </div>
             ${childChips(asymmetry)}
           </div>
         </section>`
@@ -327,8 +334,11 @@
     lastFocus = trigger || document.activeElement;
     openProgram = program;
     document.body.classList.add("dialog-open");
+    const extra = program.extraLink
+      ? `<a class="text-link" href="${esc(program.extraLink)}" target="_blank" rel="noreferrer">${esc(program.extraLinkLabel)} ${ICON.ext}</a>`
+      : "";
     const action = program.link
-      ? `<a class="button button-primary" href="${esc(program.link)}" target="_blank" rel="noreferrer">${esc(program.linkLabel)} ${ICON.ext}</a>`
+      ? `<a class="button button-primary" href="${esc(program.link)}" target="_blank" rel="noreferrer">${esc(program.linkLabel)} ${ICON.ext}</a>${extra}`
       : `<span class="dialog-note">${esc(program.nextStep || "No public surface yet.")}</span>`;
     dialogLayer.className = "dialog-layer";
     dialogLayer.innerHTML = `
