@@ -97,6 +97,15 @@
   color: #ffb4b4;
 }
 
+.status-dialog {
+  max-height: min(46rem, calc(100vh - 1.5rem));
+}
+
+.status-dialog .dialog-actions {
+  gap: 0.95rem 1.15rem;
+  padding-bottom: 0.15rem;
+}
+
 .dialog-actions .dialog-ask-link {
   margin-left: 0;
 }
