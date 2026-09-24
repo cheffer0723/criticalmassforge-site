@@ -13,7 +13,7 @@
      Research        — investigation, recovery, or early design
 
    Stage vocabulary:
-     Pre-beta, Beta candidate, In exploration, In build, Indexed
+     Pre-beta, Beta, Beta candidate, In exploration, In build, Listed, Indexed
    ============================================================================= */
 
 window.CML = {
@@ -45,24 +45,21 @@ window.CML = {
     {
       number: "01",
       slug: "asymmetry",
-      name: "ASYMMETRY",
+      name: "DEAD DROP",
       mark: "◉",
       accent: "violet",
-      description: "Privacy-conscious coordination, shaped into simple user-facing tools.",
+      description: "Native iOS app for private coordination, now in beta. The current public surface of Asymmetry.",
       status: "Active",
-      stage: "Pre-beta",
+      stage: "Beta",
       discipline: "Privacy systems",
       link: "https://asymmetria.io/",
       linkLabel: "Visit asymmetria.io",
       prominence: "public",
       featured: "asymmetry",
       featuredEyebrow: "Project 01 / Asymmetry",
-      featuredTitle: "Private coordination,",
-      featuredTitleEm: "without spectacle.",
-      featuredBody: "ASYMMETRY is the lab’s public privacy-coordination surface. It is a pre-beta preview, not a claim of audit, anonymity, or production settlement.",
-      children: [
-        { name: "Dead drop", stage: "Pre-beta", href: "https://asymmetria.io/" },
-      ],
+      featuredTitle: "DEAD DROP,",
+      featuredTitleEm: "native iOS.",
+      featuredBody: "A native iOS app now in beta. This is the current public surface of Asymmetry — a preview, not a claim of App Store listing, audit, or production settlement.",
     },
     {
       number: "02",
@@ -72,7 +69,7 @@ window.CML = {
       accent: "violet",
       description: "A dark research environment for simulation, tooling, and cinematic web experiments.",
       status: "Active",
-      stage: "In exploration",
+      stage: "Beta",
       discipline: "Simulation + tooling",
       link: "https://obsidianabyss.com/",
       linkLabel: "Visit ObsidianAbyss.com",
@@ -81,7 +78,7 @@ window.CML = {
       featuredEyebrow: "Skunkworks initiative",
       featuredTitle: "Obsidian",
       featuredTitleEm: "abyss.",
-      featuredBody: "Exploratory work around systems, simulation, and uncharted questions. The public site is the current window in; it is not a finished product claim.",
+      featuredBody: "Now in beta. Exploratory work around systems, simulation, and uncharted questions. The public site is the current window in; it is not a finished product claim.",
     },
     {
       number: "03",
@@ -125,15 +122,16 @@ window.CML = {
     {
       number: "06",
       slug: "nexus-desk",
-      name: "Nexus-Desk",
+      name: "Nexus Grid Desk",
       mark: "◇",
       accent: "cyan",
-      description: "Operator desk and resilient-systems work carried forward from earlier engine research.",
-      status: "In development",
-      stage: "In build",
+      description: "Operator desk and resilient-systems work, listed as a Railway template.",
+      status: "Active",
+      stage: "Listed",
       discipline: "Operator systems",
-      prominence: "active",
-      nextStep: "No public surface yet. The desk is in build, not offered as a live product here.",
+      link: "https://railway.com/deploy/nexus-grid-desk",
+      linkLabel: "Railway template",
+      prominence: "public",
     },
     {
       number: "07",
@@ -142,11 +140,11 @@ window.CML = {
       mark: "∷",
       accent: "violet",
       description: "Decision-path research for constrained systems, gates, and exits.",
-      status: "In development",
-      stage: "Pre-beta",
+      status: "Active",
+      stage: "Beta",
       discipline: "Decision paths",
       prominence: "active",
-      nextStep: "No public surface yet. Pre-beta work sits with the lab, not on a public product page.",
+      nextStep: "In beta. No public surface yet. Work sits with the lab, not on a public product page.",
     },
     {
       number: "08",
@@ -154,22 +152,22 @@ window.CML = {
       name: "The Hexagon",
       mark: "⬡",
       accent: "cyan",
-      description: "A six-perspective review council for decisions, blind spots, and trade discipline.",
-      status: "Research",
-      stage: "Indexed",
+      description: "A native iOS app: a six-perspective review council for decisions, blind spots, and trade discipline. Now in beta.",
+      status: "Active",
+      stage: "Beta",
       discipline: "Review systems",
-      prominence: "indexed",
-      nextStep: "No public surface yet. Notes can be sent to the lab.",
+      prominence: "active",
+      nextStep: "Native iOS beta. No public web surface yet. Notes can be sent to the lab.",
     },
   ],
 
   materials: [
     {
-      kicker: "Snapshot 01 / Asymmetry architecture",
+      kicker: "Template 01 / Railway",
       title: "Architecture City",
-      body: "A safety-filtered, repository-derived city view of ASYMMETRY. It preserves orientation without publishing source contents or live-system claims.",
-      href: "https://cheffer0723.github.io/asymmetry-city/",
-      linkLabel: "Open snapshot",
+      body: "A listed Railway template: a safety-filtered, repository-derived city view of ASYMMETRY. It preserves orientation without publishing source contents or live-system claims.",
+      href: "https://railway.com/deploy/architecture-city",
+      linkLabel: "Railway template",
     },
     {
       kicker: "Note 02 / Publication principle",
