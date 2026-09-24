@@ -160,8 +160,9 @@ window.CML = {
       status: "Active",
       stage: "Beta",
       discipline: "Review systems",
-      prominence: "active",
-      nextStep: "Native iOS TestFlight beta. The store-signed build is on TestFlight. A public join page is not listed here yet — ask the lab for an invite.",
+      link: "https://testflight.apple.com/join/G59bJtwQ",
+      linkLabel: "Open TestFlight",
+      prominence: "public",
     },
   ],
 
