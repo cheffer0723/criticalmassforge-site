@@ -57,9 +57,9 @@ window.CML = {
       prominence: "public",
       featured: "asymmetry",
       featuredEyebrow: "Project 01 / Asymmetry",
-      featuredTitle: "DEAD DROP,",
-      featuredTitleEm: "native iOS.",
-      featuredBody: "A native iOS app now in beta. This is the current public surface of Asymmetry — a preview, not a claim of App Store listing, audit, or production settlement.",
+      featuredTitle: "DEAD DROP native iOS,",
+      featuredTitleEm: "now in beta.",
+      featuredBody: "A native iOS app, now in beta. This is the current public surface of Asymmetry — a preview, not a claim of App Store listing, audit, or production settlement.",
     },
     {
       number: "02",
