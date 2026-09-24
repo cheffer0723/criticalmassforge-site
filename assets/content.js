@@ -133,8 +133,8 @@ window.CML = {
       discipline: "Operator systems",
       link: "https://railway.com/deploy/nexus-grid-desk",
       linkLabel: "Railway template",
-      extraLink: "https://nexus.supersym.xyz/",
-      extraLinkLabel: "Open the desk",
+      extraLink: "https://nexus.supersym.xyz/core",
+      extraLinkLabel: "Open Engine",
       prominence: "public",
     },
     {
