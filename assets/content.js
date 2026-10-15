@@ -204,7 +204,7 @@ window.CML = {
   holdZero: {
     kicker: "Privacy research / Dead Drop",
     title: "Hold Zero begins before a message exists.",
-    lead: "Hold Zero is a named research implementation for Dead Drop’s first-contact path. Its purpose is to make the moment two people establish a private line more deliberate: verify the contact material, keep the first exchange bounded, then move the conversation into a ratchet session.",
+    lead: "Hold Zero is a named research implementation for Dead Drop’s first-contact path. Its purpose is to make the moment two people establish a private line more deliberate: verify the contact material, keep the first exchange bounded, then move the conversation into a ratchet session. Current v5 contacts use the public-place road rather than a generic relay description.",
     status: "Research implementation / beta-bound",
     principles: [
       {
@@ -215,7 +215,7 @@ window.CML = {
       {
         number: "02",
         title: "A code is not blind trust",
-        body: "A contact code carries a fingerprint of the contact’s post-quantum key. The full key is fetched through the mixnet shelf and must match that fingerprint before first contact proceeds.",
+        body: "The contact’s post-quantum key material is checked against the fingerprint in its contact code before first contact proceeds. For current public-place compatibility paths, key material is obtained from the contact’s public places—not presented as blind trust.",
       },
       {
         number: "03",
@@ -225,7 +225,7 @@ window.CML = {
       {
         number: "04",
         title: "Privacy includes the envelope",
-        body: "The first-contact and ratchet packets are fixed-size on the wire. Key material, local state, and contact handling are treated as lifecycle problems—not just encryption calls.",
+        body: "First-contact and ratchet packets are fixed at 1,991 bytes on the wire. Current v5 contacts travel over Tor to public Nostr relays; older codes retain their older routes. Key material, local state, and contact handling are lifecycle problems—not just encryption calls.",
       },
     ],
     boundary: "This public register separates source-level integration, host verification, and release-specific status. It is not an “unbreakable” claim or a promise that a particular TestFlight build carries every research change. Security and privacy work are described precisely rather than reduced to a badge.",
@@ -233,11 +233,18 @@ window.CML = {
 
   updates: [
     {
+      iso: "2026-10-15",
+      date: "15 Oct 2026",
+      type: "Mobile beta / network path",
+      title: "Dead Drop’s current v5 route is mapped as Tor to public places.",
+      body: "Current source routes new v5 contacts through a fresh Tor circuit to public Nostr relays, carrying fixed-size packets and validating returned events before opening them. This records the implementation path; it is not a security certification or a promise about every installed beta build.",
+    },
+    {
       iso: "2026-10-07",
       date: "07 Oct 2026",
       type: "Privacy research",
       title: "Hold Zero integrated into Dead Drop’s first-contact source path.",
-      body: "The research implementation combines a hybrid first contact with a ratcheted conversation path and a fingerprint-checked key shelf. It is presented as beta-bound research, not as a completed security certification.",
+      body: "The research implementation combines a hybrid first contact with a ratcheted conversation path and fingerprint-checked contact key material. It is presented as beta-bound research, not as a completed security certification.",
     },
     {
       iso: "2026-09-24",
@@ -253,7 +260,7 @@ window.CML = {
       number: "01",
       name: "DEAD DROP",
       program: "Asymmetry / native iOS",
-      body: "A native iOS app for private coordination. The current public surface of Asymmetry is a TestFlight beta.",
+      body: "A native iOS app for private coordination. The current source maps new v5 contacts over Tor to public places; its public surface remains a TestFlight beta.",
       href: "https://testflight.apple.com/join/KZcgDpPF",
     },
     {
