@@ -228,7 +228,7 @@ window.CML = {
         body: "The first-contact and ratchet packets are fixed-size on the wire. Key material, local state, and contact handling are treated as lifecycle problems—not just encryption calls.",
       },
     ],
-    boundary: "This is cryptography and privacy research integrated into Dead Drop’s source path—not an independent security audit, an “unbreakable” claim, or a promise that a particular TestFlight build carries every research change. Sensitive use requires further native verification, threat modeling, cross-language test vectors, and independent review.",
+    boundary: "This public register separates source-level integration, host verification, and release-specific status. It is not an “unbreakable” claim or a promise that a particular TestFlight build carries every research change. Security and privacy work are described precisely rather than reduced to a badge.",
   },
 
   updates: [
@@ -288,7 +288,7 @@ window.CML = {
     },
     {
       question: "Is Hold Zero a security guarantee?",
-      answer: "No. Hold Zero is a named research implementation in Dead Drop’s first-contact path. It uses specific cryptographic and privacy design choices, but it has not received independent protocol review and should not be described as unbreakable or production-certified.",
+      answer: "No. Hold Zero is a named research implementation in Dead Drop’s first-contact path. It uses specific cryptographic and privacy design choices, but it should not be described as unbreakable or used as a shortcut around the exact source, verification, and release status of a feature.",
     },
   ],
 
