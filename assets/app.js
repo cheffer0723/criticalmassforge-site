@@ -24,6 +24,10 @@
   const programBySlug = (slug) => CML.programs.find((program) => program.slug === slug);
   const featured = (key) => CML.programs.find((program) => program.featured === key);
   const moving = CML.programs.filter((program) => program.prominence === "active");
+  const externalLink = (item, label) =>
+    item.href
+      ? `<a class="text-link" href="${esc(item.href)}" target="_blank" rel="noreferrer">${esc(label || item.linkLabel)} ${ICON.arrow}</a>`
+      : "";
 
   const navLinks = (mobile) =>
     CML.nav
@@ -82,10 +86,10 @@
             <div class="brand hero-brand"><span>${esc(CML.studio.name)}</span></div>
             <p class="hero-kicker">${esc(CML.studio.kicker)}</p>
             <h1 id="hero-title">Off the map.<br><em>On purpose.</em></h1>
-            <p class="hero-description">Research and development across systems,<br class="desktop-only"> privacy, and experimental infrastructure.</p>
+            <p class="hero-description">Research, custom software, and practical systems<br class="desktop-only"> for work that does not fit off the shelf.</p>
             <div class="hero-actions">
-              <a class="button button-primary" href="#portfolio">Open the atlas ${ICON.arrow}</a>
-              <a class="text-link" href="#materials">Public materials ${ICON.arrow}</a>
+              <a class="button button-primary" href="#solutions">Explore software solutions ${ICON.arrow}</a>
+              <a class="text-link" href="#portfolio">Open the project atlas ${ICON.arrow}</a>
             </div>
           </div>
           <a class="scroll-cue" href="#about"><span>Scroll to explore</span>${ICON.down}</a>
@@ -101,9 +105,9 @@
           <div class="content-column">
             <div class="section-heading">
               <p class="eyebrow"><span class="eyebrow-line" aria-hidden="true"></span>The studio</p>
-              <h2>A studio for the systems <em>beneath the surface.</em></h2>
+              <h2>Research-led software for systems <em>beneath the surface.</em></h2>
             </div>
-            <p class="lead-copy">${esc(CML.studio.name)} is an independent research studio exploring emerging systems and experimental infrastructure, with care for privacy and long-term consequences. ${esc(CML.studio.legal)} is the organizational umbrella. This site is the public register, not a product storefront.</p>
+            <p class="lead-copy">${esc(CML.studio.name)} is an independent studio for research, custom software, and experimental infrastructure. We take on particular systems, workflows, and product questions when a generic tool will not do. ${esc(CML.studio.legal)} is the organizational umbrella. This site is the public register, not a promise that every listed experiment is a product.</p>
           </div>
           <div class="content-column method-content" id="method">
             <div class="method-grid">
@@ -121,9 +125,44 @@
           </div>
         </section>
 
+        <section class="solutions-section content-section" id="solutions" aria-labelledby="solutions-title">
+          <div class="section-number" aria-hidden="true">02</div>
+          <div class="content-column">
+            <div class="section-heading">
+              <p class="eyebrow"><span class="eyebrow-line" aria-hidden="true"></span>Custom software / software solutions</p>
+              <h2 id="solutions-title">Useful software for <em>specific problems.</em></h2>
+            </div>
+            <p class="lead-copy">Critical Mass Labs pairs system-level thinking with hands-on software work. The point is not a generic digital transformation pitch; it is a system that fits the people, constraints, and decision it is meant to support.</p>
+            <div class="solutions-grid">
+              ${CML.solutions
+                .map(
+                  (item, index) => `
+                <article class="solution-card ${index === 2 ? "solution-card-featured" : ""}">
+                  <p class="solution-kicker">${esc(item.kicker)}</p>
+                  <h3>${esc(item.title)}</h3>
+                  <p>${esc(item.body)}</p>
+                  <ul class="solution-tags" aria-label="Focus areas">
+                    ${item.tags.map((tag) => `<li>${esc(tag)}</li>`).join("")}
+                  </ul>
+                  ${externalLink(item)}
+                </article>`
+                )
+                .join("")}
+            </div>
+            <aside class="engagement-callout" aria-label="Available engagements">
+              <div>
+                <p class="solution-kicker">${esc(CML.engagement.kicker)}</p>
+                <h3>${esc(CML.engagement.title)}</h3>
+              </div>
+              <p>${esc(CML.engagement.body)}</p>
+              <a class="button button-outline" href="${esc(CML.engagement.href)}" target="_blank" rel="noreferrer">${esc(CML.engagement.linkLabel)} ${ICON.arrow}</a>
+            </aside>
+          </div>
+        </section>
+
         <section class="atlas-section" id="portfolio">
           <div class="atlas-intro">
-            <div class="section-number" aria-hidden="true">02</div>
+            <div class="section-number" aria-hidden="true">03</div>
             <div class="section-heading">
               <p class="eyebrow"><span class="eyebrow-line" aria-hidden="true"></span>Project atlas / ${String(CML.programs.length).padStart(2, "0")} coordinates</p>
               <h2>A field, <em>mapped.</em></h2>
@@ -209,8 +248,36 @@
             : ""
         }
 
+        <section class="protocol-section content-section" id="hold-zero" aria-labelledby="hold-zero-title">
+          <div class="section-number" aria-hidden="true">04</div>
+          <div class="content-column protocol-intro">
+            <div class="section-heading">
+              <p class="eyebrow"><span class="eyebrow-line" aria-hidden="true"></span>${esc(CML.holdZero.kicker)}</p>
+              <h2 id="hold-zero-title">${esc(CML.holdZero.title)}</h2>
+            </div>
+            <p class="lead-copy">${esc(CML.holdZero.lead)}</p>
+            <p class="protocol-status"><span class="status-dot" aria-hidden="true"></span>${esc(CML.holdZero.status)}</p>
+          </div>
+          <div class="protocol-principles" aria-label="Hold Zero research principles">
+            ${CML.holdZero.principles
+              .map(
+                (item) => `
+              <article class="protocol-principle">
+                <span>${esc(item.number)}</span>
+                <h3>${esc(item.title)}</h3>
+                <p>${esc(item.body)}</p>
+              </article>`
+              )
+              .join("")}
+          </div>
+          <aside class="protocol-boundary" aria-label="Hold Zero research boundary">
+            <p>Research boundary</p>
+            <p>${esc(CML.holdZero.boundary)}</p>
+          </aside>
+        </section>
+
         <section class="materials-section content-section" id="materials">
-          <div class="section-number" aria-hidden="true">03</div>
+          <div class="section-number" aria-hidden="true">05</div>
           <div class="content-column">
             <div class="section-heading">
               <p class="eyebrow"><span class="eyebrow-line" aria-hidden="true"></span>Public materials / open register</p>
@@ -233,15 +300,90 @@
           </div>
         </section>
 
+        <section class="updates-section content-section" id="updates" aria-labelledby="updates-title">
+          <div class="section-number" aria-hidden="true">06</div>
+          <div class="content-column">
+            <div class="section-heading">
+              <p class="eyebrow"><span class="eyebrow-line" aria-hidden="true"></span>Updates / dated register</p>
+              <h2 id="updates-title">A trail of <em>useful changes.</em></h2>
+            </div>
+            <p class="lead-copy">This is where public changes to the register will be recorded. Each entry is dated and limited to what can be stated plainly; no launch language by implication.</p>
+            <ol class="updates-list">
+              ${CML.updates
+                .map(
+                  (item) => `
+                <li class="update-item">
+                  <div><time datetime="${esc(item.iso)}">${esc(item.date)}</time><span>${esc(item.type)}</span></div>
+                  <article><h3>${esc(item.title)}</h3><p>${esc(item.body)}</p></article>
+                </li>`
+                )
+                .join("")}
+            </ol>
+          </div>
+        </section>
+
+        <section class="mobile-section content-section" id="mobile" aria-labelledby="mobile-title">
+          <div class="section-number" aria-hidden="true">07</div>
+          <div class="content-column">
+            <div class="section-heading">
+              <p class="eyebrow"><span class="eyebrow-line" aria-hidden="true"></span>Mobile apps / TestFlight</p>
+              <h2 id="mobile-title">Try the work <em>while it is forming.</em></h2>
+            </div>
+            <p class="lead-copy">These are the current public iOS beta surfaces. TestFlight beta is not an App Store release, audit, or production availability claim.</p>
+            <div class="mobile-apps-grid">
+              ${CML.mobileApps
+                .map(
+                  (app) => `
+                <article class="mobile-app-card">
+                  <span class="mobile-app-number">${esc(app.number)}</span>
+                  <p>${esc(app.program)}</p>
+                  <h3>${esc(app.name)}</h3>
+                  <p class="mobile-app-body">${esc(app.body)}</p>
+                  <a class="button button-outline" href="${esc(app.href)}" target="_blank" rel="noreferrer">Open TestFlight ${ICON.arrow}</a>
+                </article>`
+                )
+                .join("")}
+            </div>
+            <div class="testflight-steps" aria-label="How to join a TestFlight beta">
+              <p>How to join</p>
+              <ol><li>Install Apple TestFlight.</li><li>Open the invite for the app you want to try.</li><li>Follow Apple’s on-device instructions for the beta.</li></ol>
+            </div>
+          </div>
+        </section>
+
+        <section class="faq-section content-section" id="faq" aria-labelledby="faq-title">
+          <div class="section-number" aria-hidden="true">08</div>
+          <div class="content-column">
+            <div class="section-heading">
+              <p class="eyebrow"><span class="eyebrow-line" aria-hidden="true"></span>Questions / answers</p>
+              <h2 id="faq-title">The short version, <em>answered plainly.</em></h2>
+            </div>
+            <div class="faq-list">
+              ${CML.faqs
+                .map(
+                  (item, index) => `
+                <details class="faq-item" ${index === 0 ? "open" : ""}>
+                  <summary>${esc(item.question)}<span aria-hidden="true">+</span></summary>
+                  <p>${esc(item.answer)}</p>
+                </details>`
+                )
+                .join("")}
+            </div>
+          </div>
+        </section>
+
         <section class="content-section correspondence-section" id="signal" aria-labelledby="signal-title">
-          <div class="section-number" aria-hidden="true">04</div>
+          <div class="section-number" aria-hidden="true">09</div>
           <div class="content-column">
             <div class="section-heading">
               <p class="eyebrow"><span class="eyebrow-line" aria-hidden="true"></span>Questions / comments</p>
               <h2 id="signal-title">Send a note <em>to the lab.</em></h2>
             </div>
             <p class="lead-copy">Ask about a program, flag a correction, or leave a comment. Notes go to ${esc(CML.studio.email)} and are not posted back onto this page.</p>
-            <form class="signal-form" id="signal-form" novalidate>
+            <form class="signal-form" id="signal-form" action="https://formsubmit.co/${esc(CML.studio.email)}" method="POST">
+              <input type="hidden" name="_subject" value="Question or comment from criticalmassforge.com">
+              <input type="hidden" name="_template" value="table">
+              <input type="hidden" name="_captcha" value="false">
               <div class="signal-field signal-honey" aria-hidden="true">
                 <label for="signal-company">Company</label>
                 <input id="signal-company" name="_honey" type="text" tabindex="-1" autocomplete="off">

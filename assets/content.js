@@ -25,15 +25,19 @@ window.CML = {
     year: "2026",
     email: "admin@asymmetria.io",
     kicker: "Independent research studio / 2026",
-    description: "Research and development across systems, privacy, and experimental infrastructure.",
+    description: "Research, custom software, and experimental infrastructure for difficult systems.",
     footerLine: "The studio is Critical Mass Labs. This public register lives at criticalmassforge.com.",
   },
 
   nav: [
     { label: "Studio", href: "#about" },
-    { label: "Atlas", href: "#portfolio" },
-    { label: "Materials", href: "#materials" },
-    { label: "Questions", href: "#signal" },
+    { label: "Projects", href: "#portfolio" },
+    { label: "Software", href: "#solutions" },
+    { label: "Research", href: "#hold-zero" },
+    { label: "Updates", href: "#updates" },
+    { label: "Mobile beta", href: "#mobile" },
+    { label: "FAQ", href: "#faq" },
+    { label: "Contact", href: "#signal" },
   ],
 
   /* prominence:
@@ -163,6 +167,128 @@ window.CML = {
       link: "https://testflight.apple.com/join/G59bJtwQ",
       linkLabel: "Open TestFlight",
       prominence: "public",
+    },
+  ],
+
+  solutions: [
+    {
+      kicker: "Custom software",
+      title: "Built around the system you actually have.",
+      body: "Critical Mass Labs designs and builds custom software and software solutions for teams and founders with particular workflows, difficult systems, or product ideas that do not fit an off-the-shelf tool.",
+      tags: ["Custom web systems", "Product and workflow design", "Software solutions"],
+    },
+    {
+      kicker: "Research to software",
+      title: "From a hard question to a usable system.",
+      body: "Research and practical delivery live together here: understand the conditions, build the smallest useful system, and leave a clear next step instead of a vague prototype.",
+      tags: ["System mapping", "Prototypes", "Technical direction"],
+    },
+    {
+      kicker: "Architecture City",
+      title: "A repository, made navigable.",
+      body: "Architecture City is a public systems experiment: a safety-filtered, repository-derived city view for ASYMMETRY. It is an example of making a complex codebase easier to orient around without exposing source contents or inventing live-system claims.",
+      tags: ["Repository visualization", "Safe publication", "Systems orientation"],
+      href: "https://railway.com/deploy/architecture-city",
+      linkLabel: "Explore the template",
+    },
+  ],
+
+  engagement: {
+    kicker: "Upwork profile",
+    title: "A secondary route for defined work.",
+    body: "Use the studio’s Upwork profile when that platform is the right fit for an initial conversation about a clearly defined software engagement.",
+    href: "https://www.upwork.com/freelancers/~01c08e72fb4c2ecab7?mp_source=share",
+    linkLabel: "View the studio profile on Upwork",
+  },
+
+  holdZero: {
+    kicker: "Privacy research / Dead Drop",
+    title: "Hold Zero begins before a message exists.",
+    lead: "Hold Zero is a named research implementation for Dead Drop’s first-contact path. Its purpose is to make the moment two people establish a private line more deliberate: verify the contact material, keep the first exchange bounded, then move the conversation into a ratchet session.",
+    status: "Research implementation / beta-bound",
+    principles: [
+      {
+        number: "01",
+        title: "Hybrid first contact",
+        body: "The first exchange uses HZ-25519-761: X25519 together with sntrup761. The hybrid result seeds the session rather than treating a long-lived key as the whole conversation.",
+      },
+      {
+        number: "02",
+        title: "A code is not blind trust",
+        body: "A contact code carries a fingerprint of the contact’s post-quantum key. The full key is fetched through the mixnet shelf and must match that fingerprint before first contact proceeds.",
+      },
+      {
+        number: "03",
+        title: "Ratchet after the introduction",
+        body: "A successful hello and reply seed the Double Ratchet. Later notes use the ratchet session instead of reusing the first-contact secret as a permanent message lock.",
+      },
+      {
+        number: "04",
+        title: "Privacy includes the envelope",
+        body: "The first-contact and ratchet packets are fixed-size on the wire. Key material, local state, and contact handling are treated as lifecycle problems—not just encryption calls.",
+      },
+    ],
+    boundary: "This is cryptography and privacy research integrated into Dead Drop’s source path—not an independent security audit, an “unbreakable” claim, or a promise that a particular TestFlight build carries every research change. Sensitive use requires further native verification, threat modeling, cross-language test vectors, and independent review.",
+  },
+
+  updates: [
+    {
+      iso: "2026-10-07",
+      date: "07 Oct 2026",
+      type: "Privacy research",
+      title: "Hold Zero integrated into Dead Drop’s first-contact source path.",
+      body: "The research implementation combines a hybrid first contact with a ratcheted conversation path and a fingerprint-checked key shelf. It is presented as beta-bound research, not as a completed security certification.",
+    },
+    {
+      iso: "2026-09-24",
+      date: "24 Sep 2026",
+      type: "Register update",
+      title: "Nexus Grid Desk entry clarified.",
+      body: "The public register was updated to describe the operator desk, its paper-only boundary, and the Ask Jev research view without presenting it as a live trading system.",
+    },
+  ],
+
+  mobileApps: [
+    {
+      number: "01",
+      name: "DEAD DROP",
+      program: "Asymmetry / native iOS",
+      body: "A native iOS app for private coordination. The current public surface of Asymmetry is a TestFlight beta.",
+      href: "https://testflight.apple.com/join/KZcgDpPF",
+    },
+    {
+      number: "02",
+      name: "The Hexagon",
+      program: "Native iOS / review systems",
+      body: "A six-perspective review council for decisions, blind spots, and trade discipline. Available as a TestFlight beta.",
+      href: "https://testflight.apple.com/join/G59bJtwQ",
+    },
+  ],
+
+  faqs: [
+    {
+      question: "What is Critical Mass Labs?",
+      answer: "Critical Mass Labs is an independent studio for research, custom software, and experimental infrastructure. This site is its public register: a clear view of the work that can be responsibly described in public.",
+    },
+    {
+      question: "Does the lab build custom software?",
+      answer: "Yes. The lab builds custom software and software solutions when the work calls for a particular workflow, system, or product shape rather than an off-the-shelf tool.",
+    },
+    {
+      question: "How should I read a project stage?",
+      answer: "A stage is a current public snapshot, not a production promise. The Atlas distinguishes public surfaces from research and in-development work, and each project status explains the next honest step.",
+    },
+    {
+      question: "How do I join a mobile beta?",
+      answer: "Install Apple TestFlight on your iPhone or iPad, then open the relevant invite from this page. Availability and device requirements are managed by Apple through TestFlight.",
+    },
+    {
+      question: "Does beta mean an App Store listing or production release?",
+      answer: "No. A beta entry means the public build is available through TestFlight. It does not imply an App Store listing, security audit, uptime commitment, or production settlement.",
+    },
+    {
+      question: "Is Hold Zero a security guarantee?",
+      answer: "No. Hold Zero is a named research implementation in Dead Drop’s first-contact path. It uses specific cryptographic and privacy design choices, but it has not received independent protocol review and should not be described as unbreakable or production-certified.",
     },
   ],
 
