@@ -81,7 +81,7 @@
       <main id="main" tabindex="-1">
         <section class="hero" aria-labelledby="hero-title">
           <div class="hero-grid" aria-hidden="true"></div>
-          <img class="hero-ai-face" src="/hero-ai-face.jpeg" alt="" aria-hidden="true">
+          <img class="hero-wraith-road" src="/hero-wraith-road.png" alt="" aria-hidden="true">
           <div class="hero-content">
             <div class="brand hero-brand"><span>${esc(CML.studio.name)}</span></div>
             <p class="hero-kicker">${esc(CML.studio.kicker)}</p>

@@ -1,5 +1,22 @@
 /* Public register: atlas-only index, studio merge, correspondence, privacy. */
 
+/* The Wraith Road: a branded systems landscape, not an anonymous AI portrait. */
+.hero-wraith-road {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 64% center;
+  pointer-events: none;
+  opacity: 0.48;
+  filter: saturate(0.82) contrast(1.08) brightness(0.8);
+  mix-blend-mode: screen;
+  -webkit-mask-image: linear-gradient(90deg, rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.58) 27%, #000 56%, rgba(0, 0, 0, 0.72) 90%, transparent);
+  mask-image: linear-gradient(90deg, rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.58) 27%, #000 56%, rgba(0, 0, 0, 0.72) 90%, transparent);
+}
+
 .portfolio-section {
   display: none !important;
 }
@@ -636,6 +653,13 @@
 }
 
 @media (max-width: 640px) {
+  .hero-wraith-road {
+    object-position: 72% 45%;
+    opacity: 0.43;
+    -webkit-mask-image: linear-gradient(to bottom, #000 0%, rgba(0, 0, 0, 0.84) 62%, transparent 100%);
+    mask-image: linear-gradient(to bottom, #000 0%, rgba(0, 0, 0, 0.84) 62%, transparent 100%);
+  }
+
   .atlas-row {
     grid-template-columns: 2.4rem 1.8rem 1fr auto;
   }
