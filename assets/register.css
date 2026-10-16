@@ -10,8 +10,8 @@
   object-fit: cover;
   object-position: 64% center;
   pointer-events: none;
-  opacity: 0.48;
-  filter: saturate(0.82) contrast(1.08) brightness(0.8);
+  opacity: 0.24;
+  filter: saturate(0.72) contrast(1.08) brightness(0.58);
   mix-blend-mode: screen;
   transform: scale(1.035);
   transform-origin: 72% 52%;
@@ -21,13 +21,144 @@
   mask-image: linear-gradient(90deg, rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.58) 27%, #000 56%, rgba(0, 0, 0, 0.72) 90%, transparent);
 }
 
+.hero-mass-field {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  perspective: 68rem;
+  perspective-origin: 75% 48%;
+  -webkit-mask-image: linear-gradient(90deg, transparent 29%, rgba(0, 0, 0, 0.38) 48%, #000 70%);
+  mask-image: linear-gradient(90deg, transparent 29%, rgba(0, 0, 0, 0.38) 48%, #000 70%);
+}
+
+.mass-starfield,
+.mass-plane,
+.mass-node {
+  position: absolute;
+  display: block;
+}
+
+.mass-starfield {
+  right: -8%;
+  width: 76%;
+  height: 68%;
+  background-image:
+    radial-gradient(circle, rgba(91, 227, 241, 0.74) 0 1px, transparent 1.8px),
+    radial-gradient(circle, rgba(206, 179, 255, 0.76) 0 1px, transparent 1.7px),
+    radial-gradient(circle, rgba(255, 255, 255, 0.38) 0 0.8px, transparent 1.5px);
+  background-size: 8rem 7rem, 12rem 9rem, 5rem 6rem;
+  background-position: 0 0, 3rem 4rem, 1rem 2rem;
+  opacity: 0.32;
+  will-change: transform, opacity;
+}
+
+.mass-starfield-far {
+  top: 2%;
+  transform: translateZ(-210px) scale(0.82);
+  animation: mass-stars-far 26s linear infinite alternate;
+}
+
+.mass-starfield-near {
+  top: 20%;
+  opacity: 0.2;
+  transform: translateZ(90px) scale(1.08);
+  animation: mass-stars-near 17s linear infinite alternate;
+}
+
+.mass-plane {
+  right: -14%;
+  bottom: -40%;
+  width: min(76vw, 78rem);
+  height: min(54vw, 48rem);
+  border: 1px solid rgba(87, 197, 224, 0.18);
+  background:
+    linear-gradient(rgba(77, 194, 224, 0.11) 1px, transparent 1px) 0 0 / 100% 3.75rem,
+    linear-gradient(90deg, rgba(168, 122, 255, 0.12) 1px, transparent 1px) 0 0 / 4.8rem 100%,
+    radial-gradient(ellipse at 60% 44%, rgba(101, 73, 190, 0.18), transparent 53%);
+  box-shadow: 0 0 3rem rgba(78, 202, 230, 0.06), inset 0 0 5rem rgba(104, 68, 193, 0.08);
+  transform-origin: 63% 77%;
+  will-change: transform, opacity;
+}
+
+.mass-plane-far {
+  opacity: 0.28;
+  transform: translate3d(-4%, -8%, -230px) rotateX(66deg) rotateZ(-4deg) scale(0.78);
+  animation: mass-plane-far 22s ease-in-out infinite alternate;
+}
+
+.mass-plane-mid {
+  opacity: 0.36;
+  transform: translate3d(2%, 3%, -70px) rotateX(62deg) rotateZ(3deg) scale(0.96);
+  animation: mass-plane-mid 17s ease-in-out infinite alternate;
+}
+
+.mass-plane-near {
+  opacity: 0.24;
+  transform: translate3d(7%, 10%, 130px) rotateX(58deg) rotateZ(-2deg) scale(1.16);
+  animation: mass-plane-near 13s ease-in-out infinite alternate;
+}
+
+.mass-node {
+  z-index: 2;
+  width: 0.4rem;
+  height: 0.4rem;
+  border-radius: 50%;
+  background: var(--cyan);
+  box-shadow: 0 0 0.6rem var(--cyan), 0 0 2.2rem rgba(68, 217, 232, 0.46);
+  will-change: transform, opacity;
+}
+
+.mass-node::after {
+  position: absolute;
+  inset: -0.9rem;
+  border: 1px solid rgba(130, 230, 241, 0.42);
+  border-radius: 50%;
+  content: "";
+  animation: mass-node-ring 4.6s ease-out infinite;
+}
+
+.mass-node-a {
+  top: 27%;
+  right: 17%;
+  animation: mass-node-a 5.7s ease-in-out infinite;
+}
+
+.mass-node-b {
+  top: 48%;
+  right: 34%;
+  width: 0.54rem;
+  height: 0.54rem;
+  background: var(--violet-bright);
+  box-shadow: 0 0 0.7rem var(--violet-bright), 0 0 2.5rem rgba(191, 145, 255, 0.46);
+  animation: mass-node-b 7.1s ease-in-out 0.8s infinite;
+}
+
+.mass-node-c {
+  top: 19%;
+  right: 45%;
+  width: 0.28rem;
+  height: 0.28rem;
+  animation: mass-node-c 6.4s ease-in-out 1.6s infinite;
+}
+
+.mass-node-d {
+  top: 66%;
+  right: 11%;
+  width: 0.32rem;
+  height: 0.32rem;
+  background: var(--violet-bright);
+  animation: mass-node-d 8.2s ease-in-out 2.4s infinite;
+}
+
 .hero-signal-field {
   position: absolute;
   z-index: 1;
   inset: 0;
   pointer-events: none;
   overflow: hidden;
-  opacity: 0.78;
+  opacity: 0.6;
   mix-blend-mode: screen;
 }
 
@@ -167,6 +298,57 @@
   to { transform: scale(1.085) translate3d(1.2%, -0.8%, 0); }
 }
 
+@keyframes mass-stars-far {
+  from { opacity: 0.18; transform: translate3d(-1.5%, 1.5%, -210px) scale(0.82); }
+  to { opacity: 0.42; transform: translate3d(2.5%, -2%, -210px) scale(0.88); }
+}
+
+@keyframes mass-stars-near {
+  from { opacity: 0.08; transform: translate3d(-3%, 3%, 90px) scale(1.08); }
+  to { opacity: 0.3; transform: translate3d(4%, -3%, 90px) scale(1.16); }
+}
+
+@keyframes mass-plane-far {
+  from { transform: translate3d(-4%, -8%, -230px) rotateX(66deg) rotateZ(-4deg) scale(0.78); }
+  to { transform: translate3d(-1%, -11%, -230px) rotateX(66deg) rotateZ(-1deg) scale(0.83); }
+}
+
+@keyframes mass-plane-mid {
+  from { transform: translate3d(2%, 3%, -70px) rotateX(62deg) rotateZ(3deg) scale(0.96); }
+  to { transform: translate3d(-1%, -1%, -70px) rotateX(64deg) rotateZ(6deg) scale(1.01); }
+}
+
+@keyframes mass-plane-near {
+  from { transform: translate3d(7%, 10%, 130px) rotateX(58deg) rotateZ(-2deg) scale(1.16); }
+  to { transform: translate3d(3%, 5%, 130px) rotateX(60deg) rotateZ(-5deg) scale(1.23); }
+}
+
+@keyframes mass-node-ring {
+  0% { opacity: 0; transform: scale(0.4); }
+  20% { opacity: 0.72; }
+  100% { opacity: 0; transform: scale(2.3); }
+}
+
+@keyframes mass-node-a {
+  0%, 100% { opacity: 0.38; transform: translate3d(-0.2rem, 0.2rem, 0) scale(0.78); }
+  47% { opacity: 1; transform: translate3d(0.32rem, -0.22rem, 0) scale(1.28); }
+}
+
+@keyframes mass-node-b {
+  0%, 100% { opacity: 0.26; transform: translate3d(0.28rem, 0.15rem, 0) scale(0.68); }
+  41% { opacity: 1; transform: translate3d(-0.34rem, -0.28rem, 0) scale(1.24); }
+}
+
+@keyframes mass-node-c {
+  0%, 100% { opacity: 0.18; transform: translate3d(-0.16rem, 0.2rem, 0) scale(0.66); }
+  58% { opacity: 0.94; transform: translate3d(0.2rem, -0.32rem, 0) scale(1.3); }
+}
+
+@keyframes mass-node-d {
+  0%, 100% { opacity: 0.16; transform: translate3d(0.18rem, -0.15rem, 0) scale(0.62); }
+  53% { opacity: 0.82; transform: translate3d(-0.28rem, 0.25rem, 0) scale(1.18); }
+}
+
 @keyframes signal-packet-forward {
   to { stroke-dashoffset: -123; }
 }
@@ -200,6 +382,10 @@
 
 @media (prefers-reduced-motion: reduce) {
   .hero-wraith-road,
+  .mass-starfield,
+  .mass-plane,
+  .mass-node,
+  .mass-node::after,
   .signal-packet,
   .signal-node,
   .transmission-topline i {
@@ -208,6 +394,16 @@
 }
 
 @media (max-width: 640px) {
+  .hero-mass-field {
+    opacity: 0.7;
+    -webkit-mask-image: linear-gradient(90deg, transparent 14%, rgba(0, 0, 0, 0.42) 46%, #000 78%);
+    mask-image: linear-gradient(90deg, transparent 14%, rgba(0, 0, 0, 0.42) 46%, #000 78%);
+  }
+
+  .mass-plane-near {
+    opacity: 0.12;
+  }
+
   .hero-signal-field {
     clip-path: inset(0 0 42% 0);
     opacity: 0.48;
@@ -929,7 +1125,7 @@
 @media (max-width: 640px) {
   .hero-wraith-road {
     object-position: 72% 45%;
-    opacity: 0.43;
+    opacity: 0.18;
     -webkit-mask-image: linear-gradient(to bottom, #000 0%, rgba(0, 0, 0, 0.84) 62%, transparent 100%);
     mask-image: linear-gradient(to bottom, #000 0%, rgba(0, 0, 0, 0.84) 62%, transparent 100%);
   }

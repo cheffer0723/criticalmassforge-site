@@ -82,10 +82,19 @@
         <section class="hero" aria-labelledby="hero-title">
           <div class="hero-grid" aria-hidden="true"></div>
           <img class="hero-wraith-road" src="/hero-systems-field-v2.png" alt="" aria-hidden="true">
+          <div class="hero-mass-field" aria-hidden="true">
+            <span class="mass-starfield mass-starfield-far"></span>
+            <span class="mass-starfield mass-starfield-near"></span>
+            <span class="mass-plane mass-plane-far"></span>
+            <span class="mass-plane mass-plane-mid"></span>
+            <span class="mass-plane mass-plane-near"></span>
+            <i class="mass-node mass-node-a"></i>
+            <i class="mass-node mass-node-b"></i>
+            <i class="mass-node mass-node-c"></i>
+            <i class="mass-node mass-node-d"></i>
+          </div>
           <div class="hero-signal-field" aria-hidden="true">
             <svg viewBox="0 0 1600 900" preserveAspectRatio="none">
-              <path class="signal-route signal-route-near" d="M 985 900 C 1025 770 1165 742 1190 620 S 1310 495 1370 420 S 1460 240 1590 102" />
-              <path class="signal-route signal-route-far" d="M 1040 642 C 1130 566 1200 590 1260 488 S 1364 366 1454 338 S 1510 220 1592 180" />
               <path class="signal-packet signal-packet-near" d="M 985 900 C 1025 770 1165 742 1190 620 S 1310 495 1370 420 S 1460 240 1590 102" />
               <path class="signal-packet signal-packet-far" d="M 1040 642 C 1130 566 1200 590 1260 488 S 1364 366 1454 338 S 1510 220 1592 180" />
               <circle class="signal-node signal-node-near" cx="1190" cy="620" r="5" />
@@ -110,7 +119,7 @@
             </div>
             <p>Dead Drop / active field</p>
             <h2 id="transmission-title">Dead<br><em>Letters.</em></h2>
-            <p class="transmission-copy">A private-coordination research program made tangible as a native iOS beta. The public register records only what the lab chooses to release.</p>
+            <p class="transmission-copy">Native iOS beta for private coordination.</p>
             <div class="transmission-route" aria-label="Privacy research to mobile beta to public register">
               <span>Research</span><i aria-hidden="true"></i><span>Mobile beta</span><i aria-hidden="true"></i><span>Public register</span>
             </div>
