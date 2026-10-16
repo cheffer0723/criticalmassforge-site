@@ -203,48 +203,48 @@ window.CML = {
 
   holdZero: {
     kicker: "Privacy research / Dead Drop",
-    title: "Hold Zero begins before a message exists.",
-    lead: "Hold Zero is a named research implementation for Dead Drop’s first-contact path. Its purpose is to make the moment two people establish a private line more deliberate: verify the contact material, keep the first exchange bounded, then move the conversation into a ratchet session. Current v5 contacts use the public-place road rather than a generic relay description.",
+    title: "Hold Zero is held back on purpose.",
+    lead: "Hold Zero is a Dead Drop research track for private coordination. Its public record describes intent, scope, and beta status; implementation details are shared deliberately when context and a request call for them.",
     status: "Research implementation / beta-bound",
     principles: [
       {
         number: "01",
-        title: "Hybrid first contact",
-        body: "The first exchange uses HZ-25519-761: X25519 together with sntrup761. The hybrid result seeds the session rather than treating a long-lived key as the whole conversation.",
+        title: "Deliberate disclosure",
+        body: "Technical material is released with context, not turned into a front-page claim.",
       },
       {
         number: "02",
-        title: "A code is not blind trust",
-        body: "The contact’s post-quantum key material is checked against the fingerprint in its contact code before first contact proceeds. For current public-place compatibility paths, key material is obtained from the contact’s public places—not presented as blind trust.",
+        title: "Private coordination",
+        body: "The work explores how people can coordinate with stronger privacy boundaries.",
       },
       {
         number: "03",
-        title: "Ratchet after the introduction",
-        body: "A successful hello and reply seed the Double Ratchet. Later notes use the ratchet session instead of reusing the first-contact secret as a permanent message lock.",
+        title: "Mobile experimentation",
+        body: "Dead Drop is the native iOS beta where selected research becomes product work.",
       },
       {
         number: "04",
-        title: "Privacy includes the envelope",
-        body: "First-contact and ratchet packets are fixed at 1,991 bytes on the wire. Current v5 contacts travel over Tor to public Nostr relays; older codes retain their older routes. Key material, local state, and contact handling are lifecycle problems—not just encryption calls.",
+        title: "Public record, bounded",
+        body: "The register marks public artifacts and updates without reproducing operational details.",
       },
     ],
-    boundary: "This public register separates source-level integration, host verification, and release-specific status. It is not an “unbreakable” claim or a promise that a particular TestFlight build carries every research change. Security and privacy work are described precisely rather than reduced to a badge.",
+    boundary: "This public register is an overview, not a protocol reference, implementation guide, security claim, or statement about an individual beta build.",
   },
 
   updates: [
     {
       iso: "2026-10-15",
       date: "15 Oct 2026",
-      type: "Mobile beta / network path",
-      title: "Dead Drop’s current v5 route is mapped as Tor to public places.",
-      body: "Current source routes new v5 contacts through a fresh Tor circuit to public Nostr relays, carrying fixed-size packets and validating returned events before opening them. This records the implementation path; it is not a security certification or a promise about every installed beta build.",
+      type: "Mobile beta / public register",
+      title: "Dead Drop beta status and research boundary refreshed.",
+      body: "The public register now records the beta’s direction and the boundary around Hold Zero without publishing transport or protocol implementation details.",
     },
     {
       iso: "2026-10-07",
       date: "07 Oct 2026",
       type: "Privacy research",
-      title: "Hold Zero integrated into Dead Drop’s first-contact source path.",
-      body: "The research implementation combines a hybrid first contact with a ratcheted conversation path and fingerprint-checked contact key material. It is presented as beta-bound research, not as a completed security certification.",
+      title: "Hold Zero named as a Dead Drop research track.",
+      body: "Its public record remains intentionally high-level. Detailed technical material is discussed only when it is requested and appropriate to share.",
     },
     {
       iso: "2026-09-24",
@@ -260,7 +260,7 @@ window.CML = {
       number: "01",
       name: "DEAD DROP",
       program: "Asymmetry / native iOS",
-      body: "A native iOS app for private coordination. The current source maps new v5 contacts over Tor to public places; its public surface remains a TestFlight beta.",
+      body: "A native iOS app for private coordination. Its public surface remains a TestFlight beta.",
       href: "https://testflight.apple.com/join/KZcgDpPF",
     },
     {
@@ -295,7 +295,7 @@ window.CML = {
     },
     {
       question: "Is Hold Zero a security guarantee?",
-      answer: "No. Hold Zero is a named research implementation in Dead Drop’s first-contact path. It uses specific cryptographic and privacy design choices, but it should not be described as unbreakable or used as a shortcut around the exact source, verification, and release status of a feature.",
+      answer: "No. Hold Zero is research work tied to Dead Drop. This site is not a protocol specification, security guarantee, or release note for any individual build.",
     },
   ],
 

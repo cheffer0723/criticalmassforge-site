@@ -99,11 +99,11 @@
             </div>
             <p>Dead Drop / active field</p>
             <h2 id="transmission-title">Dead<br><em>Letters.</em></h2>
-            <p class="transmission-copy">A Dead Drop research route: sealed on two phones, carried through public places, and held to an exact public record.</p>
-            <div class="transmission-route" aria-label="Tor to public places to recipient phone">
-              <span>Tor</span><i aria-hidden="true"></i><span>Public places</span><i aria-hidden="true"></i><span>Phone</span>
+            <p class="transmission-copy">A private-coordination research program made tangible as a native iOS beta. The public register records only what the lab chooses to release.</p>
+            <div class="transmission-route" aria-label="Privacy research to mobile beta to public register">
+              <span>Research</span><i aria-hidden="true"></i><span>Mobile beta</span><i aria-hidden="true"></i><span>Public register</span>
             </div>
-            <a class="transmission-link" href="#hold-zero">Trace the research ${ICON.arrow}</a>
+            <a class="transmission-link" href="#signal">Request an introduction ${ICON.arrow}</a>
           </aside>
           <a class="scroll-cue" href="#about"><span>Scroll to explore</span>${ICON.down}</a>
           <div class="hero-coordinate" aria-hidden="true">
