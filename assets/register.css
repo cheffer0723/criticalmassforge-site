@@ -1,6 +1,6 @@
 /* Public register: atlas-only index, studio merge, correspondence, privacy. */
 
-/* A live systems field: technical infrastructure, not generic science fiction. */
+/* A single physical field event, with a light technical overlay rather than competing effects. */
 .hero-wraith-road {
   position: absolute;
   z-index: -1;
@@ -8,17 +8,17 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: 64% center;
+  object-position: 68% center;
   pointer-events: none;
-  opacity: 0.24;
-  filter: saturate(0.72) contrast(1.08) brightness(0.58);
+  opacity: 0.46;
+  filter: saturate(0.82) contrast(1.12) brightness(0.66);
   mix-blend-mode: screen;
   transform: scale(1.035);
   transform-origin: 72% 52%;
   will-change: transform;
   animation: hero-infrastructure-drift 24s ease-in-out infinite alternate;
-  -webkit-mask-image: linear-gradient(90deg, rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.58) 27%, #000 56%, rgba(0, 0, 0, 0.72) 90%, transparent);
-  mask-image: linear-gradient(90deg, rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.58) 27%, #000 56%, rgba(0, 0, 0, 0.72) 90%, transparent);
+  -webkit-mask-image: linear-gradient(90deg, rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.38) 28%, #000 56%, rgba(0, 0, 0, 0.85) 92%, transparent);
+  mask-image: linear-gradient(90deg, rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.38) 28%, #000 56%, rgba(0, 0, 0, 0.85) 92%, transparent);
 }
 
 .hero-mass-field {
@@ -27,6 +27,7 @@
   inset: 0;
   overflow: hidden;
   pointer-events: none;
+  opacity: 0.58;
   perspective: 68rem;
   perspective-origin: 75% 48%;
   -webkit-mask-image: linear-gradient(90deg, transparent 29%, rgba(0, 0, 0, 0.38) 48%, #000 70%);
@@ -158,7 +159,7 @@
   inset: 0;
   pointer-events: none;
   overflow: hidden;
-  opacity: 0.6;
+  opacity: 0.34;
   mix-blend-mode: screen;
 }
 
@@ -1124,10 +1125,10 @@
 
 @media (max-width: 640px) {
   .hero-wraith-road {
-    object-position: 72% 45%;
-    opacity: 0.18;
-    -webkit-mask-image: linear-gradient(to bottom, #000 0%, rgba(0, 0, 0, 0.84) 62%, transparent 100%);
-    mask-image: linear-gradient(to bottom, #000 0%, rgba(0, 0, 0, 0.84) 62%, transparent 100%);
+    object-position: 74% 45%;
+    opacity: 0.34;
+    -webkit-mask-image: linear-gradient(to bottom, #000 0%, rgba(0, 0, 0, 0.82) 64%, transparent 100%);
+    mask-image: linear-gradient(to bottom, #000 0%, rgba(0, 0, 0, 0.82) 64%, transparent 100%);
   }
 
   .hero {
@@ -1199,5 +1200,179 @@
   .mobile-app-card,
   .protocol-principle {
     min-height: 0;
+  }
+}
+
+/* Portrait pass: one readable type scale and compact, intentional card rhythm. */
+@media (max-width: 640px) {
+  .hero {
+    min-height: min(44rem, calc(100svh - 4.25rem));
+  }
+
+  .hero-content {
+    padding: 4.25rem 1.25rem 3rem;
+  }
+
+  .hero-description {
+    max-width: 23rem;
+    font-size: 0.82rem;
+    line-height: 1.68;
+  }
+
+  /* Dead Letters remains in the project register; it should not consume the mobile hero. */
+  .hero-transmission {
+    display: none;
+  }
+
+  .content-section,
+  .atlas-section,
+  .materials-section {
+    padding-top: 3.75rem;
+    padding-bottom: 3.75rem;
+  }
+
+  .eyebrow,
+  .section-number,
+  .solution-kicker,
+  .mobile-app-card > p:first-of-type,
+  .testflight-steps > p,
+  .update-item time,
+  .update-item span,
+  .active-rail-card > span,
+  .mobile-app-number,
+  .protocol-principle > span {
+    font-size: 0.62rem;
+  }
+
+  .lead-copy,
+  .active-rail-intro > p:not(.eyebrow),
+  .solution-card > p:not(.solution-kicker),
+  .mobile-app-body,
+  .update-item p,
+  .faq-item p,
+  .protocol-principle p,
+  .protocol-boundary p:last-child,
+  .materials-list p,
+  .method-card p,
+  .engagement-callout > p,
+  .testflight-steps ol {
+    font-size: 0.82rem;
+    line-height: 1.68;
+  }
+
+  .solutions-grid,
+  .mobile-apps-grid {
+    margin-top: 2.25rem;
+  }
+
+  .solution-card,
+  .mobile-app-card {
+    padding: 1.35rem 1.25rem 1.5rem;
+  }
+
+  .solution-card h3,
+  .mobile-app-card h3 {
+    margin: 1.55rem 0 0.8rem;
+    font-size: 1.45rem;
+    line-height: 1.08;
+  }
+
+  .solution-tags {
+    gap: 0.5rem;
+    margin: 1.5rem 0 0;
+    padding-top: 1.25rem;
+  }
+
+  .solution-tags li {
+    font-size: 0.62rem;
+  }
+
+  .engagement-callout {
+    gap: 1rem;
+    padding: 1.3rem 1.25rem;
+  }
+
+  .active-rail {
+    padding-bottom: 3.75rem;
+  }
+
+  .active-rail-intro {
+    margin-bottom: 1.75rem;
+  }
+
+  .active-rail-grid {
+    background: transparent;
+    border-color: rgba(185, 181, 232, 0.26);
+  }
+
+  .active-rail-card {
+    padding: 1.35rem 1.25rem 1.5rem;
+    background: linear-gradient(135deg, rgba(18, 20, 43, 0.96), rgba(7, 8, 18, 0.98));
+  }
+
+  .active-rail-card h3 {
+    margin: 1.45rem 0 0.7rem;
+    font-size: 1.45rem;
+    line-height: 1.08;
+  }
+
+  .active-rail-card p {
+    font-size: 0.82rem;
+    line-height: 1.68;
+  }
+
+  .protocol-principles {
+    margin-top: 2.5rem;
+  }
+
+  .protocol-principle {
+    padding: 1.35rem 1.25rem 1.5rem;
+  }
+
+  .protocol-principle h3 {
+    margin: 1.45rem 0 0.75rem;
+    font-size: 1.45rem;
+  }
+
+  .protocol-boundary {
+    margin-top: 1px;
+    padding: 1.25rem;
+  }
+
+  .materials-list,
+  .updates-list,
+  .faq-list {
+    margin-top: 2.5rem;
+  }
+
+  .update-item {
+    gap: 0.65rem;
+    padding: 1.35rem 0;
+  }
+
+  .update-item h3 {
+    margin-bottom: 0.7rem;
+    font-size: 1.35rem;
+    line-height: 1.12;
+  }
+
+  .testflight-steps {
+    gap: 0.85rem;
+    padding: 1.25rem;
+  }
+
+  .faq-item summary {
+    gap: 1rem;
+    padding: 1.15rem 0;
+    font-size: 1.12rem;
+    line-height: 1.28;
+  }
+
+  .faq-item p {
+    padding: 0 0 1.25rem;
+  }
+
+  .signal-form {
+    margin-top: 1.5rem;
   }
 }

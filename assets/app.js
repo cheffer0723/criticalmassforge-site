@@ -81,7 +81,7 @@
       <main id="main" tabindex="-1">
         <section class="hero" aria-labelledby="hero-title">
           <div class="hero-grid" aria-hidden="true"></div>
-          <img class="hero-wraith-road" src="/hero-systems-field-v2.png" alt="" aria-hidden="true">
+          <img class="hero-wraith-road" src="/hero-field-aperture-v3.png" alt="" aria-hidden="true">
           <div class="hero-mass-field" aria-hidden="true">
             <span class="mass-starfield mass-starfield-far"></span>
             <span class="mass-starfield mass-starfield-near"></span>
