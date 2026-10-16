@@ -994,6 +994,26 @@
 .update-item span { color: var(--quiet); }
 .update-item h3 { margin: 0 0 0.65rem; font-size: 1.45rem; }
 
+.update-item .update-project {
+  margin: 0 0 0.85rem;
+  color: var(--violet-bright);
+  font: 400 0.6rem / 1.25 var(--mono);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.update-item .update-type {
+  display: inline-flex;
+  padding: 0.34rem 0.48rem;
+  border: 1px solid rgba(155, 113, 255, 0.34);
+  color: var(--violet-bright);
+  background: rgba(124, 80, 214, 0.08);
+}
+
+.update-reference {
+  margin-top: 1.05rem;
+}
+
 .mobile-section {
   background:
     radial-gradient(circle at 78% 25%, rgba(126, 74, 224, 0.12), transparent 27rem),

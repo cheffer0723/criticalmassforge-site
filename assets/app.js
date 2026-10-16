@@ -305,17 +305,22 @@
           <div class="section-number" aria-hidden="true">06</div>
           <div class="content-column">
             <div class="section-heading">
-              <p class="eyebrow"><span class="eyebrow-line" aria-hidden="true"></span>Updates / dated register</p>
-              <h2 id="updates-title">A trail of <em>useful changes.</em></h2>
+              <p class="eyebrow"><span class="eyebrow-line" aria-hidden="true"></span>Change log / public record</p>
+              <h2 id="updates-title">What changed, <em>and why it matters.</em></h2>
             </div>
-            <p class="lead-copy">This is where public changes to the register will be recorded. Each entry is dated and limited to what can be stated plainly; no launch language by implication.</p>
+            <p class="lead-copy">A dated record of meaningful feature work, fixes, and research milestones. It is intentionally selective: enough context to understand the change without turning this page into a protocol manual or a release promise.</p>
             <ol class="updates-list">
               ${CML.updates
                 .map(
                   (item) => `
                 <li class="update-item">
-                  <div><time datetime="${esc(item.iso)}">${esc(item.date)}</time><span>${esc(item.type)}</span></div>
-                  <article><h3>${esc(item.title)}</h3><p>${esc(item.body)}</p></article>
+                  <div class="update-meta"><time datetime="${esc(item.iso)}">${esc(item.date)}</time><span class="update-type">${esc(item.type)}</span></div>
+                  <article>
+                    <p class="update-project">${esc(item.project)}</p>
+                    <h3>${esc(item.title)}</h3>
+                    <p>${esc(item.body)}</p>
+                    ${item.href ? `<a class="text-link update-reference" href="${esc(item.href)}" target="_blank" rel="noreferrer">${esc(item.linkLabel)} ${ICON.arrow}</a>` : ""}
+                  </article>
                 </li>`
                 )
                 .join("")}
