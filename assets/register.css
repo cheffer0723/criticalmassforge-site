@@ -1,7 +1,7 @@
 /* Public register: atlas-only index, studio merge, correspondence, privacy. */
 
-/* A single physical field event, with a light technical overlay rather than competing effects. */
-.hero-wraith-road {
+/* A physical aperture anchors the scene; the live field is drawn above it. */
+.hero-field-plate {
   position: absolute;
   z-index: -1;
   inset: 0;
@@ -10,15 +10,25 @@
   object-fit: cover;
   object-position: 68% center;
   pointer-events: none;
-  opacity: 0.46;
-  filter: saturate(0.82) contrast(1.12) brightness(0.66);
+  opacity: 0.34;
+  filter: saturate(0.76) contrast(1.08) brightness(0.58);
   mix-blend-mode: screen;
   transform: scale(1.035);
   transform-origin: 72% 52%;
-  will-change: transform;
-  animation: hero-infrastructure-drift 24s ease-in-out infinite alternate;
   -webkit-mask-image: linear-gradient(90deg, rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.38) 28%, #000 56%, rgba(0, 0, 0, 0.85) 92%, transparent);
   mask-image: linear-gradient(90deg, rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.38) 28%, #000 56%, rgba(0, 0, 0, 0.85) 92%, transparent);
+}
+
+.hero-field-engine {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, rgba(0, 0, 0, 0.28) 17%, #000 48%, rgba(0, 0, 0, 0.82) 92%);
+  mask-image: linear-gradient(90deg, transparent 0%, rgba(0, 0, 0, 0.28) 17%, #000 48%, rgba(0, 0, 0, 0.82) 92%);
 }
 
 .hero-mass-field {
@@ -223,7 +233,7 @@
 .hero::after {
   content: "";
   position: absolute;
-  z-index: 0;
+  z-index: 2;
   inset: auto 0 0;
   height: 48%;
   pointer-events: none;
@@ -233,7 +243,7 @@
 .hero-content,
 .hero-coordinate,
 .scroll-cue {
-  z-index: 2;
+  z-index: 3;
 }
 
 .hero-content {
@@ -382,7 +392,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hero-wraith-road,
+  .hero-field-plate,
   .mass-starfield,
   .mass-plane,
   .mass-node,
@@ -1124,9 +1134,9 @@
 }
 
 @media (max-width: 640px) {
-  .hero-wraith-road {
+  .hero-field-plate {
     object-position: 74% 45%;
-    opacity: 0.34;
+    opacity: 0.2;
     -webkit-mask-image: linear-gradient(to bottom, #000 0%, rgba(0, 0, 0, 0.82) 64%, transparent 100%);
     mask-image: linear-gradient(to bottom, #000 0%, rgba(0, 0, 0, 0.82) 64%, transparent 100%);
   }
@@ -1374,5 +1384,48 @@
 
   .signal-form {
     margin-top: 1.5rem;
+  }
+}
+
+/* Desktop rebuild: one disciplined left edge for the editorial sections. */
+@media (min-width: 641px) {
+  .content-section .content-column {
+    max-width: 74rem;
+    margin-left: 0;
+  }
+
+  .content-section .lead-copy {
+    max-width: 44rem;
+    margin-left: 0;
+  }
+
+  .content-section .section-number {
+    left: clamp(1.25rem, 9.5vw, 10rem);
+  }
+
+  .solutions-section {
+    padding-top: clamp(5.5rem, 8vw, 8rem);
+    padding-bottom: clamp(6.5rem, 9vw, 9rem);
+  }
+
+  .solutions-grid,
+  .engagement-callout,
+  .method-section .section-heading,
+  .method-grid,
+  .materials-list {
+    margin-left: 0;
+  }
+
+  .solutions-grid {
+    margin-top: 3rem;
+  }
+
+  .solution-card {
+    min-height: 17rem;
+  }
+
+  .atlas-section {
+    grid-template-columns: minmax(21rem, 0.82fr) minmax(36rem, 1.18fr);
+    gap: clamp(4rem, 7vw, 8rem);
   }
 }

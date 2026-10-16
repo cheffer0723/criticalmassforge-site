@@ -81,27 +81,8 @@
       <main id="main" tabindex="-1">
         <section class="hero" aria-labelledby="hero-title">
           <div class="hero-grid" aria-hidden="true"></div>
-          <img class="hero-wraith-road" src="/hero-field-aperture-v3.png" alt="" aria-hidden="true">
-          <div class="hero-mass-field" aria-hidden="true">
-            <span class="mass-starfield mass-starfield-far"></span>
-            <span class="mass-starfield mass-starfield-near"></span>
-            <span class="mass-plane mass-plane-far"></span>
-            <span class="mass-plane mass-plane-mid"></span>
-            <span class="mass-plane mass-plane-near"></span>
-            <i class="mass-node mass-node-a"></i>
-            <i class="mass-node mass-node-b"></i>
-            <i class="mass-node mass-node-c"></i>
-            <i class="mass-node mass-node-d"></i>
-          </div>
-          <div class="hero-signal-field" aria-hidden="true">
-            <svg viewBox="0 0 1600 900" preserveAspectRatio="none">
-              <path class="signal-packet signal-packet-near" d="M 985 900 C 1025 770 1165 742 1190 620 S 1310 495 1370 420 S 1460 240 1590 102" />
-              <path class="signal-packet signal-packet-far" d="M 1040 642 C 1130 566 1200 590 1260 488 S 1364 366 1454 338 S 1510 220 1592 180" />
-              <circle class="signal-node signal-node-near" cx="1190" cy="620" r="5" />
-              <circle class="signal-node signal-node-mid" cx="1370" cy="420" r="3.5" />
-              <circle class="signal-node signal-node-far" cx="1454" cy="338" r="2.5" />
-            </svg>
-          </div>
+          <img class="hero-field-plate" src="/hero-field-aperture-v3.png" alt="" aria-hidden="true">
+          <canvas class="hero-field-engine" aria-hidden="true"></canvas>
           <div class="hero-content">
             <div class="brand hero-brand"><span>${esc(CML.studio.name)}</span></div>
             <p class="hero-kicker">${esc(CML.studio.kicker)}</p>
@@ -112,19 +93,6 @@
               <a class="text-link" href="#portfolio">Open the project atlas ${ICON.arrow}</a>
             </div>
           </div>
-          <aside class="hero-transmission" aria-labelledby="transmission-title">
-            <div class="transmission-topline">
-              <span>Field transmission / 01</span>
-              <span><i aria-hidden="true"></i> Active beta</span>
-            </div>
-            <p>Dead Drop / active field</p>
-            <h2 id="transmission-title">Dead<br><em>Letters.</em></h2>
-            <p class="transmission-copy">Native iOS beta for private coordination.</p>
-            <div class="transmission-route" aria-label="Privacy research to mobile beta to public register">
-              <span>Research</span><i aria-hidden="true"></i><span>Mobile beta</span><i aria-hidden="true"></i><span>Public register</span>
-            </div>
-            <a class="transmission-link" href="#signal">Request an introduction ${ICON.arrow}</a>
-          </aside>
           <a class="scroll-cue" href="#about"><span>Scroll to explore</span>${ICON.down}</a>
           <div class="hero-coordinate" aria-hidden="true">
             <span class="coordinate-active">01</span>
@@ -467,6 +435,138 @@
       </footer>
     </div>
   `;
+
+  const startFieldEngine = () => {
+    const hero = root.querySelector(".hero");
+    const canvas = root.querySelector(".hero-field-engine");
+    const context = canvas?.getContext("2d");
+    if (!hero || !canvas || !context) return;
+
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const pointer = { x: 0.5, y: 0.5, active: false };
+    let width = 0;
+    let height = 0;
+    let pixelRatio = 1;
+    let frame = 0;
+
+    const resize = () => {
+      const bounds = hero.getBoundingClientRect();
+      width = Math.max(1, bounds.width);
+      height = Math.max(1, bounds.height);
+      pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = Math.round(width * pixelRatio);
+      canvas.height = Math.round(height * pixelRatio);
+      canvas.style.width = `${width}px`;
+      canvas.style.height = `${height}px`;
+      context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+    };
+
+    const pointOnCurve = (start, control, end, t) => {
+      const inverse = 1 - t;
+      return {
+        x: inverse * inverse * start.x + 2 * inverse * t * control.x + t * t * end.x,
+        y: inverse * inverse * start.y + 2 * inverse * t * control.y + t * t * end.y,
+      };
+    };
+
+    const draw = (clock = 0) => {
+      const time = reducedMotion.matches ? 0 : clock * 0.001;
+      const driftX = pointer.active ? (pointer.x - 0.5) * width * 0.075 : Math.sin(time * 0.35) * width * 0.012;
+      const driftY = pointer.active ? (pointer.y - 0.5) * height * 0.055 : Math.cos(time * 0.28) * height * 0.01;
+      const source = { x: width * 0.77 + driftX, y: height * 0.43 + driftY };
+      context.clearRect(0, 0, width, height);
+      context.save();
+
+      const routes = [
+        { x: -width * 0.05, y: height * 0.21, bend: -height * 0.08, color: "rgba(101, 229, 238, 0.34)", phase: 0.12 },
+        { x: width * 0.1, y: height * 0.62, bend: height * 0.11, color: "rgba(205, 169, 255, 0.36)", phase: 0.38 },
+        { x: width * 0.34, y: height * 1.03, bend: height * 0.2, color: "rgba(82, 212, 230, 0.28)", phase: 0.63 },
+        { x: width * 1.08, y: height * 0.13, bend: -height * 0.13, color: "rgba(203, 160, 255, 0.3)", phase: 0.82 },
+      ];
+
+      routes.forEach((route, index) => {
+        const end = { x: route.x, y: route.y };
+        const control = {
+          x: source.x + (end.x - source.x) * 0.48,
+          y: source.y + (end.y - source.y) * 0.34 + route.bend,
+        };
+        context.beginPath();
+        context.moveTo(source.x, source.y);
+        context.quadraticCurveTo(control.x, control.y, end.x, end.y);
+        context.strokeStyle = route.color;
+        context.lineWidth = index === 1 ? 1.35 : 0.9;
+        context.stroke();
+
+        const pulseT = (time * (0.09 + index * 0.012) + route.phase) % 1;
+        const pulse = pointOnCurve(source, control, end, pulseT);
+        const next = pointOnCurve(source, control, end, Math.min(pulseT + 0.012, 1));
+        const angle = Math.atan2(next.y - pulse.y, next.x - pulse.x);
+        context.save();
+        context.translate(pulse.x, pulse.y);
+        context.rotate(angle);
+        context.fillStyle = index % 2 ? "rgba(219, 188, 255, 0.95)" : "rgba(107, 238, 244, 0.94)";
+        context.shadowColor = context.fillStyle;
+        context.shadowBlur = 15;
+        context.fillRect(-12, -1.25, 24, 2.5);
+        context.restore();
+      });
+
+      for (let layer = 0; layer < 3; layer += 1) {
+        const spread = 135 + layer * 86 + Math.sin(time * 0.6 + layer) * 7;
+        context.beginPath();
+        context.ellipse(source.x, source.y, spread, spread * 0.46, -0.36, Math.PI * 0.84, Math.PI * 1.75);
+        context.strokeStyle = layer === 1 ? "rgba(199, 165, 255, 0.28)" : "rgba(89, 218, 232, 0.22)";
+        context.lineWidth = 1;
+        context.stroke();
+      }
+
+      for (let plane = 0; plane < 3; plane += 1) {
+        const depth = 0.42 + plane * 0.22;
+        const planeY = height * (0.72 + plane * 0.08) + driftY * (0.45 + plane * 0.16);
+        context.strokeStyle = plane === 2 ? "rgba(204, 170, 255, 0.13)" : "rgba(82, 220, 235, 0.12)";
+        context.lineWidth = 1;
+        for (let rail = 0; rail < 6; rail += 1) {
+          const y = planeY + rail * (18 + plane * 8);
+          const left = -width * 0.08;
+          context.beginPath();
+          context.moveTo(left, y);
+          context.lineTo(source.x + (width - source.x) * depth, source.y + (y - source.y) * 0.19);
+          context.stroke();
+        }
+      }
+
+      const core = context.createRadialGradient(source.x, source.y, 0, source.x, source.y, 56);
+      core.addColorStop(0, "rgba(217, 190, 255, 0.9)");
+      core.addColorStop(0.12, "rgba(97, 231, 239, 0.62)");
+      core.addColorStop(0.42, "rgba(94, 207, 229, 0.12)");
+      core.addColorStop(1, "rgba(94, 207, 229, 0)");
+      context.fillStyle = core;
+      context.beginPath();
+      context.arc(source.x, source.y, 56, 0, Math.PI * 2);
+      context.fill();
+      context.restore();
+
+      if (!reducedMotion.matches) frame = window.requestAnimationFrame(draw);
+    };
+
+    resize();
+    new ResizeObserver(resize).observe(hero);
+    hero.addEventListener("pointermove", (event) => {
+      const bounds = hero.getBoundingClientRect();
+      pointer.x = (event.clientX - bounds.left) / bounds.width;
+      pointer.y = (event.clientY - bounds.top) / bounds.height;
+      pointer.active = true;
+    }, { passive: true });
+    hero.addEventListener("pointerleave", () => { pointer.active = false; }, { passive: true });
+    if (reducedMotion.matches) draw();
+    else frame = window.requestAnimationFrame(draw);
+    reducedMotion.addEventListener("change", () => {
+      window.cancelAnimationFrame(frame);
+      draw();
+    });
+  };
+
+  startFieldEngine();
 
   const menuButton = root.querySelector(".menu-toggle");
   const mobileNav = root.querySelector("#mobile-navigation");
