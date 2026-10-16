@@ -92,6 +92,19 @@
               <a class="text-link" href="#portfolio">Open the project atlas ${ICON.arrow}</a>
             </div>
           </div>
+          <aside class="hero-transmission" aria-labelledby="transmission-title">
+            <div class="transmission-topline">
+              <span>Field transmission / 01</span>
+              <span><i aria-hidden="true"></i> Active beta</span>
+            </div>
+            <p>Dead Drop / active field</p>
+            <h2 id="transmission-title">Dead<br><em>Letters.</em></h2>
+            <p class="transmission-copy">A Dead Drop research route: sealed on two phones, carried through public places, and held to an exact public record.</p>
+            <div class="transmission-route" aria-label="Tor to public places to recipient phone">
+              <span>Tor</span><i aria-hidden="true"></i><span>Public places</span><i aria-hidden="true"></i><span>Phone</span>
+            </div>
+            <a class="transmission-link" href="#hold-zero">Trace the research ${ICON.arrow}</a>
+          </aside>
           <a class="scroll-cue" href="#about"><span>Scroll to explore</span>${ICON.down}</a>
           <div class="hero-coordinate" aria-hidden="true">
             <span class="coordinate-active">01</span>

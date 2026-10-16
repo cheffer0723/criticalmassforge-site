@@ -17,6 +17,138 @@
   mask-image: linear-gradient(90deg, rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.58) 27%, #000 56%, rgba(0, 0, 0, 0.72) 90%, transparent);
 }
 
+.hero::after {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  inset: auto 0 0;
+  height: 48%;
+  pointer-events: none;
+  background: linear-gradient(0deg, rgba(4, 5, 14, 0.96), rgba(4, 5, 14, 0.42) 54%, transparent);
+}
+
+.hero-content,
+.hero-coordinate,
+.scroll-cue {
+  z-index: 2;
+}
+
+.hero-content {
+  width: min(56rem, 58%);
+}
+
+.hero-transmission {
+  position: absolute;
+  z-index: 3;
+  right: clamp(1.25rem, 6vw, 7.5rem);
+  bottom: clamp(4.5rem, 9vh, 7.5rem);
+  width: min(25rem, 29vw);
+  padding: 1.25rem 1.35rem 1.4rem;
+  overflow: hidden;
+  border: 1px solid rgba(177, 153, 255, 0.45);
+  border-left-color: var(--cyan);
+  background: linear-gradient(145deg, rgba(16, 17, 36, 0.84), rgba(7, 8, 18, 0.72));
+  box-shadow: 0 1.5rem 5rem rgba(0, 0, 0, 0.34), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(12px);
+}
+
+.hero-transmission::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 5.5rem;
+  height: 1px;
+  background: var(--violet-bright);
+  box-shadow: 0 0 1rem var(--violet-bright);
+}
+
+.transmission-topline,
+.transmission-route {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.55rem;
+  color: var(--quiet);
+  font: 400 0.54rem var(--mono);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.transmission-topline span:last-child {
+  display: inline-flex;
+  align-items: center;
+  color: var(--cyan);
+}
+
+.transmission-topline i {
+  width: 0.42rem;
+  height: 0.42rem;
+  margin-right: 0.38rem;
+  border-radius: 50%;
+  background: var(--cyan);
+  box-shadow: 0 0 0.65rem var(--cyan);
+}
+
+.hero-transmission > p:not(.transmission-copy) {
+  margin: 1.7rem 0 0;
+  color: var(--violet-bright);
+  font: 400 0.6rem var(--mono);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.hero-transmission h2 {
+  margin: 0.35rem 0 0;
+  color: var(--text);
+  font: 400 clamp(2.3rem, 3.8vw, 4.5rem)/0.83 var(--display);
+  letter-spacing: -0.055em;
+  text-transform: uppercase;
+}
+
+.hero-transmission h2 em {
+  color: var(--violet-bright);
+  font-style: italic;
+}
+
+.transmission-copy {
+  max-width: 24rem;
+  margin: 1.25rem 0 0;
+  color: var(--chalk);
+  font: 400 0.74rem/1.62 var(--mono);
+}
+
+.transmission-route {
+  justify-content: flex-start;
+  margin-top: 1.25rem;
+  padding-top: 0.9rem;
+  border-top: 1px solid var(--line);
+  color: var(--cyan);
+  white-space: nowrap;
+}
+
+.transmission-route i {
+  width: 1.25rem;
+  height: 1px;
+  background: linear-gradient(90deg, var(--cyan), var(--violet-bright));
+}
+
+.transmission-link {
+  display: inline-flex;
+  gap: 0.5rem;
+  margin-top: 1.25rem;
+  color: var(--text);
+  font: 400 0.66rem var(--mono);
+  letter-spacing: 0.1em;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.transmission-link:hover,
+.transmission-link:focus-visible {
+  color: var(--cyan);
+}
+
 .portfolio-section {
   display: none !important;
 }
@@ -600,6 +732,24 @@
 .faq-item p { max-width: 45rem; padding: 0 3rem 1.5rem 0; }
 
 @media (max-width: 900px) {
+  .hero-content {
+    width: min(61%, 40rem);
+  }
+
+  .hero-transmission {
+    right: 1.5rem;
+    width: min(19rem, 32vw);
+    padding: 1rem;
+  }
+
+  .hero-transmission h2 {
+    font-size: clamp(2rem, 5vw, 3rem);
+  }
+
+  .transmission-copy {
+    font-size: 0.64rem;
+  }
+
   .solutions-grid,
   .mobile-apps-grid {
     grid-template-columns: 1fr;
@@ -658,6 +808,40 @@
     opacity: 0.43;
     -webkit-mask-image: linear-gradient(to bottom, #000 0%, rgba(0, 0, 0, 0.84) 62%, transparent 100%);
     mask-image: linear-gradient(to bottom, #000 0%, rgba(0, 0, 0, 0.84) 62%, transparent 100%);
+  }
+
+  .hero {
+    display: flex;
+    min-height: 100svh;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+
+  .hero-content {
+    width: 100%;
+    padding-bottom: 2rem;
+  }
+
+  .hero-transmission {
+    position: relative;
+    right: auto;
+    bottom: auto;
+    width: auto;
+    margin: 0 1.25rem 4.5rem;
+    padding: 1rem 1.05rem 1.1rem;
+  }
+
+  .hero-transmission h2 {
+    font-size: 2.45rem;
+  }
+
+  .transmission-copy {
+    font-size: 0.68rem;
+  }
+
+  .hero .scroll-cue,
+  .hero .hero-coordinate {
+    display: none;
   }
 
   .atlas-row {
