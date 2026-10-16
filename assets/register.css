@@ -1,6 +1,6 @@
 /* Public register: atlas-only index, studio merge, correspondence, privacy. */
 
-/* The Wraith Road: a branded systems landscape, not an anonymous AI portrait. */
+/* A live systems field: technical infrastructure, not generic science fiction. */
 .hero-wraith-road {
   position: absolute;
   z-index: -1;
@@ -13,8 +13,26 @@
   opacity: 0.48;
   filter: saturate(0.82) contrast(1.08) brightness(0.8);
   mix-blend-mode: screen;
+  transform: scale(1.035);
+  transform-origin: 72% 52%;
+  will-change: transform;
+  animation: hero-infrastructure-drift 24s ease-in-out infinite alternate;
   -webkit-mask-image: linear-gradient(90deg, rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.58) 27%, #000 56%, rgba(0, 0, 0, 0.72) 90%, transparent);
   mask-image: linear-gradient(90deg, rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.58) 27%, #000 56%, rgba(0, 0, 0, 0.72) 90%, transparent);
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  inset: -25% -40%;
+  pointer-events: none;
+  opacity: 0.38;
+  background: linear-gradient(108deg, transparent 45%, rgba(82, 222, 235, 0.02) 48%, rgba(191, 142, 255, 0.28) 50%, rgba(82, 222, 235, 0.02) 52%, transparent 55%);
+  mix-blend-mode: screen;
+  transform: translate3d(-42%, 0, 0);
+  will-change: transform;
+  animation: hero-signal-sweep 13s linear infinite;
 }
 
 .hero::after {
@@ -88,6 +106,32 @@
   border-radius: 50%;
   background: var(--cyan);
   box-shadow: 0 0 0.65rem var(--cyan);
+  animation: transmission-status-pulse 2.8s ease-in-out infinite;
+}
+
+@keyframes hero-infrastructure-drift {
+  from { transform: scale(1.035) translate3d(-0.7%, 0.6%, 0); }
+  to { transform: scale(1.085) translate3d(1.2%, -0.8%, 0); }
+}
+
+@keyframes hero-signal-sweep {
+  0%, 15% { transform: translate3d(-42%, 0, 0); opacity: 0; }
+  23% { opacity: 0.38; }
+  78% { opacity: 0.38; }
+  100% { transform: translate3d(42%, 0, 0); opacity: 0; }
+}
+
+@keyframes transmission-status-pulse {
+  0%, 100% { box-shadow: 0 0 0.5rem var(--cyan); opacity: 0.8; }
+  50% { box-shadow: 0 0 1rem var(--cyan), 0 0 1.7rem rgba(68, 217, 232, 0.42); opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-wraith-road,
+  .hero::before,
+  .transmission-topline i {
+    animation: none;
+  }
 }
 
 .hero-transmission > p:not(.transmission-copy) {
