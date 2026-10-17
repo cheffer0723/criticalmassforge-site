@@ -1449,3 +1449,163 @@
     gap: clamp(4rem, 7vw, 8rem);
   }
 }
+
+/* Hero rebuild, 2026-10-17: no static plate, no floating product card.
+   The canvas is a generated, responsive topology rather than a background image. */
+.hero.hero-topology {
+  position: relative;
+  isolation: isolate;
+  min-height: clamp(43rem, 100svh, 62rem);
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse 58% 74% at 72% 45%, rgba(50, 46, 126, 0.32), transparent 66%),
+    radial-gradient(ellipse 42% 56% at 28% 73%, rgba(10, 105, 133, 0.12), transparent 72%),
+    linear-gradient(116deg, #060711 0%, #090a1b 52%, #09091c 100%);
+}
+
+.hero-topology::before {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  content: "";
+  pointer-events: none;
+  opacity: 0.38;
+  background:
+    linear-gradient(90deg, transparent 0 49.94%, rgba(143, 118, 255, 0.17) 50%, transparent 50.06%),
+    linear-gradient(0deg, transparent 0 49.94%, rgba(76, 213, 229, 0.1) 50%, transparent 50.06%);
+  background-size: 12rem 12rem;
+  mask-image: linear-gradient(90deg, #000, rgba(0, 0, 0, 0.45) 54%, transparent 90%);
+}
+
+.hero-topology-lines {
+  position: absolute;
+  z-index: 0;
+  inset: -28% -12%;
+  pointer-events: none;
+  opacity: 0.34;
+  background:
+    repeating-linear-gradient(116deg, transparent 0 5.3rem, rgba(130, 106, 231, 0.18) 5.35rem 5.43rem, transparent 5.5rem 9.6rem),
+    repeating-linear-gradient(28deg, transparent 0 8.4rem, rgba(69, 201, 221, 0.13) 8.45rem 8.51rem, transparent 8.56rem 13.5rem);
+  transform: perspective(70rem) rotateX(61deg) rotateZ(-9deg) translate3d(5%, 13%, 0);
+  transform-origin: 64% 68%;
+  animation: topology-floor 22s ease-in-out infinite alternate;
+}
+
+.hero-topology-engine {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  mix-blend-mode: screen;
+}
+
+.hero-atmosphere {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, rgba(5, 6, 15, 0.78) 0%, rgba(5, 6, 15, 0.32) 38%, transparent 66%),
+    linear-gradient(0deg, rgba(5, 6, 15, 0.92) 0%, rgba(5, 6, 15, 0.2) 36%, transparent 68%);
+}
+
+.hero-topology::after {
+  z-index: 2;
+  height: 28%;
+  background: linear-gradient(0deg, rgba(5, 6, 15, 0.78), transparent);
+}
+
+.hero-topology .hero-content,
+.hero-topology .hero-coordinate,
+.hero-topology .scroll-cue,
+.hero-topology .hero-readout { z-index: 3; }
+
+.hero-topology .hero-content { width: min(50rem, 54%); }
+.hero-topology .hero-brand {
+  max-width: 100%;
+  margin-bottom: 1.9rem;
+  font-size: clamp(2rem, 3.45vw, 3.55rem);
+  line-height: 1;
+  letter-spacing: 0.035em;
+}
+
+.hero-topology .hero-kicker {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  color: var(--cyan);
+}
+
+.hero-topology .hero-kicker::before {
+  width: 2.2rem;
+  height: 1px;
+  content: "";
+  background: currentColor;
+  box-shadow: 0 0 0.9rem rgba(83, 225, 240, 0.55);
+}
+
+.hero-topology h1 { max-width: 12ch; text-shadow: 0 0.7rem 2rem rgba(3, 4, 12, 0.78); }
+.hero-topology .hero-description { max-width: 34rem; text-shadow: 0 0.4rem 1.35rem rgba(3, 4, 12, 0.84); }
+.hero-topology .button-primary { box-shadow: 0 0 0 1px rgba(204, 175, 255, 0.18), 0 0 2.4rem rgba(129, 87, 255, 0.24); }
+
+.hero-readout {
+  position: absolute;
+  top: 23%;
+  right: clamp(1.4rem, 6vw, 7.5rem);
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: 0.42rem 1.15rem;
+  min-width: 12.5rem;
+  padding: 0.8rem 0 0.8rem 1.1rem;
+  border-left: 1px solid rgba(91, 224, 239, 0.62);
+  color: rgba(222, 217, 246, 0.78);
+  font: 400 0.58rem/1.3 var(--mono);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  text-shadow: 0 0 1rem rgba(5, 5, 14, 0.9);
+}
+
+.hero-readout::before,
+.hero-readout::after {
+  position: absolute;
+  left: -1px;
+  width: 3.25rem;
+  height: 1px;
+  content: "";
+  background: rgba(207, 177, 255, 0.72);
+  box-shadow: 0 0 0.8rem rgba(186, 139, 255, 0.62);
+}
+
+.hero-readout::before { top: 0; }
+.hero-readout::after { bottom: 0; }
+.hero-readout strong { color: var(--cyan); font-weight: 400; }
+.hero-readout i { grid-column: 1 / -1; width: 100%; height: 1px; margin: 0.18rem 0; background: rgba(176, 170, 220, 0.22); }
+
+@keyframes topology-floor {
+  from { opacity: 0.22; transform: perspective(70rem) rotateX(61deg) rotateZ(-9deg) translate3d(2%, 16%, 0); }
+  to { opacity: 0.44; transform: perspective(70rem) rotateX(64deg) rotateZ(-4deg) translate3d(7%, 9%, 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-topology-lines { animation: none; }
+}
+
+@media (max-width: 900px) {
+  .hero-topology .hero-content { width: min(64%, 42rem); }
+  .hero-readout { top: 18%; right: 1.5rem; transform: scale(0.88); transform-origin: top right; }
+}
+
+@media (max-width: 640px) {
+  .hero.hero-topology { min-height: max(42rem, 100svh); justify-content: flex-end; }
+  .hero-topology::before { opacity: 0.19; background-size: 8rem 8rem; }
+  .hero-topology-lines { opacity: 0.26; inset: -12% -80%; transform: perspective(60rem) rotateX(62deg) rotateZ(-9deg) translate3d(5%, 11%, 0); }
+  .hero-topology .hero-content { width: 100%; padding: 7.5rem 1.25rem 3.25rem; }
+  .hero-topology .hero-brand { margin-bottom: 1.35rem; font-size: clamp(1.85rem, 8.2vw, 2.35rem); }
+  .hero-topology .hero-kicker { max-width: 18rem; font-size: 0.56rem; line-height: 1.55; }
+  .hero-topology h1 { max-width: 100%; font-size: clamp(3.05rem, 13.4vw, 4.2rem); }
+  .hero-topology .hero-description { max-width: 20rem; font-size: 0.84rem; line-height: 1.66; }
+  .hero-topology .hero-actions { gap: 1.1rem; }
+  .hero-readout { display: none; }
+}
