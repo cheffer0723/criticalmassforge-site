@@ -92,9 +92,9 @@
             </div>
           </div>
           <div class="hero-readout" aria-hidden="true">
-            <span>FIELD STATE</span><strong>ACTIVE</strong>
+            <span>ROUTE</span><strong>IN TRANSIT</strong>
             <i></i>
-            <span>TOPOLOGY</span><strong>UNRESOLVED</strong>
+            <span>DEPTH</span><strong>UNKNOWN</strong>
           </div>
           <a class="scroll-cue" href="#about"><span>Scroll to explore</span>${ICON.down}</a>
           <div class="hero-coordinate" aria-hidden="true">
@@ -410,7 +410,14 @@
     if (!hero || !canvas || !context) return;
 
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const pointer = { x: 0.5, y: 0.5, targetX: 0.5, targetY: 0.5, active: false };
+    const pointer = { x: 0.5, y: 0.5, targetX: 0.5, targetY: 0.5 };
+    const fragments = Array.from({ length: 18 }, (_, index) => ({
+      lane: ((index * 47) % 13) / 12 - 0.5,
+      level: ((index * 31) % 11) / 10 - 0.5,
+      phase: (index * 0.173) % 1,
+      tilt: (index * 0.91) % (Math.PI * 2),
+      color: index % 3 === 1 ? "rgba(215, 175, 255, 0.72)" : "rgba(79, 221, 238, 0.66)",
+    }));
     let width = 0;
     let height = 0;
     let pixelRatio = 1;
@@ -428,147 +435,145 @@
       context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
     };
 
-    const pointOnQuad = (start, control, end, t) => {
-      const inverse = 1 - t;
-      return {
-        x: inverse * inverse * start.x + 2 * inverse * t * control.x + t * t * end.x,
-        y: inverse * inverse * start.y + 2 * inverse * t * control.y + t * t * end.y,
-      };
+    const gateAt = (depth, focus, sway) => {
+      const p = Math.pow(depth, 1.82);
+      const halfWidth = width * (0.045 + p * 0.82);
+      const halfHeight = height * (0.036 + p * 0.76);
+      const skew = (sway + (depth - 0.5) * 0.08) * width;
+      return [
+        [focus.x - halfWidth + skew, focus.y - halfHeight],
+        [focus.x + halfWidth + skew, focus.y - halfHeight * 0.77],
+        [focus.x + halfWidth - skew * 0.32, focus.y + halfHeight],
+        [focus.x - halfWidth - skew * 0.32, focus.y + halfHeight * 0.83],
+      ];
     };
 
-    const strokeArc = (cx, cy, rx, ry, rotation, from, to, color, width = 1) => {
+    const path = (points, close = false) => {
       context.beginPath();
-      context.ellipse(cx, cy, rx, ry, rotation, from, to);
-      context.strokeStyle = color;
-      context.lineWidth = width;
-      context.stroke();
+      context.moveTo(points[0][0], points[0][1]);
+      points.slice(1).forEach((point) => context.lineTo(point[0], point[1]));
+      if (close) context.closePath();
     };
 
     const draw = (clock = 0) => {
       const time = reducedMotion.matches ? 0 : clock * 0.001;
-      pointer.x += (pointer.targetX - pointer.x) * 0.055;
-      pointer.y += (pointer.targetY - pointer.y) * 0.055;
-      const cameraX = (pointer.x - 0.5) * width * 0.08;
-      const cameraY = (pointer.y - 0.5) * height * 0.06;
-      const source = {
-        x: width * 0.68 + cameraX + Math.sin(time * 0.31) * width * 0.012,
-        y: height * 0.46 + cameraY + Math.cos(time * 0.27) * height * 0.014,
+      pointer.x += (pointer.targetX - pointer.x) * 0.045;
+      pointer.y += (pointer.targetY - pointer.y) * 0.045;
+      const sway = (pointer.x - 0.5) * 0.16;
+      const focus = {
+        x: width * 0.64 + (pointer.x - 0.5) * width * 0.12 + Math.sin(time * 0.18) * width * 0.012,
+        y: height * 0.46 + (pointer.y - 0.5) * height * 0.095 + Math.cos(time * 0.2) * height * 0.009,
       };
-      const scale = Math.min(width, height) / 860;
-      const radius = Math.max(105, 178 * scale);
       context.clearRect(0, 0, width, height);
       context.save();
 
-      const haze = context.createRadialGradient(source.x, source.y, 0, source.x, source.y, radius * 3.4);
-      haze.addColorStop(0, "rgba(130, 100, 255, 0.18)");
-      haze.addColorStop(0.32, "rgba(38, 183, 220, 0.08)");
-      haze.addColorStop(1, "rgba(7, 8, 19, 0)");
-      context.fillStyle = haze;
+      const tunnelGlow = context.createRadialGradient(focus.x, focus.y, 0, focus.x, focus.y, Math.max(width, height) * 0.52);
+      tunnelGlow.addColorStop(0, "rgba(174, 118, 255, 0.25)");
+      tunnelGlow.addColorStop(0.19, "rgba(44, 206, 229, 0.11)");
+      tunnelGlow.addColorStop(0.67, "rgba(22, 35, 93, 0.04)");
+      tunnelGlow.addColorStop(1, "rgba(4, 5, 14, 0)");
+      context.fillStyle = tunnelGlow;
       context.fillRect(0, 0, width, height);
 
-      // The plane is deliberately wide: it moves through the whole frame instead of living in one corner.
-      const horizon = height * 0.6 + cameraY * 0.24;
-      for (let row = 0; row < 10; row += 1) {
-        const depth = row / 9;
-        const y = horizon + Math.pow(depth, 1.75) * height * 0.52;
-        const bend = Math.sin(time * 0.32 + row * 0.56) * (4 + depth * 11);
-        context.beginPath();
-        context.moveTo(-width * 0.08, y + bend);
-        context.quadraticCurveTo(source.x, y - depth * height * 0.18, width * 1.08, y - bend);
-        context.strokeStyle = row % 3 === 0 ? "rgba(163, 130, 255, 0.17)" : "rgba(64, 210, 229, 0.13)";
-        context.lineWidth = 0.75 + depth * 0.45;
+      // First person route gates: they widen as the viewer moves through the network.
+      for (let layer = 0; layer < 14; layer += 1) {
+        const depth = ((layer / 14) + time * 0.075) % 1;
+        const gate = gateAt(depth, focus, sway);
+        const near = Math.pow(depth, 1.7);
+        path(gate, true);
+        context.strokeStyle = layer % 3 === 0 ? `rgba(193, 153, 255, ${0.1 + near * 0.25})` : `rgba(63, 211, 231, ${0.075 + near * 0.23})`;
+        context.lineWidth = 0.55 + near * 1.15;
         context.stroke();
-      }
-      for (let column = -6; column <= 7; column += 1) {
-        const bottomX = width * 0.5 + column * width * 0.16 + cameraX * (0.3 + Math.abs(column) * 0.04);
-        context.beginPath();
-        context.moveTo(bottomX, height * 1.05);
-        context.quadraticCurveTo((bottomX + source.x) * 0.5, horizon + height * 0.17, source.x, horizon - height * 0.04);
-        context.strokeStyle = column % 2 ? "rgba(66, 210, 230, 0.12)" : "rgba(189, 157, 255, 0.13)";
-        context.lineWidth = 0.8;
-        context.stroke();
+
+        if (layer % 2 === 0) {
+          const nextGate = gateAt(Math.min(1, depth + 0.13), focus, sway);
+          [0, 2].forEach((corner) => {
+            context.beginPath();
+            context.moveTo(gate[corner][0], gate[corner][1]);
+            context.lineTo(nextGate[corner][0], nextGate[corner][1]);
+            context.strokeStyle = `rgba(103, 166, 239, ${0.07 + near * 0.18})`;
+            context.lineWidth = 0.6;
+            context.stroke();
+          });
+        }
       }
 
+      // Web routes become perspective vectors and arrive at the viewer instead of orbiting one point.
       const routes = [
-        { end: { x: -width * 0.12, y: height * 0.18 }, bend: -height * 0.15, phase: 0.08, color: "rgba(94, 231, 239, 0.7)" },
-        { end: { x: width * 0.1, y: height * 0.77 }, bend: height * 0.1, phase: 0.3, color: "rgba(208, 174, 255, 0.85)" },
-        { end: { x: width * 0.48, y: height * 1.06 }, bend: height * 0.18, phase: 0.51, color: "rgba(83, 217, 235, 0.75)" },
-        { end: { x: width * 1.1, y: height * 0.2 }, bend: -height * 0.11, phase: 0.72, color: "rgba(213, 174, 255, 0.78)" },
-        { end: { x: width * 0.98, y: height * 0.91 }, bend: height * 0.08, phase: 0.91, color: "rgba(86, 229, 239, 0.68)" },
+        [-0.44, -0.31], [-0.2, 0.42], [0.04, -0.49], [0.35, -0.25], [0.47, 0.35], [-0.52, 0.13],
       ];
-      routes.forEach((route, index) => {
-        const control = {
-          x: source.x + (route.end.x - source.x) * 0.5 + cameraX * (index % 2 ? -0.32 : 0.32),
-          y: source.y + (route.end.y - source.y) * 0.38 + route.bend,
-        };
+      routes.forEach(([lane, level], index) => {
+        const exitX = focus.x + lane * width * 1.34 + sway * width * 0.38;
+        const exitY = focus.y + level * height * 1.25;
+        const bendX = focus.x + lane * width * 0.28;
+        const bendY = focus.y + level * height * 0.2;
         context.beginPath();
-        context.moveTo(source.x, source.y);
-        context.quadraticCurveTo(control.x, control.y, route.end.x, route.end.y);
-        context.strokeStyle = "rgba(139, 142, 211, 0.2)";
-        context.lineWidth = 0.9;
+        context.moveTo(focus.x, focus.y);
+        context.quadraticCurveTo(bendX, bendY, exitX, exitY);
+        context.strokeStyle = index % 2 ? "rgba(201, 165, 255, 0.27)" : "rgba(71, 221, 236, 0.25)";
+        context.lineWidth = 0.7;
         context.stroke();
 
-        const packetT = (time * (0.14 + index * 0.017) + route.phase) % 1;
-        const packet = pointOnQuad(source, control, route.end, packetT);
-        const next = pointOnQuad(source, control, route.end, Math.min(packetT + 0.017, 1));
+        const travel = (time * (0.21 + index * 0.012) + index * 0.19) % 1;
+        const packetX = (1 - travel) * (1 - travel) * focus.x + 2 * (1 - travel) * travel * bendX + travel * travel * exitX;
+        const packetY = (1 - travel) * (1 - travel) * focus.y + 2 * (1 - travel) * travel * bendY + travel * travel * exitY;
         context.save();
-        context.translate(packet.x, packet.y);
-        context.rotate(Math.atan2(next.y - packet.y, next.x - packet.x));
-        context.fillStyle = route.color;
-        context.shadowColor = route.color;
-        context.shadowBlur = 18;
-        context.fillRect(-13, -1, 26, 2);
+        context.translate(packetX, packetY);
+        context.rotate(Math.atan2(exitY - bendY, exitX - bendX));
+        context.fillStyle = index % 2 ? "rgba(219, 185, 255, 0.95)" : "rgba(93, 236, 242, 0.92)";
+        context.shadowColor = context.fillStyle;
+        context.shadowBlur = 17;
+        context.fillRect(-9 - travel * 16, -1.1, 18 + travel * 30, 2.2);
         context.restore();
       });
 
-      const orbitLayers = [
-        { rx: radius * 1.66, ry: radius * 0.48, rotate: -0.56 + time * 0.075, phase: 0.1, color: "rgba(88, 221, 235, 0.52)" },
-        { rx: radius * 1.16, ry: radius * 0.84, rotate: 0.82 - time * 0.11, phase: 2.14, color: "rgba(205, 169, 255, 0.52)" },
-        { rx: radius * 0.77, ry: radius * 1.42, rotate: -0.26 + time * 0.15, phase: 4.23, color: "rgba(100, 224, 239, 0.42)" },
-      ];
-      orbitLayers.forEach((orbit, index) => {
-        for (let segment = 0; segment < 3; segment += 1) {
-          const start = orbit.phase + segment * 2.16 + Math.sin(time * 0.3 + segment) * 0.06;
-          strokeArc(source.x, source.y, orbit.rx, orbit.ry, orbit.rotate, start, start + 1.16, orbit.color, index === 1 ? 1.3 : 0.9);
-        }
-        const pointAngle = time * (index % 2 ? -0.64 : 0.52) + orbit.phase;
-        const nodeX = source.x + orbit.rx * Math.cos(pointAngle) * Math.cos(orbit.rotate) - orbit.ry * Math.sin(pointAngle) * Math.sin(orbit.rotate);
-        const nodeY = source.y + orbit.rx * Math.cos(pointAngle) * Math.sin(orbit.rotate) + orbit.ry * Math.sin(pointAngle) * Math.cos(orbit.rotate);
+      // Information fragments are structured quadrilaterals, never drifting decorative dots.
+      fragments.forEach((fragment, index) => {
+        const depth = (fragment.phase + time * (0.095 + (index % 4) * 0.015)) % 1;
+        const p = Math.pow(depth, 1.68);
+        const x = focus.x + fragment.lane * width * (0.11 + p * 0.96) + sway * width * p;
+        const y = focus.y + fragment.level * height * (0.09 + p * 0.86);
+        const size = 2 + p * (13 + (index % 3) * 7);
+        context.save();
+        context.translate(x, y);
+        context.rotate(fragment.tilt + time * (index % 2 ? -0.16 : 0.12));
+        context.strokeStyle = fragment.color;
+        context.globalAlpha = 0.18 + p * 0.7;
+        context.lineWidth = 0.75 + p * 0.7;
         context.beginPath();
-        context.arc(nodeX, nodeY, 2.8 + Math.sin(time * 2 + index) * 0.6, 0, Math.PI * 2);
-        context.fillStyle = index === 1 ? "rgba(214, 177, 255, 0.95)" : "rgba(95, 236, 242, 0.92)";
-        context.shadowColor = context.fillStyle;
-        context.shadowBlur = 15;
-        context.fill();
+        context.moveTo(-size * 1.65, -size * 0.5);
+        context.lineTo(size * 1.28, -size * 0.82);
+        context.lineTo(size * 1.8, size * 0.48);
+        context.lineTo(-size * 1.1, size * 0.78);
+        context.closePath();
+        context.stroke();
+        context.restore();
       });
 
-      // A segmented wireform keeps reconfiguring around the source; it is a system, not a looping antenna image.
-      for (let layer = 0; layer < 3; layer += 1) {
-        const sides = 7 + layer;
-        const phase = time * (layer === 1 ? -0.28 : 0.22 + layer * 0.06) + layer * 1.37;
-        const ring = radius * (0.42 + layer * 0.27);
-        for (let side = 0; side < sides; side += 1) {
-          const a = phase + (side / sides) * Math.PI * 2;
-          const b = phase + ((side + 0.64) / sides) * Math.PI * 2;
-          const breathing = 1 + Math.sin(time * 1.2 + side * 1.73 + layer) * 0.075;
-          context.beginPath();
-          context.moveTo(source.x + Math.cos(a) * ring * breathing, source.y + Math.sin(a) * ring * 0.57 * breathing);
-          context.lineTo(source.x + Math.cos(b) * ring * breathing, source.y + Math.sin(b) * ring * 0.57 * breathing);
-          context.strokeStyle = layer === 1 ? "rgba(215, 177, 255, 0.62)" : "rgba(91, 225, 239, 0.5)";
-          context.lineWidth = layer === 1 ? 1.35 : 0.85;
-          context.stroke();
+      // At the far end, a thin interference field hints at the quantum scale without becoming an atom.
+      for (let wave = 0; wave < 9; wave += 1) {
+        const phase = time * (0.75 + wave * 0.06) + wave * 0.87;
+        const span = 34 + wave * 15;
+        context.beginPath();
+        for (let step = -1; step <= 1.05; step += 0.08) {
+          const x = focus.x + step * span * 2.4;
+          const y = focus.y + Math.sin(step * 9.2 + phase) * (3.2 + wave * 0.45) + (wave - 4) * 3.25;
+          if (step <= -1) context.moveTo(x, y);
+          else context.lineTo(x, y);
         }
+        context.strokeStyle = wave % 2 ? "rgba(215, 174, 255, 0.42)" : "rgba(92, 232, 240, 0.38)";
+        context.lineWidth = 0.65;
+        context.stroke();
       }
 
-      const core = context.createRadialGradient(source.x, source.y, 0, source.x, source.y, radius * 0.65);
-      core.addColorStop(0, "rgba(246, 240, 255, 0.95)");
-      core.addColorStop(0.06, "rgba(186, 151, 255, 0.9)");
-      core.addColorStop(0.2, "rgba(70, 220, 235, 0.5)");
-      core.addColorStop(0.56, "rgba(84, 210, 232, 0.06)");
-      core.addColorStop(1, "rgba(84, 210, 232, 0)");
-      context.fillStyle = core;
+      const farGlow = context.createRadialGradient(focus.x, focus.y, 0, focus.x, focus.y, Math.min(width, height) * 0.17);
+      farGlow.addColorStop(0, "rgba(245, 237, 255, 0.9)");
+      farGlow.addColorStop(0.08, "rgba(194, 145, 255, 0.76)");
+      farGlow.addColorStop(0.23, "rgba(68, 222, 235, 0.32)");
+      farGlow.addColorStop(1, "rgba(68, 222, 235, 0)");
+      context.fillStyle = farGlow;
       context.beginPath();
-      context.arc(source.x, source.y, radius * 0.65, 0, Math.PI * 2);
+      context.arc(focus.x, focus.y, Math.min(width, height) * 0.17, 0, Math.PI * 2);
       context.fill();
       context.restore();
 

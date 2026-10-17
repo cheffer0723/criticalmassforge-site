@@ -1450,8 +1450,8 @@
   }
 }
 
-/* Hero rebuild, 2026-10-17: no static plate, no floating product card.
-   The canvas is a generated, responsive topology rather than a background image. */
+/* Hero rebuild, 2026-10-17: no static plate and no floating product card.
+   The canvas is a generated first-person route tunnel, not a background image. */
 .hero.hero-topology {
   position: relative;
   isolation: isolate;
@@ -1601,10 +1601,10 @@
   .hero.hero-topology { min-height: max(42rem, 100svh); justify-content: flex-end; }
   .hero-topology::before { opacity: 0.19; background-size: 8rem 8rem; }
   .hero-topology-lines { opacity: 0.26; inset: -12% -80%; transform: perspective(60rem) rotateX(62deg) rotateZ(-9deg) translate3d(5%, 11%, 0); }
-  .hero-topology .hero-content { width: 100%; padding: 7.5rem 1.25rem 3.25rem; }
+  .hero-topology .hero-content { width: 100%; padding: 6.9rem 1.25rem 3.25rem; }
   .hero-topology .hero-brand { margin-bottom: 1.35rem; font-size: clamp(1.85rem, 8.2vw, 2.35rem); }
   .hero-topology .hero-kicker { max-width: 18rem; font-size: 0.56rem; line-height: 1.55; }
-  .hero-topology h1 { max-width: 100%; font-size: clamp(3.05rem, 13.4vw, 4.2rem); }
+  .hero-topology h1 { max-width: 100%; font-size: clamp(2rem, 8.4vw, 2.9rem); }
   .hero-topology .hero-description { max-width: 20rem; font-size: 0.84rem; line-height: 1.66; }
   .hero-topology .hero-actions { gap: 1.1rem; }
   .hero-readout { display: none; }
