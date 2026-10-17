@@ -23,7 +23,6 @@
 
   const programBySlug = (slug) => CML.programs.find((program) => program.slug === slug);
   const featured = (key) => CML.programs.find((program) => program.featured === key);
-  const moving = CML.programs.filter((program) => program.prominence === "active");
   const externalLink = (item, label) =>
     item.href
       ? `<a class="text-link" href="${esc(item.href)}" target="_blank" rel="noreferrer">${esc(label || item.linkLabel)} ${ICON.arrow}</a>`
@@ -52,7 +51,6 @@
   };
 
   const asymmetry = featured("asymmetry");
-  const obsidian = featured("obsidian");
 
   root.innerHTML = `
     <div class="site-shell" id="top">
@@ -187,30 +185,6 @@
         </section>
 
         ${
-          moving.length
-            ? `<section class="active-rail" aria-label="Programs in motion">
-          <div class="active-rail-intro">
-            <p class="eyebrow"><span class="eyebrow-line" aria-hidden="true"></span>Also in motion</p>
-            <p>These programs are being built or evaluated. They are not silent, and they are not public products yet.</p>
-          </div>
-          <div class="active-rail-grid">
-            ${moving
-              .map(
-                (program) => `
-              <article class="active-rail-card">
-                <span>${esc(program.number)} / ${esc(program.stage)}</span>
-                <h3>${esc(program.name)}</h3>
-                <p>${esc(program.description)}</p>
-                <button class="card-status-link" type="button" data-slug="${esc(program.slug)}" aria-haspopup="dialog" aria-controls="project-status-dialog">Open status ${ICON.arrow}</button>
-              </article>`
-              )
-              .join("")}
-          </div>
-        </section>`
-            : ""
-        }
-
-        ${
           asymmetry
             ? `<section class="featured-project" aria-labelledby="featured-title">
           <div class="featured-art" aria-hidden="true"></div>
@@ -227,23 +201,6 @@
               }
             </div>
             ${childChips(asymmetry)}
-          </div>
-        </section>`
-            : ""
-        }
-
-        ${
-          obsidian
-            ? `<section class="featured-project obsidian-feature">
-          <div class="featured-art obsidian-art" aria-hidden="true"></div>
-          <div class="featured-copy">
-            <p class="eyebrow"><span class="eyebrow-line" aria-hidden="true"></span>${esc(obsidian.featuredEyebrow)}</p>
-            <h2>${esc(obsidian.featuredTitle)} <em>${esc(obsidian.featuredTitleEm)}</em></h2>
-            <p>${esc(obsidian.featuredBody)}</p>
-            <div class="featured-actions">
-              <button class="button button-outline" type="button" data-slug="${esc(obsidian.slug)}" aria-haspopup="dialog" aria-controls="project-status-dialog">Open project status ${ICON.arrow}</button>
-              <a class="text-link" href="${esc(obsidian.link)}" target="_blank" rel="noreferrer">${esc(obsidian.linkLabel)} ${ICON.arrow}</a>
-            </div>
           </div>
         </section>`
             : ""
