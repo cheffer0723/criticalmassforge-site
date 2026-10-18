@@ -77,10 +77,9 @@
         ${navLinks(true)}
       </nav>
       <main id="main" tabindex="-1">
-        <section class="hero hero-topology" aria-labelledby="hero-title">
-          <div class="hero-topology-lines" aria-hidden="true"></div>
-          <canvas class="hero-topology-engine" aria-hidden="true"></canvas>
-          <div class="hero-atmosphere" aria-hidden="true"></div>
+        <section class="hero hero-city" aria-labelledby="hero-title">
+          <img class="hero-city-image" src="/assets/hero-city-night.jpg" alt="" aria-hidden="true">
+          <canvas class="hero-city-traffic" aria-hidden="true"></canvas>
           <div class="hero-content">
             <div class="brand hero-brand"><span>${esc(CML.studio.name)}</span></div>
             <p class="hero-kicker">Independent research studio / live index</p>
@@ -92,9 +91,9 @@
             </div>
           </div>
           <div class="hero-readout" aria-hidden="true">
-            <span>ROUTE</span><strong>IN TRANSIT</strong>
+            <span>CITY</span><strong>AFTER HOURS</strong>
             <i></i>
-            <span>DEPTH</span><strong>UNKNOWN</strong>
+            <span>MOVEMENT</span><strong>STREET LEVEL</strong>
           </div>
           <a class="scroll-cue" href="#about"><span>Scroll to explore</span>${ICON.down}</a>
           <div class="hero-coordinate" aria-hidden="true">
@@ -601,7 +600,95 @@
     });
   };
 
-  startTopologyEngine();
+  const startCityTrafficEngine = () => {
+    const hero = root.querySelector(".hero-city");
+    const canvas = root.querySelector(".hero-city-traffic");
+    const context = canvas?.getContext("2d");
+    if (!hero || !canvas || !context) return;
+
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const trafficRoutes = [
+      { points: [[0.73, 1.08], [0.73, 0.77], [0.76, 0.56], [0.82, 0.35]], color: "rgba(117, 227, 238, 0.9)", phase: 0.06, speed: 0.13 },
+      { points: [[0.58, 1.04], [0.58, 0.8], [0.6, 0.63], [0.64, 0.48]], color: "rgba(219, 186, 255, 0.86)", phase: 0.39, speed: 0.105 },
+      { points: [[0.22, 0.86], [0.42, 0.79], [0.62, 0.74], [0.82, 0.69]], color: "rgba(184, 205, 255, 0.66)", phase: 0.71, speed: 0.09 },
+      { points: [[0.3, 0.69], [0.47, 0.66], [0.63, 0.59], [0.78, 0.48]], color: "rgba(97, 218, 235, 0.72)", phase: 0.23, speed: 0.12 },
+      { points: [[0.9, 0.94], [0.82, 0.82], [0.72, 0.71], [0.64, 0.62]], color: "rgba(215, 177, 255, 0.68)", phase: 0.56, speed: 0.082 },
+    ];
+    let width = 0;
+    let height = 0;
+    let pixelRatio = 1;
+    let animationFrame = 0;
+
+    const resize = () => {
+      const box = hero.getBoundingClientRect();
+      width = Math.max(1, box.width);
+      height = Math.max(1, box.height);
+      pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = Math.floor(width * pixelRatio);
+      canvas.height = Math.floor(height * pixelRatio);
+      context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+    };
+
+    const pointAt = (points, position) => {
+      const segments = points.length - 1;
+      const scaled = Math.min(position, 0.9999) * segments;
+      const index = Math.floor(scaled);
+      const progress = scaled - index;
+      const start = points[index];
+      const end = points[index + 1];
+      return [
+        (start[0] + (end[0] - start[0]) * progress) * width,
+        (start[1] + (end[1] - start[1]) * progress) * height,
+      ];
+    };
+
+    const draw = (clock = 0) => {
+      const time = reducedMotion.matches ? 0 : clock * 0.001;
+      context.clearRect(0, 0, width, height);
+      if (reducedMotion.matches) return;
+      context.save();
+      context.globalCompositeOperation = "screen";
+
+      trafficRoutes.forEach((route, routeIndex) => {
+        for (let vehicle = 0; vehicle < 3; vehicle += 1) {
+          const head = (route.phase + vehicle * 0.31 + time * route.speed) % 1;
+          const tail = Math.max(0, head - 0.055 - vehicle * 0.006);
+          const [tailX, tailY] = pointAt(route.points, tail);
+          const [headX, headY] = pointAt(route.points, head);
+          const gradient = context.createLinearGradient(tailX, tailY, headX, headY);
+          gradient.addColorStop(0, "rgba(182, 200, 255, 0)");
+          gradient.addColorStop(0.72, route.color.replace(/0\.[0-9]+\)/, "0.22)"));
+          gradient.addColorStop(1, route.color);
+          context.beginPath();
+          context.moveTo(tailX, tailY);
+          context.lineTo(headX, headY);
+          context.strokeStyle = gradient;
+          context.lineWidth = routeIndex < 2 ? 1.8 : 1.1;
+          context.shadowColor = route.color;
+          context.shadowBlur = routeIndex < 2 ? 12 : 7;
+          context.stroke();
+          context.shadowBlur = 0;
+        }
+      });
+      context.restore();
+      animationFrame = window.requestAnimationFrame(draw);
+    };
+
+    const visibility = () => {
+      if (document.hidden) window.cancelAnimationFrame(animationFrame);
+      else {
+        window.cancelAnimationFrame(animationFrame);
+        animationFrame = window.requestAnimationFrame(draw);
+      }
+    };
+
+    resize();
+    animationFrame = window.requestAnimationFrame(draw);
+    window.addEventListener("resize", resize, { passive: true });
+    document.addEventListener("visibilitychange", visibility);
+  };
+
+  startCityTrafficEngine();
 
   const menuButton = root.querySelector(".menu-toggle");
   const mobileNav = root.querySelector("#mobile-navigation");
