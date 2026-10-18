@@ -82,24 +82,14 @@
           <div class="hero-content">
             <div class="brand hero-brand"><span>${esc(CML.studio.name)}</span></div>
             <p class="hero-kicker">Independent research studio / live index</p>
-            <h1 id="hero-title">Off the map.<br><em>On purpose.</em></h1>
+            <h1 id="hero-title"><span>Off the map.</span><em>On purpose.</em></h1>
             <p class="hero-description">Research, custom software, and practical systems for work that does not fit off the shelf.</p>
             <div class="hero-actions">
               <a class="button button-primary" href="#solutions">Explore software solutions ${ICON.arrow}</a>
               <a class="text-link" href="#portfolio">Open the project atlas ${ICON.arrow}</a>
             </div>
           </div>
-          <div class="hero-readout" aria-hidden="true">
-            <span>CITY</span><strong>AFTER HOURS</strong>
-            <i></i>
-            <span>MOVEMENT</span><strong>STREET LEVEL</strong>
-          </div>
           <a class="scroll-cue" href="#about"><span>Scroll to explore</span>${ICON.down}</a>
-          <div class="hero-coordinate" aria-hidden="true">
-            <span class="coordinate-active">01</span>
-            <i class="coordinate-dot active"></i>
-            <span>Field</span>
-          </div>
         </section>
 
         <section class="content-section about-section" id="about">
