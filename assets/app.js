@@ -79,7 +79,6 @@
       <main id="main" tabindex="-1">
         <section class="hero hero-city" aria-labelledby="hero-title">
           <img class="hero-city-image" src="/assets/hero-city-night.jpg" alt="" aria-hidden="true">
-          <canvas class="hero-city-traffic" aria-hidden="true"></canvas>
           <div class="hero-content">
             <div class="brand hero-brand"><span>${esc(CML.studio.name)}</span></div>
             <p class="hero-kicker">Independent research studio / live index</p>
@@ -706,8 +705,6 @@
     window.addEventListener("resize", resize, { passive: true });
     document.addEventListener("visibilitychange", visibility);
   };
-
-  startCityTrafficEngine();
 
   const menuButton = root.querySelector(".menu-toggle");
   const mobileNav = root.querySelector("#mobile-navigation");
