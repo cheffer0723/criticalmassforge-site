@@ -602,17 +602,21 @@
 
   const startCityTrafficEngine = () => {
     const hero = root.querySelector(".hero-city");
+    const image = root.querySelector(".hero-city-image");
     const canvas = root.querySelector(".hero-city-traffic");
     const context = canvas?.getContext("2d");
-    if (!hero || !canvas || !context) return;
+    if (!hero || !image || !canvas || !context) return;
 
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    // Coordinates are traced against hero-city-night.jpg itself (720 × 1280),
+    // then mapped through the exact object-fit crop below. They follow visible streets,
+    // not generic screen-space paths.
     const trafficRoutes = [
-      { points: [[0.73, 1.08], [0.73, 0.77], [0.76, 0.56], [0.82, 0.35]], color: "rgba(117, 227, 238, 0.9)", phase: 0.06, speed: 0.13 },
-      { points: [[0.58, 1.04], [0.58, 0.8], [0.6, 0.63], [0.64, 0.48]], color: "rgba(219, 186, 255, 0.86)", phase: 0.39, speed: 0.105 },
-      { points: [[0.22, 0.86], [0.42, 0.79], [0.62, 0.74], [0.82, 0.69]], color: "rgba(184, 205, 255, 0.66)", phase: 0.71, speed: 0.09 },
-      { points: [[0.3, 0.69], [0.47, 0.66], [0.63, 0.59], [0.78, 0.48]], color: "rgba(97, 218, 235, 0.72)", phase: 0.23, speed: 0.12 },
-      { points: [[0.9, 0.94], [0.82, 0.82], [0.72, 0.71], [0.64, 0.62]], color: "rgba(215, 177, 255, 0.68)", phase: 0.56, speed: 0.082 },
+      { points: [[550, 1235], [542, 1100], [530, 970], [522, 850], [528, 735], [552, 625], [576, 490]], color: "rgba(255, 243, 224, 0.92)", phase: 0.06, speed: 0.16 },
+      { points: [[576, 490], [552, 625], [528, 735], [522, 850], [530, 970], [542, 1100], [550, 1235]], color: "rgba(255, 91, 72, 0.74)", phase: 0.42, speed: 0.13 },
+      { points: [[290, 1120], [374, 1090], [454, 1060], [525, 1012]], color: "rgba(255, 241, 214, 0.76)", phase: 0.78, speed: 0.1 },
+      { points: [[255, 822], [350, 810], [438, 796], [523, 780], [624, 754]], color: "rgba(255, 101, 79, 0.62)", phase: 0.2, speed: 0.09 },
+      { points: [[643, 846], [602, 830], [560, 812], [522, 795]], color: "rgba(252, 242, 226, 0.66)", phase: 0.59, speed: 0.11 },
     ];
     let width = 0;
     let height = 0;
@@ -629,6 +633,21 @@
       context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
     };
 
+    const cropPoint = ([sourceX, sourceY]) => {
+      const imageWidth = image.naturalWidth || 720;
+      const imageHeight = image.naturalHeight || 1280;
+      const scale = Math.max(width / imageWidth, height / imageHeight);
+      const renderedWidth = imageWidth * scale;
+      const renderedHeight = imageHeight * scale;
+      const [rawX = "50%", rawY = "50%"] = getComputedStyle(image).objectPosition.split(" ");
+      const positionX = Number.parseFloat(rawX) / 100 || 0.5;
+      const positionY = Number.parseFloat(rawY) / 100 || 0.5;
+      return [
+        sourceX * scale + (width - renderedWidth) * positionX,
+        sourceY * scale + (height - renderedHeight) * positionY,
+      ];
+    };
+
     const pointAt = (points, position) => {
       const segments = points.length - 1;
       const scaled = Math.min(position, 0.9999) * segments;
@@ -636,10 +655,10 @@
       const progress = scaled - index;
       const start = points[index];
       const end = points[index + 1];
-      return [
-        (start[0] + (end[0] - start[0]) * progress) * width,
-        (start[1] + (end[1] - start[1]) * progress) * height,
-      ];
+      return cropPoint([
+        start[0] + (end[0] - start[0]) * progress,
+        start[1] + (end[1] - start[1]) * progress,
+      ]);
     };
 
     const draw = (clock = 0) => {
@@ -652,7 +671,7 @@
       trafficRoutes.forEach((route, routeIndex) => {
         for (let vehicle = 0; vehicle < 3; vehicle += 1) {
           const head = (route.phase + vehicle * 0.31 + time * route.speed) % 1;
-          const tail = Math.max(0, head - 0.055 - vehicle * 0.006);
+          const tail = Math.max(0, head - 0.042 - vehicle * 0.005);
           const [tailX, tailY] = pointAt(route.points, tail);
           const [headX, headY] = pointAt(route.points, head);
           const gradient = context.createLinearGradient(tailX, tailY, headX, headY);
@@ -663,7 +682,7 @@
           context.moveTo(tailX, tailY);
           context.lineTo(headX, headY);
           context.strokeStyle = gradient;
-          context.lineWidth = routeIndex < 2 ? 1.8 : 1.1;
+          context.lineWidth = routeIndex < 2 ? 1.55 : 0.9;
           context.shadowColor = route.color;
           context.shadowBlur = routeIndex < 2 ? 12 : 7;
           context.stroke();

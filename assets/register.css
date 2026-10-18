@@ -1716,3 +1716,22 @@
   .hero-city .hero-description { max-width: 20rem; font-size: 0.84rem; line-height: 1.66; }
   .hero-city .hero-actions { gap: 1.1rem; }
 }
+
+/* Some iPhone in-app browsers expose a desktop-width CSS viewport while the
+   screen is portrait. Portrait is the reliable constraint for this hero. */
+@media (orientation: portrait) {
+  .hero.hero-city { min-height: max(44rem, calc(100svh - 68px)); justify-content: flex-end; }
+  .hero-city .hero-content {
+    width: 100%;
+    max-width: 28rem;
+    padding: clamp(6.2rem, 18svh, 10rem) 1.35rem 4.2rem;
+  }
+  .hero-city .hero-brand { margin-bottom: 1.35rem; font-size: clamp(2rem, 9vw, 2.85rem); }
+  .hero-city .hero-kicker { max-width: 18rem; font-size: 0.56rem; line-height: 1.55; }
+  .hero-city h1 { max-width: 100%; font-size: clamp(2.15rem, 8.5vw, 3rem); }
+  .hero-city .hero-description { max-width: 21rem; margin-top: 2rem; font-size: 0.9rem; line-height: 1.66; }
+  .hero-city .hero-actions { align-items: flex-start; flex-direction: column; gap: 1.1rem; margin-top: 2rem; }
+  .hero-city .hero-readout,
+  .hero-city .hero-coordinate { display: none; }
+  .hero-city .scroll-cue { left: 1.35rem; bottom: 1.5rem; font-size: 0.56rem; }
+}
