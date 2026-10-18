@@ -3,6 +3,20 @@
   if (!CML) return;
 
   const root = document.getElementById("root");
+  // Some in-app iPhone browsers retain a desktop layout viewport while the
+  // physical device is portrait. Screen/visualViewport tells us the device
+  // posture so the hero can still use its portrait composition.
+  const syncDevicePosture = () => {
+    const viewport = window.visualViewport;
+    const portrait =
+      (window.screen?.height > window.screen?.width) ||
+      Boolean(viewport && viewport.height > viewport.width);
+    document.documentElement.classList.toggle("portrait-device", portrait);
+  };
+  syncDevicePosture();
+  window.addEventListener("resize", syncDevicePosture, { passive: true });
+  window.addEventListener("orientationchange", syncDevicePosture, { passive: true });
+  window.visualViewport?.addEventListener("resize", syncDevicePosture, { passive: true });
   const ICON = {
     arrow: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg>',
     down: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M12 5v14"/><path d="m19 12-7 7-7-7"/></svg>',
@@ -81,9 +95,9 @@
           <img class="hero-city-image" src="/assets/hero-city-night.jpg" alt="" aria-hidden="true">
           <div class="hero-content">
             <div class="brand hero-brand"><span>${esc(CML.studio.name)}</span></div>
-            <p class="hero-kicker">Independent research studio / live index</p>
-            <h1 id="hero-title"><span>Off the map.</span><em>On purpose.</em></h1>
-            <p class="hero-description">Research, custom software, and practical systems for work that does not fit off the shelf.</p>
+            <p class="hero-kicker">Independent research studio / live register</p>
+            <h1 id="hero-title"><span>Hard problems.</span><em>Useful software.</em></h1>
+            <p class="hero-description">Research, custom software, and experimental infrastructure for work that does not fit off the shelf.</p>
             <div class="hero-actions">
               <a class="button button-primary" href="#solutions">Explore software solutions ${ICON.arrow}</a>
               <a class="text-link" href="#portfolio">Open the project atlas ${ICON.arrow}</a>
