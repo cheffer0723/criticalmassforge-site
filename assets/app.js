@@ -21,6 +21,12 @@
       "handheld-landscape",
       handheld && !portrait,
     );
+    const heroImage = root.querySelector(".hero-city-image");
+    if (heroImage) {
+      heroImage.src = portrait
+        ? heroImage.dataset.portraitSrc
+        : heroImage.dataset.landscapeSrc;
+    }
   };
   syncDevicePosture();
   window.addEventListener("resize", syncDevicePosture, { passive: true });
@@ -101,7 +107,7 @@
       </nav>
       <main id="main" tabindex="-1">
         <section class="hero hero-city" aria-labelledby="hero-title">
-          <img class="hero-city-image" src="/assets/hero-city-night.jpg" alt="" aria-hidden="true">
+          <img class="hero-city-image" src="/assets/hero-forge-wide.png" data-landscape-src="/assets/hero-forge-wide.png" data-portrait-src="/assets/hero-forge-portrait.png" alt="" aria-hidden="true">
           <div class="hero-content">
             <div class="brand hero-brand"><span>${esc(CML.studio.name)}</span></div>
             <p class="hero-kicker">Independent research studio / forge register</p>
@@ -413,6 +419,8 @@
       </footer>
     </div>
   `;
+
+  syncDevicePosture();
 
   const startTopologyEngine = () => {
     const hero = root.querySelector(".hero-topology");
