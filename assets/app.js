@@ -4,14 +4,23 @@
 
   const root = document.getElementById("root");
   // Some in-app iPhone browsers retain a desktop layout viewport while the
-  // physical device is portrait. Screen/visualViewport tells us the device
-  // posture so the hero can still use its portrait composition.
+  // physical device rotates. Use physical posture for the two phone-specific
+  // hero compositions instead of relying on CSS orientation alone.
   const syncDevicePosture = () => {
     const viewport = window.visualViewport;
     const portrait =
       (window.screen?.height > window.screen?.width) ||
       Boolean(viewport && viewport.height > viewport.width);
+    const shortestScreenSide = Math.min(
+      window.screen?.width || Infinity,
+      window.screen?.height || Infinity,
+    );
+    const handheld = shortestScreenSide <= 540;
     document.documentElement.classList.toggle("portrait-device", portrait);
+    document.documentElement.classList.toggle(
+      "handheld-landscape",
+      handheld && !portrait,
+    );
   };
   syncDevicePosture();
   window.addEventListener("resize", syncDevicePosture, { passive: true });
@@ -95,9 +104,9 @@
           <img class="hero-city-image" src="/assets/hero-city-night.jpg" alt="" aria-hidden="true">
           <div class="hero-content">
             <div class="brand hero-brand"><span>${esc(CML.studio.name)}</span></div>
-            <p class="hero-kicker">Independent research studio / live register</p>
-            <h1 id="hero-title"><span>Hard problems.</span><em>Useful software.</em></h1>
-            <p class="hero-description">Research, custom software, and experimental infrastructure for work that does not fit off the shelf.</p>
+            <p class="hero-kicker">Independent research studio / forge register</p>
+            <h1 id="hero-title"><span>Built under</span><em>pressure.</em></h1>
+            <p class="hero-description">Custom software, research, and experimental infrastructure for systems that need to hold.</p>
             <div class="hero-actions">
               <a class="button button-primary" href="#solutions">Explore software solutions ${ICON.arrow}</a>
               <a class="text-link" href="#portfolio">Open the project atlas ${ICON.arrow}</a>

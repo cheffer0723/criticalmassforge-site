@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:ital,wght@0,400;0,500;1,400&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,500;0,600;1,500&family=IBM+Plex+Serif:ital,wght@0,400;0,500;1,400&display=swap");
 
 /* Public register: atlas-only index, studio merge, correspondence, privacy. */
 
@@ -1738,9 +1738,8 @@
 }
 
 /*
-  Hero typography: keep the photograph as the dramatic element. The type reads as
-  an editorial register rather than a decorative "future UI": one neutral sans
-  headline, a compact mono label, and a single restrained violet line.
+  Hero typography: keep the photograph as the dramatic element. The heading is
+  deliberately condensed and physical rather than a generic "future UI" face.
 */
 .hero-city .hero-content {
   width: min(52rem, 60%);
@@ -1778,12 +1777,12 @@
   max-width: none;
   margin: 0;
   color: #f2eefc;
-  font-family: "IBM Plex Serif", Georgia, serif;
-  font-size: clamp(3.35rem, 5.35vw, 6.4rem);
+  font-family: "Barlow Condensed", "Arial Narrow", sans-serif;
+  font-size: clamp(4.25rem, 7.1vw, 8rem);
   font-style: normal;
-  font-weight: 400;
-  letter-spacing: -0.06em;
-  line-height: 0.9;
+  font-weight: 600;
+  letter-spacing: -0.045em;
+  line-height: 0.84;
   text-shadow: 0 0.7rem 2rem rgba(0, 0, 0, 0.72);
   text-transform: none;
 }
@@ -1794,13 +1793,13 @@
 }
 
 .hero-city h1 em {
-  padding-left: 0.48ch;
-  color: #d8cbfb;
+  padding-left: 0.1ch;
+  color: #d5c5fb;
   font-family: inherit;
-  font-size: 1em;
+  font-size: 0.96em;
   font-style: italic;
-  font-weight: 400;
-  letter-spacing: -0.065em;
+  font-weight: 500;
+  letter-spacing: -0.04em;
   line-height: inherit;
   text-transform: none;
 }
@@ -1830,15 +1829,15 @@
 
 @media (max-width: 900px) {
   .hero-city .hero-content { width: min(67%, 42rem); }
-  .hero-city h1 { font-size: clamp(3.1rem, 6.4vw, 4.8rem); }
+  .hero-city h1 { font-size: clamp(3.4rem, 7vw, 5.4rem); }
 }
 
 @media (max-width: 640px) {
   .hero-city .hero-content { width: 100%; }
   .hero-city .hero-brand { margin-bottom: 1rem; font-size: 0.6rem; }
   .hero-city .hero-kicker { margin-bottom: 1.35rem; font-size: 0.53rem; }
-  .hero-city h1 { font-size: clamp(2.65rem, 11.5vw, 3.2rem); line-height: 0.92; }
-  .hero-city h1 em { padding-left: 0.48ch; }
+  .hero-city h1 { font-size: clamp(3rem, 12.5vw, 3.8rem); line-height: 0.84; }
+  .hero-city h1 em { padding-left: 0.1ch; }
   .hero-city .hero-description { margin-top: 1.85rem; font-size: 0.79rem; }
   .hero-city .hero-actions { margin-top: 2rem; }
 }
@@ -1847,8 +1846,8 @@
   .hero-city .hero-content { width: 100%; }
   .hero-city .hero-brand { margin-bottom: 1rem; font-size: 0.6rem; }
   .hero-city .hero-kicker { margin-bottom: 1.35rem; font-size: 0.53rem; }
-  .hero-city h1 { font-size: clamp(2.7rem, 11.2vw, 3.3rem); line-height: 0.92; }
-  .hero-city h1 em { padding-left: 0.48ch; }
+  .hero-city h1 { font-size: clamp(3rem, 12.2vw, 3.9rem); line-height: 0.84; }
+  .hero-city h1 em { padding-left: 0.1ch; }
   .hero-city .hero-description { margin-top: 1.85rem; font-size: 0.82rem; }
   .hero-city .hero-actions { margin-top: 2rem; }
 }
@@ -1876,11 +1875,11 @@ html.portrait-device .hero-city .hero-kicker {
 }
 
 html.portrait-device .hero-city h1 {
-  font-size: clamp(2.7rem, 11.2vw, 3.3rem);
-  line-height: 0.92;
+  font-size: clamp(3rem, 12.2vw, 3.9rem);
+  line-height: 0.84;
 }
 
-html.portrait-device .hero-city h1 em { padding-left: 0.48ch; }
+html.portrait-device .hero-city h1 em { padding-left: 0.1ch; }
 
 html.portrait-device .hero-city .hero-description {
   margin-top: 1.85rem;
@@ -1893,16 +1892,49 @@ html.portrait-device .hero-city .hero-coordinate { display: none; }
 html.portrait-device .hero-city .scroll-cue { left: 1.35rem; bottom: 1.5rem; font-size: 0.56rem; }
 
 @media (max-height: 540px) and (orientation: landscape) {
-  .hero.hero-city { min-height: calc(100svh - 68px); }
+  .hero.hero-city { min-height: calc(100svh - 68px); align-items: center; }
   .hero-city .hero-content {
-    width: min(70%, 56rem);
-    padding-top: 3.1rem;
-    padding-bottom: 3rem;
+    width: min(63%, 38rem);
+    padding-top: 1.35rem;
+    padding-bottom: 1.35rem;
   }
-  .hero-city .hero-brand { margin-bottom: 0.75rem; }
-  .hero-city .hero-kicker { margin-bottom: 1rem; }
-  .hero-city h1 { font-size: clamp(2.8rem, 10vh, 4.2rem); }
-  .hero-city .hero-description { margin-top: 1.3rem; }
-  .hero-city .hero-actions { margin-top: 1.45rem; }
+  .hero-city .hero-brand { margin-bottom: 0.45rem; }
+  .hero-city .hero-kicker { margin-bottom: 0.6rem; }
+  .hero-city h1 { font-size: clamp(2.3rem, 8.7vh, 3.1rem); line-height: 0.84; }
+  .hero-city .hero-description { max-width: 28rem; margin-top: 0.8rem; font-size: 0.69rem; line-height: 1.45; }
+  .hero-city .hero-actions { gap: 0.9rem; margin-top: 0.95rem; }
+  .hero-city .button { min-height: 2.55rem; padding: 0.65rem 0.9rem; }
   .hero-city .scroll-cue { display: none; }
 }
+
+/* Physical fallback for a phone in landscape where CSS orientation or width
+   does not match the device screen. Keep the whole decision stack in view. */
+html.handheld-landscape .hero.hero-city {
+  min-height: calc(100svh - 68px);
+  align-items: center;
+}
+
+html.handheld-landscape .hero-city-image {
+  object-position: 52% 44%;
+}
+
+html.handheld-landscape .hero-city::before {
+  background:
+    linear-gradient(90deg, rgba(3, 4, 10, 0.9) 0%, rgba(3, 4, 10, 0.68) 43%, rgba(3, 4, 10, 0.16) 80%, rgba(3, 4, 10, 0.08) 100%),
+    linear-gradient(0deg, rgba(2, 3, 8, 0.66) 0%, rgba(2, 3, 8, 0.1) 55%, rgba(2, 3, 8, 0.08) 100%);
+}
+
+html.handheld-landscape .hero-city .hero-content {
+  align-self: center;
+  width: min(63%, 38rem);
+  max-width: none;
+  padding: 1.35rem clamp(1.25rem, 8vw, 4rem);
+}
+
+html.handheld-landscape .hero-city .hero-brand { margin-bottom: 0.45rem; font-size: 0.55rem; }
+html.handheld-landscape .hero-city .hero-kicker { margin-bottom: 0.6rem; font-size: 0.48rem; }
+html.handheld-landscape .hero-city h1 { font-size: clamp(2.3rem, 8.7vh, 3.1rem); line-height: 0.84; }
+html.handheld-landscape .hero-city .hero-description { max-width: 28rem; margin-top: 0.8rem; font-size: 0.69rem; line-height: 1.45; }
+html.handheld-landscape .hero-city .hero-actions { gap: 0.9rem; margin-top: 0.95rem; }
+html.handheld-landscape .hero-city .button { min-height: 2.55rem; padding: 0.65rem 0.9rem; }
+html.handheld-landscape .hero-city .scroll-cue { display: none; }
