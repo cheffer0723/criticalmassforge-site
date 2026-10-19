@@ -26,10 +26,12 @@
       .intro p:last-child { max-width:32rem; margin:1.45rem 0 0; color:var(--muted); font-size:clamp(.7rem,.9vw,.86rem); line-height:1.7; }
       .orbit-shell { position:absolute; z-index:1; right:clamp(1.15rem,3vw,2.6rem); bottom:clamp(-4.5rem,-4vh,-1.5rem); width:min(62vw,56rem); aspect-ratio:1.65/1; touch-action:none; user-select:none; cursor:grab; }
       .orbit-shell.is-dragging { cursor:grabbing; }
-      .orbit { position:absolute; inset:0; border:1px solid rgba(255,255,255,.28); border-radius:50%; transform:rotate(-9deg); box-shadow:inset 0 0 7rem rgba(0,0,0,.72); }
+      .orbit-shell::before { position:absolute; z-index:0; inset:5% 3%; content:""; border-radius:50%; background:radial-gradient(ellipse 34% 25% at var(--light-x,62%) var(--light-y,62%),rgba(248,245,227,.22),rgba(245,241,218,.07) 32%,transparent 74%); filter:blur(1.35rem); opacity:.72; pointer-events:none; transition:background .32s ease-out; }
+      .orbit-shell::after { position:absolute; z-index:0; inset:0; content:""; border-radius:50%; background:linear-gradient(112deg,transparent 39%,rgba(255,253,239,.08) 49%,transparent 58%); mix-blend-mode:screen; opacity:.55; pointer-events:none; transform:rotate(-9deg); }
+      .orbit { position:absolute; z-index:1; inset:0; border:1px solid rgba(255,255,255,.32); border-radius:50%; transform:rotate(-9deg); box-shadow:0 .25rem 1.5rem rgba(245,242,221,.08),inset 0 0 7rem rgba(0,0,0,.72),inset 0 -.8rem 1.8rem rgba(255,251,225,.05); animation:rim-heat 8.5s ease-in-out infinite; }
       .orbit::before,.orbit::after { position:absolute; inset:9% 11%; content:""; border:1px solid rgba(255,255,255,.1); border-radius:50%; }
       .orbit::after { inset:21% 23%; border-color:rgba(255,255,255,.07); }
-      .axis { position:absolute; top:50%; left:4%; width:92%; height:1px; background:linear-gradient(90deg,transparent,rgba(255,255,255,.38),transparent); transform:rotate(-9deg); }
+      .axis { position:absolute; z-index:1; top:50%; left:4%; width:92%; height:1px; background:linear-gradient(90deg,transparent,rgba(255,255,255,.38),transparent); transform:rotate(-9deg); }
       .card { position:absolute; display:flex; flex-direction:column; justify-content:space-between; width:clamp(10.3rem,15vw,15rem); min-height:clamp(6.6rem,10vw,9.2rem); padding:1rem 1.1rem; border:1px solid var(--line); background:linear-gradient(145deg,rgba(28,28,29,.92),rgba(4,4,4,.88)); box-shadow:0 1rem 2.8rem rgba(0,0,0,.38); color:var(--steel); text-decoration:none; transform:translate(-50%,-50%) scale(var(--scale,1)); opacity:var(--opacity,1); transition:transform .22s ease, border-color .22s ease, background .22s ease, opacity .22s ease; will-change:left,top,transform; }
       .card:hover,.card:focus-visible,.card.is-selected { z-index:10; border-color:#fff; background:linear-gradient(145deg,rgba(44,44,45,.98),rgba(8,8,8,.95)); outline:none; }
       .card::before { position:absolute; top:0; left:1rem; width:1.15rem; height:1px; content:""; background:var(--steel); opacity:.22; transform-origin:left center; animation:card-signal 4.6s cubic-bezier(.42,0,.22,1) infinite; }
@@ -82,9 +84,10 @@
         .status small { font-size:.46rem; }
         .status strong { font-size:1.45rem; }
       }
+      @keyframes rim-heat { 0%,100% { border-color:rgba(255,255,255,.22); box-shadow:0 .15rem .95rem rgba(245,242,221,.04),inset 0 0 7rem rgba(0,0,0,.72),inset 0 -.8rem 1.8rem rgba(255,251,225,.025); } 50% { border-color:rgba(255,255,255,.4); box-shadow:0 .35rem 1.9rem rgba(245,242,221,.13),inset 0 0 7rem rgba(0,0,0,.68),inset 0 -.8rem 1.8rem rgba(255,251,225,.1); } }
       @keyframes card-signal { 0%,12%,100% { opacity:.2; transform:scaleX(.6); } 4% { opacity:.8; transform:scaleX(1.65); } 8% { opacity:.38; transform:scaleX(.9); } }
       @keyframes card-beacon { 0%,12%,100% { opacity:.28; transform:scale(1); } 4% { opacity:.9; transform:scale(1.7); } 8% { opacity:.36; transform:scale(1.08); } }
-      @media (prefers-reduced-motion:reduce) { .card { transition:none; } .card::before,.card::after { animation:none; } }
+      @media (prefers-reduced-motion:reduce) { .card { transition:none; } .card::before,.card::after,.orbit { animation:none; } .orbit-shell::before { transition:none; } }
     </style>
   </head>
   <body>
@@ -120,7 +123,9 @@
       let rotation = 1.35, startX = 0, startRotation = 0, dragging = false, moved = false;
       const render = () => {
         const box = orbit.getBoundingClientRect();
-          const radiusX = box.width * .35, radiusY = box.height * .27;
+        const radiusX = box.width * .35, radiusY = box.height * .27;
+        orbit.style.setProperty('--light-x', `${(57 + Math.cos(rotation - .55) * 14).toFixed(2)}%`);
+        orbit.style.setProperty('--light-y', `${(57 + Math.sin(rotation - .55) * 10).toFixed(2)}%`);
         cards.forEach((card, index) => {
           const angle = rotation + (index / cards.length) * Math.PI * 2;
           const depth = (Math.sin(angle) + 1) / 2;
