@@ -32,7 +32,7 @@
       .orbit::before,.orbit::after { position:absolute; inset:9% 11%; content:""; border:1px solid rgba(255,255,255,.1); border-radius:50%; }
       .orbit::after { inset:21% 23%; border-color:rgba(255,255,255,.07); }
       .axis { position:absolute; z-index:1; top:50%; left:4%; width:92%; height:1px; background:linear-gradient(90deg,transparent,rgba(255,255,255,.38),transparent); transform:rotate(-9deg); }
-      .card { position:absolute; display:flex; flex-direction:column; justify-content:space-between; width:clamp(10.3rem,15vw,15rem); min-height:clamp(6.6rem,10vw,9.2rem); padding:1rem 1.1rem; border:1px solid var(--line); background:linear-gradient(145deg,rgba(28,28,29,.92),rgba(4,4,4,.88)); box-shadow:0 1rem 2.8rem rgba(0,0,0,.38); color:var(--steel); text-decoration:none; transform:translate(-50%,-50%) scale(var(--scale,1)); opacity:var(--opacity,1); transition:transform .22s ease, border-color .22s ease, background .22s ease, opacity .22s ease; will-change:left,top,transform; }
+      .card { position:absolute; display:flex; flex-direction:column; justify-content:space-between; width:clamp(10.3rem,15vw,15rem); min-height:clamp(6.6rem,10vw,9.2rem); padding:1rem 1.1rem; border:1px solid var(--line); border-radius:.78rem; background:linear-gradient(145deg,rgba(28,28,29,.92),rgba(4,4,4,.88)); box-shadow:0 1rem 2.8rem rgba(0,0,0,.38); color:var(--steel); text-decoration:none; transform:translate(-50%,-50%) scale(var(--scale,1)); opacity:var(--opacity,1); transition:transform .22s ease, border-color .22s ease, background .22s ease, opacity .22s ease; will-change:left,top,transform; }
       .card:hover,.card:focus-visible,.card.is-selected { z-index:10; border-color:#fff; background:linear-gradient(145deg,rgba(44,44,45,.98),rgba(8,8,8,.95)); outline:none; }
       .card::before { position:absolute; top:0; left:1rem; width:1.15rem; height:1px; content:""; background:var(--steel); opacity:.22; transform-origin:left center; animation:card-signal 4.6s cubic-bezier(.42,0,.22,1) infinite; }
       .card::after { position:absolute; right:.85rem; bottom:.8rem; width:.28rem; height:.28rem; content:""; border:1px solid var(--steel); border-radius:50%; opacity:.34; animation:card-beacon 4.6s ease-in-out infinite; }
@@ -52,6 +52,18 @@
       .status small { color:var(--muted); font-size:.54rem; letter-spacing:.14em; text-transform:uppercase; }
       .status strong { font:500 clamp(1.55rem,2.7vw,2.7rem)/.9 var(--display); letter-spacing:-.025em; }
       .status p { margin:0; color:var(--muted); font-size:.59rem; line-height:1.55; }
+      .focus-action { display:inline-flex; width:max-content; min-height:2.5rem; align-items:center; gap:.55rem; margin-top:.45rem; padding:.55rem .7rem; border:1px solid rgba(255,255,255,.52); background:rgba(255,255,255,.03); color:var(--steel); cursor:pointer; font:500 .54rem var(--mono); letter-spacing:.13em; text-transform:uppercase; pointer-events:auto; transition:background .18s ease,border-color .18s ease,transform .18s ease; }
+      .focus-action:hover,.focus-action:focus-visible { border-color:#fff; background:rgba(255,255,255,.12); outline:none; transform:translateY(-1px); }
+      .cycle-controls { display:flex; gap:.45rem; margin-top:.35rem; pointer-events:auto; }
+      .cycle-controls button { padding:0; border:0; background:none; color:var(--muted); cursor:pointer; font:500 .5rem var(--mono); letter-spacing:.1em; text-transform:uppercase; }
+      .cycle-controls button:hover,.cycle-controls button:focus-visible { color:var(--steel); outline:none; }
+      .project-note { width:min(30rem,calc(100vw - 2rem)); padding:clamp(1.4rem,4vw,2.5rem); border:1px solid rgba(255,255,255,.38); background:linear-gradient(135deg,rgba(35,35,35,.96),rgba(8,8,8,.98)); box-shadow:0 2rem 6rem rgba(0,0,0,.72); color:var(--steel); }
+      .project-note::backdrop { background:rgba(0,0,0,.72); backdrop-filter:blur(.35rem); }
+      .project-note small { color:var(--muted); font:.55rem var(--mono); letter-spacing:.14em; text-transform:uppercase; }
+      .project-note h2 { margin:.8rem 0; font:500 clamp(2.5rem,8vw,4rem)/.9 var(--display); letter-spacing:-.02em; }
+      .project-note p { max-width:31rem; margin:0; color:var(--muted); font:.78rem/1.7 var(--mono); }
+      .project-note form { margin-top:1.7rem; }
+      .project-note button { min-height:2.5rem; padding:0 .8rem; border:1px solid var(--line); background:transparent; color:var(--steel); cursor:pointer; font:.56rem var(--mono); letter-spacing:.12em; text-transform:uppercase; }
       .hint { position:relative; z-index:1; margin:0; color:var(--muted); font-size:.56rem; letter-spacing:.12em; text-transform:uppercase; }
       .hint b { color:var(--steel); font-weight:400; }
       @media (max-width:760px) {
@@ -68,7 +80,8 @@
         .card span { font-size:.48rem; }
         .status { right:1.15rem; bottom:2rem; left:auto; width:12rem; }
         .status strong { font-size:1.8rem; }
-        .status p { display:none; }
+        .status p,.cycle-controls { display:none; }
+        .focus-action { min-height:2.25rem; margin-top:.2rem; font-size:.48rem; }
         .hint { display:none; }
       }
       @media (max-height:540px) and (min-aspect-ratio:1/1) {
@@ -99,27 +112,35 @@
       <section class="intro" aria-labelledby="orbit-title">
         <p class="eyebrow">Independent research studio</p>
         <h1 id="orbit-title">A field of <em>working systems.</em></h1>
-        <p>Research, custom software, and mobile experiments. Each object in the field opens into its own project page.</p>
+        <p>Research, custom software, and mobile experiments. Choose a project to see its clearest next step.</p>
       </section>
       <div class="orbit-shell" id="orbit" aria-label="Interactive project orbit">
         <div class="orbit" aria-hidden="true"></div><div class="axis" aria-hidden="true"></div>
-        <a class="card is-selected" href="#dead-drop" data-title="Dead Drop" data-body="Native iOS beta for private coordination."><small>01 / mobile beta</small><strong>Dead Drop</strong><span>Private coordination</span></a>
-        <a class="card" href="#obsidian-abyss" data-title="Obsidian Abyss" data-body="A live research and systems program."><small>02 / program</small><strong>Obsidian Abyss</strong><span>Research systems</span></a>
-        <a class="card" href="#nexus-grid-desk" data-title="Nexus Grid Desk" data-body="A listed tool for system orientation."><small>03 / listed</small><strong>Nexus Grid Desk</strong><span>System orientation</span></a>
-        <a class="card" href="#minos-shield" data-title="Minos Shield" data-body="Decision-path research for constrained systems."><small>04 / beta</small><strong>Minos Shield</strong><span>Decision research</span></a>
-        <a class="card" href="#the-hexagon" data-title="The Hexagon" data-body="A six-perspective mobile review system."><small>05 / mobile beta</small><strong>The Hexagon</strong><span>Review system</span></a>
+        <a class="card is-selected" href="#dead-drop" data-title="Dead Drop" data-body="Native iOS beta for private coordination." data-action="Join iOS beta" data-url="https://testflight.apple.com/join/KZcgDpPF"><small>01 / mobile beta</small><strong>Dead Drop</strong><span>Private coordination</span></a>
+        <a class="card" href="#obsidian-abyss" data-title="Obsidian Abyss" data-body="A live research and systems program." data-action="Visit project site" data-url="https://obsidianabyss.com/"><small>02 / program</small><strong>Obsidian Abyss</strong><span>Research systems</span></a>
+        <a class="card" href="#nexus-grid-desk" data-title="Nexus Grid Desk" data-body="A listed tool for system orientation." data-action="Open Railway template" data-url="https://railway.com/deploy/nexus-grid-desk"><small>03 / listed</small><strong>Nexus Grid Desk</strong><span>System orientation</span></a>
+        <a class="card" href="#minos-shield" data-title="Minos Shield" data-body="Decision-path research for constrained systems." data-action="Read field note"><small>04 / beta</small><strong>Minos Shield</strong><span>Decision research</span></a>
+        <a class="card" href="#the-hexagon" data-title="The Hexagon" data-body="A six-perspective mobile review system." data-action="Join iOS beta" data-url="https://testflight.apple.com/join/G59bJtwQ"><small>05 / mobile beta</small><strong>The Hexagon</strong><span>Review system</span></a>
         <a class="card" href="#asymmetry-city" data-title="Asymmetry City" data-body="A repository-derived city view for orientation without publishing source contents."><small>06 / public experiment</small><strong>Asymmetry City</strong><span>Repository navigation</span></a>
         <a class="card" href="#the-repository" data-title="The Repository" data-body="A playable browser project exploring systems, attention, and the human inside the interface."><small>07 / playable build</small><strong>The Repository</strong><span>Interactive fiction</span></a>
         <a class="card" href="#hold-zero" data-title="Hold Zero" data-body="A bounded public research register for privacy-protocol work and test artifacts."><small>08 / research register</small><strong>Hold Zero</strong><span>Protocol research</span></a>
       </div>
-      <aside class="status" aria-live="polite"><small>Selected project / opens a dedicated page</small><strong id="selected-title">Dead Drop</strong><p id="selected-body">Native iOS beta for private coordination.</p></aside>
-      <p class="hint"><b>Click</b> a project to select it &nbsp; / &nbsp; <b>drag</b> anywhere on the field to rotate</p>
+      <aside class="status" aria-live="polite"><small id="selected-label">Selected project / next step</small><strong id="selected-title">Dead Drop</strong><p id="selected-body">Native iOS beta for private coordination.</p><button class="focus-action" id="selected-action" type="button">Join iOS beta ↗</button><div class="cycle-controls"><button id="previous-project" type="button">← previous</button><button id="next-project" type="button">next →</button></div></aside>
+      <p class="hint"><b>Select</b> a project &nbsp; / &nbsp; <b>drag</b> the field or use ← → to explore</p>
     </main>
+    <dialog class="project-note" id="project-note" aria-labelledby="note-title"><small>Project field / current note</small><h2 id="note-title"></h2><p id="note-body"></p><form method="dialog"><button type="submit">Return to field</button></form></dialog>
     <script>
       const orbit = document.querySelector('#orbit');
       const cards = [...document.querySelectorAll('.card')];
       const selectedTitle = document.querySelector('#selected-title');
       const selectedBody = document.querySelector('#selected-body');
+      const selectedAction = document.querySelector('#selected-action');
+      const previousProject = document.querySelector('#previous-project');
+      const nextProject = document.querySelector('#next-project');
+      const projectNote = document.querySelector('#project-note');
+      const noteTitle = document.querySelector('#note-title');
+      const noteBody = document.querySelector('#note-body');
+      let selectedIndex = 0;
       let rotation = 1.35, startX = 0, startRotation = 0, dragging = false, moved = false;
       const render = () => {
         const box = orbit.getBoundingClientRect();
@@ -138,9 +159,30 @@
       };
       const select = card => {
         cards.forEach(item => item.classList.toggle('is-selected', item === card));
+        selectedIndex = cards.indexOf(card);
         selectedTitle.textContent = card.dataset.title;
         selectedBody.textContent = card.dataset.body;
+        selectedAction.textContent = `${card.dataset.action} ${card.dataset.url ? '↗' : '→'}`;
+        selectedAction.dataset.url = card.dataset.url || '';
       };
+      const cycleProject = direction => {
+        selectedIndex = (selectedIndex + direction + cards.length) % cards.length;
+        rotation = Math.PI / 2 - (selectedIndex / cards.length) * Math.PI * 2;
+        render();
+        select(cards[selectedIndex]);
+      };
+      selectedAction.addEventListener('click', () => {
+        const selected = cards[selectedIndex];
+        if (selected.dataset.url) {
+          window.open(selected.dataset.url, '_blank', 'noopener');
+          return;
+        }
+        noteTitle.textContent = selected.dataset.title;
+        noteBody.textContent = `${selected.dataset.body} A public destination is not presented here until there is a useful one to show.`;
+        projectNote.showModal();
+      });
+      previousProject.addEventListener('click', () => cycleProject(-1));
+      nextProject.addEventListener('click', () => cycleProject(1));
       orbit.addEventListener('pointerdown', event => {
         startX = event.clientX; startRotation = rotation; dragging = true; moved = false;
         orbit.classList.add('is-dragging'); orbit.setPointerCapture(event.pointerId);
@@ -159,6 +201,11 @@
         event.preventDefault();
         if (!moved) select(card);
       }));
+      addEventListener('keydown', event => {
+        if (projectNote.open) return;
+        if (event.key === 'ArrowLeft') { event.preventDefault(); cycleProject(-1); }
+        if (event.key === 'ArrowRight') { event.preventDefault(); cycleProject(1); }
+      });
       addEventListener('resize', render, { passive:true });
       render();
     </script>
