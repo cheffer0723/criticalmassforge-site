@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Critical Mass Labs — Orbit concept</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,500;0,600;1,500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+      :root { color-scheme: dark; --ink:#070707; --steel:#e9e8e3; --muted:#a8a7a1; --line:rgba(255,255,255,.22); --panel:rgba(11,11,12,.72); --mono:"IBM Plex Mono",monospace; --display:"Barlow Condensed","Arial Narrow",sans-serif; }
+      * { box-sizing:border-box; }
+      body { margin:0; min-width:320px; overflow:hidden; background:var(--ink); color:var(--steel); font-family:var(--mono); }
+      .stage { position:relative; isolation:isolate; min-height:100svh; overflow:hidden; display:grid; grid-template-rows:auto 1fr auto; padding:clamp(1.15rem,3vw,2.6rem); }
+      .stage::before { position:absolute; z-index:-3; inset:0; content:""; background:url("../assets/hero-forge-wide.png") 58% center/cover no-repeat; filter:grayscale(1) contrast(1.1) brightness(.42); }
+      .stage::after { position:absolute; z-index:-2; inset:0; content:""; background:radial-gradient(ellipse 70% 72% at 52% 52%,rgba(0,0,0,.16),rgba(0,0,0,.9) 100%),linear-gradient(90deg,rgba(0,0,0,.8),transparent 48%,rgba(0,0,0,.45)); pointer-events:none; }
+      .topline { position:relative; z-index:1; display:flex; align-items:center; justify-content:space-between; gap:1rem; padding-bottom:1.2rem; border-bottom:1px solid var(--line); }
+      .brand { margin:0; color:var(--steel); font:500 clamp(.7rem,1vw,.86rem)/1 var(--mono); letter-spacing:.15em; text-transform:uppercase; }
+      .brand i { color:var(--muted); font-style:normal; }
+      .index { margin:0; color:var(--muted); font-size:.62rem; letter-spacing:.14em; text-transform:uppercase; }
+      .intro { position:relative; z-index:1; align-self:start; max-width:34rem; padding-top:clamp(1.6rem,4vh,4rem); pointer-events:none; }
+      .eyebrow { display:flex; align-items:center; gap:.75rem; margin:0 0 .95rem; color:var(--muted); font-size:.58rem; letter-spacing:.15em; text-transform:uppercase; }
+      .eyebrow::before { width:2.8rem; height:1px; content:""; background:currentColor; }
+      h1 { max-width:10ch; margin:0; font:500 clamp(3.6rem,7vw,7.5rem)/.84 var(--display); letter-spacing:-.035em; }
+      h1 em { color:#bdbcb7; font-weight:500; }
+      .intro p:last-child { max-width:32rem; margin:1.45rem 0 0; color:var(--muted); font-size:clamp(.7rem,.9vw,.86rem); line-height:1.7; }
+      .orbit-shell { position:absolute; z-index:1; right:clamp(1.15rem,3vw,2.6rem); bottom:clamp(-4.5rem,-4vh,-1.5rem); width:min(62vw,56rem); aspect-ratio:1.65/1; touch-action:none; user-select:none; cursor:grab; }
+      .orbit-shell.is-dragging { cursor:grabbing; }
+      .orbit { position:absolute; inset:0; border:1px solid rgba(255,255,255,.28); border-radius:50%; transform:rotate(-9deg); box-shadow:inset 0 0 7rem rgba(0,0,0,.72); }
+      .orbit::before,.orbit::after { position:absolute; inset:9% 11%; content:""; border:1px solid rgba(255,255,255,.1); border-radius:50%; }
+      .orbit::after { inset:21% 23%; border-color:rgba(255,255,255,.07); }
+      .axis { position:absolute; top:50%; left:4%; width:92%; height:1px; background:linear-gradient(90deg,transparent,rgba(255,255,255,.38),transparent); transform:rotate(-9deg); }
+      .card { position:absolute; display:flex; flex-direction:column; justify-content:space-between; width:clamp(10.3rem,15vw,15rem); min-height:clamp(6.6rem,10vw,9.2rem); padding:1rem 1.1rem; border:1px solid var(--line); background:linear-gradient(145deg,rgba(28,28,29,.92),rgba(4,4,4,.88)); box-shadow:0 1rem 2.8rem rgba(0,0,0,.38); color:var(--steel); text-decoration:none; transform:translate(-50%,-50%) scale(var(--scale,1)); opacity:var(--opacity,1); transition:transform .22s ease, border-color .22s ease, background .22s ease, opacity .22s ease; will-change:left,top,transform; }
+      .card:hover,.card:focus-visible,.card.is-selected { z-index:10; border-color:#fff; background:linear-gradient(145deg,rgba(44,44,45,.98),rgba(8,8,8,.95)); outline:none; }
+      .card small { color:var(--muted); font-size:.54rem; letter-spacing:.12em; text-transform:uppercase; }
+      .card strong { margin-top:.55rem; font:500 clamp(1.55rem,2.2vw,2.45rem)/.9 var(--display); letter-spacing:-.01em; }
+      .card span { margin-top:.55rem; color:#c4c3be; font-size:.57rem; line-height:1.45; }
+      .status { position:absolute; z-index:2; left:clamp(1.15rem,3vw,2.6rem); bottom:clamp(4rem,8vh,6rem); display:grid; gap:.35rem; width:min(18rem,32vw); padding:1rem 0 0; border-top:1px solid var(--line); pointer-events:none; }
+      .status small { color:var(--muted); font-size:.54rem; letter-spacing:.14em; text-transform:uppercase; }
+      .status strong { font:500 clamp(1.55rem,2.7vw,2.7rem)/.9 var(--display); letter-spacing:-.025em; }
+      .status p { margin:0; color:var(--muted); font-size:.59rem; line-height:1.55; }
+      .hint { position:relative; z-index:1; margin:0; color:var(--muted); font-size:.56rem; letter-spacing:.12em; text-transform:uppercase; }
+      .hint b { color:var(--steel); font-weight:400; }
+      @media (max-width:760px) {
+        .stage { min-height:100svh; padding:1.15rem; }
+        .topline { padding-bottom:.9rem; }
+        .brand { font-size:.58rem; }
+        .index { font-size:.5rem; }
+        .intro { padding-top:1.65rem; }
+        h1 { max-width:9.5ch; font-size:clamp(3.4rem,15vw,5.2rem); }
+        .intro p:last-child { max-width:20rem; margin-top:1rem; font-size:.65rem; }
+        .orbit-shell { right:-13rem; bottom:7rem; width:48rem; aspect-ratio:1.5/1; }
+        .card { width:9.6rem; min-height:6.15rem; padding:.8rem; }
+        .card strong { font-size:1.55rem; }
+        .card span { font-size:.48rem; }
+        .status { right:1.15rem; bottom:2rem; left:auto; width:12rem; }
+        .status strong { font-size:1.8rem; }
+        .status p { display:none; }
+        .hint { display:none; }
+      }
+      @media (max-height:540px) and (min-aspect-ratio:1/1) {
+        .stage { padding:1rem 1.35rem; }
+        .intro { max-width:24rem; padding-top:1rem; }
+        h1 { font-size:clamp(2.7rem,7vw,4rem); }
+        .intro p:last-child { max-width:24rem; margin-top:.65rem; font-size:.57rem; }
+        .orbit-shell { right:-2.5rem; bottom:4rem; width:min(62vw,39rem); aspect-ratio:1.8/1; }
+        .card { width:8.7rem; min-height:5.7rem; padding:.7rem; }
+        .card strong { font-size:1.35rem; }
+        .card span { display:none; }
+        .status { display:none; }
+        .status small { font-size:.46rem; }
+        .status strong { font-size:1.45rem; }
+      }
+      @media (prefers-reduced-motion:reduce) { .card { transition:none; } }
+    </style>
+  </head>
+  <body>
+    <main class="stage">
+      <header class="topline">
+        <p class="brand">Critical Mass Labs <i>/ project field</i></p>
+        <p class="index">01—05 / drag to explore</p>
+      </header>
+      <section class="intro" aria-labelledby="orbit-title">
+        <p class="eyebrow">Independent research studio</p>
+        <h1 id="orbit-title">A field of <em>working systems.</em></h1>
+        <p>Research, custom software, and mobile experiments. Each object in the field opens into its own project page.</p>
+      </section>
+      <div class="orbit-shell" id="orbit" aria-label="Interactive project orbit">
+        <div class="orbit" aria-hidden="true"></div><div class="axis" aria-hidden="true"></div>
+        <a class="card is-selected" href="#dead-drop" data-title="Dead Drop" data-body="Native iOS beta for private coordination."><small>01 / mobile beta</small><strong>Dead Drop</strong><span>Private coordination</span></a>
+        <a class="card" href="#obsidian-abyss" data-title="Obsidian Abyss" data-body="A live research and systems program."><small>02 / program</small><strong>Obsidian Abyss</strong><span>Research systems</span></a>
+        <a class="card" href="#nexus-grid-desk" data-title="Nexus Grid Desk" data-body="A listed tool for system orientation."><small>03 / listed</small><strong>Nexus Grid Desk</strong><span>System orientation</span></a>
+        <a class="card" href="#minos-shield" data-title="Minos Shield" data-body="Decision-path research for constrained systems."><small>04 / beta</small><strong>Minos Shield</strong><span>Decision research</span></a>
+        <a class="card" href="#the-hexagon" data-title="The Hexagon" data-body="A six-perspective mobile review system."><small>05 / mobile beta</small><strong>The Hexagon</strong><span>Review system</span></a>
+      </div>
+      <aside class="status" aria-live="polite"><small>Selected project / opens a dedicated page</small><strong id="selected-title">Dead Drop</strong><p id="selected-body">Native iOS beta for private coordination.</p></aside>
+      <p class="hint"><b>Click</b> a project to select it &nbsp; / &nbsp; <b>drag</b> anywhere on the field to rotate</p>
+    </main>
+    <script>
+      const orbit = document.querySelector('#orbit');
+      const cards = [...document.querySelectorAll('.card')];
+      const selectedTitle = document.querySelector('#selected-title');
+      const selectedBody = document.querySelector('#selected-body');
+      let rotation = 1.35, startX = 0, startRotation = 0, dragging = false, moved = false;
+      const render = () => {
+        const box = orbit.getBoundingClientRect();
+          const radiusX = box.width * .35, radiusY = box.height * .27;
+        cards.forEach((card, index) => {
+          const angle = rotation + (index / cards.length) * Math.PI * 2;
+          const depth = (Math.sin(angle) + 1) / 2;
+          card.style.left = `${box.width / 2 + Math.cos(angle) * radiusX}px`;
+          card.style.top = `${box.height / 2 + Math.sin(angle) * radiusY}px`;
+          card.style.setProperty('--scale', (.72 + depth * .34).toFixed(3));
+          card.style.setProperty('--opacity', (.48 + depth * .52).toFixed(3));
+          card.style.zIndex = String(Math.round(depth * 20));
+        });
+      };
+      const select = card => {
+        cards.forEach(item => item.classList.toggle('is-selected', item === card));
+        selectedTitle.textContent = card.dataset.title;
+        selectedBody.textContent = card.dataset.body;
+      };
+      orbit.addEventListener('pointerdown', event => {
+        startX = event.clientX; startRotation = rotation; dragging = true; moved = false;
+        orbit.classList.add('is-dragging'); orbit.setPointerCapture(event.pointerId);
+      });
+      orbit.addEventListener('pointermove', event => {
+        if (!dragging) return;
+        const delta = event.clientX - startX;
+        moved ||= Math.abs(delta) > 5;
+        rotation = startRotation + delta / Math.max(180, orbit.clientWidth * .45);
+        render();
+      });
+      orbit.addEventListener('pointerup', event => {
+        dragging = false; orbit.classList.remove('is-dragging'); orbit.releasePointerCapture?.(event.pointerId);
+      });
+      cards.forEach(card => card.addEventListener('click', event => {
+        event.preventDefault();
+        if (!moved) select(card);
+      }));
+      addEventListener('resize', render, { passive:true });
+      render();
+    </script>
+  </body>
+</html>
