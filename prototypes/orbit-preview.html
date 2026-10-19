@@ -32,6 +32,17 @@
       .axis { position:absolute; top:50%; left:4%; width:92%; height:1px; background:linear-gradient(90deg,transparent,rgba(255,255,255,.38),transparent); transform:rotate(-9deg); }
       .card { position:absolute; display:flex; flex-direction:column; justify-content:space-between; width:clamp(10.3rem,15vw,15rem); min-height:clamp(6.6rem,10vw,9.2rem); padding:1rem 1.1rem; border:1px solid var(--line); background:linear-gradient(145deg,rgba(28,28,29,.92),rgba(4,4,4,.88)); box-shadow:0 1rem 2.8rem rgba(0,0,0,.38); color:var(--steel); text-decoration:none; transform:translate(-50%,-50%) scale(var(--scale,1)); opacity:var(--opacity,1); transition:transform .22s ease, border-color .22s ease, background .22s ease, opacity .22s ease; will-change:left,top,transform; }
       .card:hover,.card:focus-visible,.card.is-selected { z-index:10; border-color:#fff; background:linear-gradient(145deg,rgba(44,44,45,.98),rgba(8,8,8,.95)); outline:none; }
+      .card::before { position:absolute; top:0; left:1rem; width:1.15rem; height:1px; content:""; background:var(--steel); opacity:.22; transform-origin:left center; animation:card-signal 4.6s cubic-bezier(.42,0,.22,1) infinite; }
+      .card::after { position:absolute; right:.85rem; bottom:.8rem; width:.28rem; height:.28rem; content:""; border:1px solid var(--steel); border-radius:50%; opacity:.34; animation:card-beacon 4.6s ease-in-out infinite; }
+      .card:nth-of-type(2)::before,.card:nth-of-type(2)::after { animation-delay:-.75s; }
+      .card:nth-of-type(3)::before,.card:nth-of-type(3)::after { animation-delay:-1.45s; }
+      .card:nth-of-type(4)::before,.card:nth-of-type(4)::after { animation-delay:-2.1s; }
+      .card:nth-of-type(5)::before,.card:nth-of-type(5)::after { animation-delay:-2.85s; }
+      .card:nth-of-type(6)::before,.card:nth-of-type(6)::after { animation-delay:-3.5s; }
+      .card:nth-of-type(7)::before,.card:nth-of-type(7)::after { animation-delay:-4.1s; }
+      .card:nth-of-type(8)::before,.card:nth-of-type(8)::after { animation-delay:-4.45s; }
+      .card:hover::before,.card:focus-visible::before,.card.is-selected::before { opacity:.9; animation-duration:1.15s; }
+      .card:hover::after,.card:focus-visible::after,.card.is-selected::after { opacity:.95; animation-duration:1.15s; }
       .card small { color:var(--muted); font-size:.54rem; letter-spacing:.12em; text-transform:uppercase; }
       .card strong { margin-top:.55rem; font:500 clamp(1.55rem,2.2vw,2.45rem)/.9 var(--display); letter-spacing:-.01em; }
       .card span { margin-top:.55rem; color:#c4c3be; font-size:.57rem; line-height:1.45; }
@@ -71,14 +82,16 @@
         .status small { font-size:.46rem; }
         .status strong { font-size:1.45rem; }
       }
-      @media (prefers-reduced-motion:reduce) { .card { transition:none; } }
+      @keyframes card-signal { 0%,12%,100% { opacity:.2; transform:scaleX(.6); } 4% { opacity:.8; transform:scaleX(1.65); } 8% { opacity:.38; transform:scaleX(.9); } }
+      @keyframes card-beacon { 0%,12%,100% { opacity:.28; transform:scale(1); } 4% { opacity:.9; transform:scale(1.7); } 8% { opacity:.36; transform:scale(1.08); } }
+      @media (prefers-reduced-motion:reduce) { .card { transition:none; } .card::before,.card::after { animation:none; } }
     </style>
   </head>
   <body>
     <main class="stage">
       <header class="topline">
         <p class="brand">Critical Mass Labs <i>/ project field</i></p>
-        <p class="index">01—05 / drag to explore</p>
+        <p class="index">01—08 / drag to explore</p>
       </header>
       <section class="intro" aria-labelledby="orbit-title">
         <p class="eyebrow">Independent research studio</p>
@@ -92,6 +105,9 @@
         <a class="card" href="#nexus-grid-desk" data-title="Nexus Grid Desk" data-body="A listed tool for system orientation."><small>03 / listed</small><strong>Nexus Grid Desk</strong><span>System orientation</span></a>
         <a class="card" href="#minos-shield" data-title="Minos Shield" data-body="Decision-path research for constrained systems."><small>04 / beta</small><strong>Minos Shield</strong><span>Decision research</span></a>
         <a class="card" href="#the-hexagon" data-title="The Hexagon" data-body="A six-perspective mobile review system."><small>05 / mobile beta</small><strong>The Hexagon</strong><span>Review system</span></a>
+        <a class="card" href="#asymmetry-city" data-title="Asymmetry City" data-body="A repository-derived city view for orientation without publishing source contents."><small>06 / public experiment</small><strong>Asymmetry City</strong><span>Repository navigation</span></a>
+        <a class="card" href="#the-repository" data-title="The Repository" data-body="A playable browser project exploring systems, attention, and the human inside the interface."><small>07 / playable build</small><strong>The Repository</strong><span>Interactive fiction</span></a>
+        <a class="card" href="#hold-zero" data-title="Hold Zero" data-body="A bounded public research register for privacy-protocol work and test artifacts."><small>08 / research register</small><strong>Hold Zero</strong><span>Protocol research</span></a>
       </div>
       <aside class="status" aria-live="polite"><small>Selected project / opens a dedicated page</small><strong id="selected-title">Dead Drop</strong><p id="selected-body">Native iOS beta for private coordination.</p></aside>
       <p class="hint"><b>Click</b> a project to select it &nbsp; / &nbsp; <b>drag</b> anywhere on the field to rotate</p>
