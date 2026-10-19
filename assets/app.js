@@ -50,8 +50,7 @@
       "'": "&#39;",
     }[char]));
 
-  const programBySlug = (slug) => CML.programs.find((program) => program.slug === slug);
-  const featured = (key) => CML.programs.find((program) => program.featured === key);
+  const orbitProjects = CML.orbitProjects || [];
   const externalLink = (item, label) =>
     item.href
       ? `<a class="text-link" href="${esc(item.href)}" target="_blank" rel="noreferrer">${esc(label || item.linkLabel)} ${ICON.arrow}</a>`
@@ -66,20 +65,6 @@
             : `<a href="${esc(item.href)}">${esc(item.label)}</a>`
       )
       .join("");
-
-  const childChips = (program) => {
-    if (!program.children?.length) return "";
-    return `<div class="featured-subprojects">${program.children
-      .map((child) => {
-        const inner = `<b>⌾</b> ${esc(child.name)} <small>${esc(child.stage)}</small>`;
-        return child.href
-          ? `<a href="${esc(child.href)}" target="_blank" rel="noreferrer">${inner}</a>`
-          : `<span>${inner}</span>`;
-      })
-      .join("")}</div>`;
-  };
-
-  const asymmetry = featured("asymmetry");
 
   root.innerHTML = `
     <div class="site-shell" id="top">
@@ -115,10 +100,43 @@
             <p class="hero-description">Custom software, research, and experimental infrastructure for systems that need to hold.</p>
             <div class="hero-actions">
               <a class="button button-primary" href="#solutions">Explore software solutions ${ICON.arrow}</a>
-              <a class="text-link" href="#portfolio">Open the project atlas ${ICON.arrow}</a>
+              <a class="text-link" href="#project-field">Open the project field ${ICON.arrow}</a>
             </div>
           </div>
           <a class="scroll-cue" href="#about"><span>Scroll to explore</span>${ICON.down}</a>
+        </section>
+
+        <section class="project-field" id="project-field" aria-labelledby="project-field-title">
+          <div class="project-field-intro">
+            <p class="eyebrow"><span class="eyebrow-line" aria-hidden="true"></span>Project field / 08 coordinates</p>
+            <h2 id="project-field-title">A field of <em>working systems.</em></h2>
+            <p>Drag through the field or select a coordinate. Every card opens a dedicated public project page with its clearest available next step.</p>
+          </div>
+          <div class="project-orbit-shell" id="project-orbit" aria-label="Interactive project field" aria-describedby="project-field-instructions">
+            <div class="project-orbit-rim" aria-hidden="true"></div>
+            <div class="project-orbit-axis" aria-hidden="true"></div>
+            ${orbitProjects
+              .map(
+                (project, index) => `
+                <a class="project-orbit-card${index === 0 ? " is-selected" : ""}" href="/projects/${esc(project.slug)}/" data-project-index="${index}" aria-current="${index === 0 ? "true" : "false"}">
+                  <span class="project-orbit-number">${esc(project.number)} / ${esc(project.stage)}</span>
+                  <strong>${esc(project.name)}</strong>
+                  <span class="project-orbit-discipline">${esc(project.discipline)}</span>
+                </a>`
+              )
+              .join("")}
+          </div>
+          <aside class="project-field-status" aria-live="polite">
+            <p class="project-field-label">Selected coordinate</p>
+            <h3 id="project-field-name">${esc(orbitProjects[0]?.name || "Project field")}</h3>
+            <p id="project-field-summary">${esc(orbitProjects[0]?.summary || "")}</p>
+            <a class="button button-outline" id="project-field-open" href="/projects/${esc(orbitProjects[0]?.slug || "")}/">Open project page ${ICON.arrow}</a>
+            <div class="project-field-controls" aria-label="Cycle projects">
+              <button type="button" id="project-field-previous">Previous</button>
+              <button type="button" id="project-field-next">Next</button>
+            </div>
+          </aside>
+          <p class="project-field-instructions" id="project-field-instructions"><span>Drag</span> to move the field &nbsp; / &nbsp; <span>Select</span> a card to open its page</p>
         </section>
 
         <section class="content-section about-section" id="about">
@@ -181,55 +199,8 @@
           </div>
         </section>
 
-        <section class="atlas-section" id="portfolio">
-          <div class="atlas-intro">
-            <div class="section-number" aria-hidden="true">03</div>
-            <div class="section-heading">
-              <p class="eyebrow"><span class="eyebrow-line" aria-hidden="true"></span>Project atlas / ${String(CML.programs.length).padStart(2, "0")} coordinates</p>
-              <h2>A field, <em>mapped.</em></h2>
-            </div>
-            <p>Each coordinate is a program. The stage on the row is the current public status. Open an entry for the next honest step — a live link, or a clear note that none exists yet.</p>
-          </div>
-          <div class="atlas-list" aria-label="Project atlas">
-            ${CML.programs
-              .map(
-                (program) => `
-              <button type="button" class="atlas-row is-${esc(program.prominence)}" data-slug="${esc(program.slug)}" aria-haspopup="dialog" aria-controls="project-status-dialog">
-                <span class="atlas-number">${esc(program.number)}</span>
-                <span class="atlas-mark accent-${esc(program.accent)}" aria-hidden="true">${esc(program.mark)}</span>
-                <span class="atlas-name">${esc(program.name)}</span>
-                <span class="atlas-stage">${esc(program.stage)}</span>
-                <span class="atlas-action">View status ${ICON.arrow}</span>
-              </button>`
-              )
-              .join("")}
-          </div>
-        </section>
-
-        ${
-          asymmetry
-            ? `<section class="featured-project" aria-labelledby="featured-title">
-          <div class="featured-art" aria-hidden="true"></div>
-          <div class="featured-copy">
-            <p class="eyebrow"><span class="eyebrow-line" aria-hidden="true"></span>${esc(asymmetry.featuredEyebrow)}</p>
-            <h2 id="featured-title">${esc(asymmetry.featuredTitle)} <em>${esc(asymmetry.featuredTitleEm)}</em></h2>
-            <p>${esc(asymmetry.featuredBody)}</p>
-            <div class="featured-actions">
-              <a class="button button-outline" href="${esc(asymmetry.link)}" target="_blank" rel="noreferrer">${esc(asymmetry.linkLabel)} ${ICON.arrow}</a>
-              ${
-                asymmetry.extraLink
-                  ? `<a class="text-link" href="${esc(asymmetry.extraLink)}" target="_blank" rel="noreferrer">${esc(asymmetry.extraLinkLabel)} ${ICON.arrow}</a>`
-                  : ""
-              }
-            </div>
-            ${childChips(asymmetry)}
-          </div>
-        </section>`
-            : ""
-        }
-
         <section class="protocol-section content-section" id="hold-zero" aria-labelledby="hold-zero-title">
-          <div class="section-number" aria-hidden="true">04</div>
+          <div class="section-number" aria-hidden="true">03</div>
           <div class="content-column protocol-intro">
             <div class="section-heading">
               <p class="eyebrow"><span class="eyebrow-line" aria-hidden="true"></span>${esc(CML.holdZero.kicker)}</p>
@@ -257,7 +228,7 @@
         </section>
 
         <section class="materials-section content-section" id="materials">
-          <div class="section-number" aria-hidden="true">05</div>
+          <div class="section-number" aria-hidden="true">04</div>
           <div class="content-column">
             <div class="section-heading">
               <p class="eyebrow"><span class="eyebrow-line" aria-hidden="true"></span>Public materials / open register</p>
@@ -281,7 +252,7 @@
         </section>
 
         <section class="updates-section content-section" id="updates" aria-labelledby="updates-title">
-          <div class="section-number" aria-hidden="true">06</div>
+          <div class="section-number" aria-hidden="true">05</div>
           <div class="content-column">
             <div class="section-heading">
               <p class="eyebrow"><span class="eyebrow-line" aria-hidden="true"></span>Change log / public record</p>
@@ -308,7 +279,7 @@
         </section>
 
         <section class="mobile-section content-section" id="mobile" aria-labelledby="mobile-title">
-          <div class="section-number" aria-hidden="true">07</div>
+          <div class="section-number" aria-hidden="true">06</div>
           <div class="content-column">
             <div class="section-heading">
               <p class="eyebrow"><span class="eyebrow-line" aria-hidden="true"></span>Mobile apps / TestFlight</p>
@@ -337,7 +308,7 @@
         </section>
 
         <section class="faq-section content-section" id="faq" aria-labelledby="faq-title">
-          <div class="section-number" aria-hidden="true">08</div>
+          <div class="section-number" aria-hidden="true">07</div>
           <div class="content-column">
             <div class="section-heading">
               <p class="eyebrow"><span class="eyebrow-line" aria-hidden="true"></span>Questions / answers</p>
@@ -358,7 +329,7 @@
         </section>
 
         <section class="content-section correspondence-section" id="signal" aria-labelledby="signal-title">
-          <div class="section-number" aria-hidden="true">09</div>
+          <div class="section-number" aria-hidden="true">08</div>
           <div class="content-column">
             <div class="section-heading">
               <p class="eyebrow"><span class="eyebrow-line" aria-hidden="true"></span>Questions / comments</p>
@@ -385,7 +356,7 @@
                 <label for="signal-project">Regarding</label>
                 <select id="signal-project" name="project">
                   <option value="">General / the lab</option>
-                  ${CML.programs.map((program) => `<option value="${esc(program.name)}">${esc(program.number)} / ${esc(program.name)}</option>`).join("")}
+                  ${orbitProjects.map((program) => `<option value="${esc(program.name)}">${esc(program.number)} / ${esc(program.name)}</option>`).join("")}
                 </select>
               </div>
               <div class="signal-field signal-field-wide">
@@ -726,6 +697,152 @@
     window.addEventListener("resize", resize, { passive: true });
     document.addEventListener("visibilitychange", visibility);
   };
+
+  const initializeProjectField = () => {
+    const orbit = root.querySelector("#project-orbit");
+    const cards = Array.from(root.querySelectorAll(".project-orbit-card"));
+    const name = root.querySelector("#project-field-name");
+    const summary = root.querySelector("#project-field-summary");
+    const open = root.querySelector("#project-field-open");
+    const previous = root.querySelector("#project-field-previous");
+    const next = root.querySelector("#project-field-next");
+    if (!orbit || !cards.length || !name || !summary || !open) return;
+
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const step = (Math.PI * 2) / cards.length;
+    let rotation = Math.PI / 2;
+    let selectedIndex = 0;
+    let startX = 0;
+    let startRotation = 0;
+    let dragging = false;
+    let moved = false;
+    let skipNextCardClick = false;
+    let tickIndex = null;
+    let audioContext = null;
+
+    const playDetent = () => {
+      if (prefersReducedMotion.matches) return;
+      const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+      if (!AudioContextClass) return;
+      audioContext ||= new AudioContextClass();
+      if (audioContext.state === "suspended") audioContext.resume();
+      const oscillator = audioContext.createOscillator();
+      const gain = audioContext.createGain();
+      const now = audioContext.currentTime;
+      oscillator.type = "triangle";
+      oscillator.frequency.setValueAtTime(720, now);
+      gain.gain.setValueAtTime(0.0001, now);
+      gain.gain.exponentialRampToValueAtTime(0.012, now + 0.002);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.032);
+      oscillator.connect(gain).connect(audioContext.destination);
+      oscillator.start(now);
+      oscillator.stop(now + 0.036);
+    };
+
+    const select = (index) => {
+      selectedIndex = (index + cards.length) % cards.length;
+      const project = orbitProjects[selectedIndex];
+      cards.forEach((card, cardIndex) => {
+        const selected = cardIndex === selectedIndex;
+        card.classList.toggle("is-selected", selected);
+        card.setAttribute("aria-current", selected ? "true" : "false");
+      });
+      name.textContent = project.name;
+      summary.textContent = project.summary;
+      open.href = `/projects/${project.slug}/`;
+      orbit.style.setProperty("--field-light-x", `${(50 + Math.cos(rotation - 0.55) * 19).toFixed(2)}%`);
+      orbit.style.setProperty("--field-light-y", `${(54 + Math.sin(rotation - 0.55) * 14).toFixed(2)}%`);
+    };
+
+    const render = () => {
+      const bounds = orbit.getBoundingClientRect();
+      const radiusX = bounds.width * 0.3;
+      const radiusY = bounds.height * 0.27;
+      cards.forEach((card, index) => {
+        const angle = rotation + index * step;
+        const depth = (Math.sin(angle) + 1) / 2;
+        card.style.left = `${bounds.width / 2 + Math.cos(angle) * radiusX}px`;
+        card.style.top = `${bounds.height / 2 + Math.sin(angle) * radiusY}px`;
+        card.style.setProperty("--project-scale", (0.75 + depth * 0.28).toFixed(3));
+        card.style.setProperty("--project-opacity", (0.52 + depth * 0.48).toFixed(3));
+        card.style.zIndex = String(10 + Math.round(depth * 30));
+      });
+      select(selectedIndex);
+    };
+
+    const tickForRotation = () => {
+      const nextTick = Math.round(rotation / step);
+      if (tickIndex === nextTick) return;
+      tickIndex = nextTick;
+      playDetent();
+    };
+
+    const cycle = (direction) => {
+      const target = (selectedIndex + direction + cards.length) % cards.length;
+      rotation = Math.PI / 2 - target * step;
+      tickIndex = Math.round(rotation / step);
+      select(target);
+      render();
+      playDetent();
+    };
+
+    orbit.addEventListener("pointerdown", (event) => {
+      startX = event.clientX;
+      startRotation = rotation;
+      dragging = true;
+      moved = false;
+      tickIndex = Math.round(rotation / step);
+      orbit.classList.add("is-dragging");
+      orbit.setPointerCapture?.(event.pointerId);
+    });
+
+    orbit.addEventListener("pointermove", (event) => {
+      if (!dragging) return;
+      const delta = event.clientX - startX;
+      moved ||= Math.abs(delta) > 6;
+      if (!moved) return;
+      rotation = startRotation + delta / Math.max(210, orbit.clientWidth * 0.45);
+      tickForRotation();
+      render();
+    });
+
+    const endDrag = (event) => {
+      if (!dragging) return;
+      dragging = false;
+      orbit.classList.remove("is-dragging");
+      skipNextCardClick = moved;
+      orbit.releasePointerCapture?.(event.pointerId);
+    };
+    orbit.addEventListener("pointerup", endDrag);
+    orbit.addEventListener("pointercancel", endDrag);
+
+    cards.forEach((card, index) => {
+      card.addEventListener("focus", () => select(index));
+      card.addEventListener("click", (event) => {
+        if (!skipNextCardClick) return;
+        event.preventDefault();
+        skipNextCardClick = false;
+      });
+    });
+    previous?.addEventListener("click", () => cycle(-1));
+    next?.addEventListener("click", () => cycle(1));
+    window.addEventListener("resize", render, { passive: true });
+    document.addEventListener("keydown", (event) => {
+      const target = event.target;
+      if (target instanceof HTMLInputElement || target instanceof HTMLTextAreaElement || target instanceof HTMLSelectElement || target?.isContentEditable) return;
+      if (event.key === "ArrowLeft") {
+        event.preventDefault();
+        cycle(-1);
+      }
+      if (event.key === "ArrowRight") {
+        event.preventDefault();
+        cycle(1);
+      }
+    });
+    render();
+  };
+
+  initializeProjectField();
 
   const menuButton = root.querySelector(".menu-toggle");
   const mobileNav = root.querySelector("#mobile-navigation");

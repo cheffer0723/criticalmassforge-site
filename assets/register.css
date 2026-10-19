@@ -2123,3 +2123,222 @@ html.handheld-landscape .hero-city .scroll-cue { display: none; }
 @media (max-height: 600px) and (min-aspect-ratio: 1 / 1) {
   .hero-city h1 { line-height: 0.9; }
 }
+
+/* Live project field: an interaction-led index, not a decorative card grid.
+   The only light is the stationary/repositioned field reflection. Cards never
+   blink, pulse, or simulate a status signal. */
+.project-field {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  grid-template-columns: minmax(16rem, 0.72fr) minmax(34rem, 1.28fr);
+  grid-template-areas:
+    "intro orbit"
+    "status orbit"
+    "hint hint";
+  gap: 2.5rem clamp(3rem, 6vw, 8rem);
+  overflow: hidden;
+  padding: clamp(5rem, 8vw, 9rem) clamp(1.25rem, 8vw, 10rem) clamp(3rem, 5vw, 5.5rem);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  background:
+    radial-gradient(ellipse 54% 70% at 72% 48%, rgba(255, 255, 255, 0.06), transparent 66%),
+    linear-gradient(136deg, #080808 0%, #121213 55%, #070707 100%);
+  scroll-margin-top: 4.75rem;
+}
+
+.project-field::before {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  content: "";
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, transparent 0 14%, rgba(255, 255, 255, 0.045) 14.08%, transparent 14.16%),
+    linear-gradient(0deg, transparent 0 78%, rgba(255, 255, 255, 0.035) 78.08%, transparent 78.16%);
+  background-size: clamp(9rem, 15vw, 16rem) clamp(9rem, 15vw, 16rem);
+  opacity: 0.38;
+  mask-image: linear-gradient(90deg, #000, rgba(0, 0, 0, 0.24));
+}
+
+.project-field-intro { grid-area: intro; align-self: end; max-width: 29rem; }
+.project-field-intro .eyebrow { margin-bottom: 1.1rem; }
+.project-field-intro h2 { max-width: 9ch; margin: 0; font: 600 clamp(2.6rem, 4.8vw, 5.6rem)/0.93 var(--display); letter-spacing: -0.052em; }
+.project-field-intro h2 em { color: #c9c8c3; font-style: italic; }
+.project-field-intro > p:last-child { max-width: 26rem; margin: 1.45rem 0 0; color: var(--muted); font: 400 0.88rem/1.7 var(--sf-text); }
+
+.project-orbit-shell {
+  position: relative;
+  grid-area: orbit;
+  width: 100%;
+  min-width: 0;
+  min-height: 0;
+  aspect-ratio: 1.55 / 1;
+  align-self: center;
+  touch-action: pan-y;
+  user-select: none;
+  cursor: grab;
+}
+
+@media (min-width: 841px) {
+  /* Keep every initial coordinate inside the editorial frame; cards may travel
+     through the field, but the starting state must not look accidentally cut. */
+  .project-orbit-shell { margin-inline: clamp(4.75rem, 6vw, 7.5rem); }
+}
+
+.project-orbit-shell.is-dragging { cursor: grabbing; }
+.project-orbit-shell::before {
+  position: absolute;
+  z-index: 0;
+  inset: 5% 3%;
+  content: "";
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0.86;
+  background: radial-gradient(ellipse 30% 24% at var(--field-light-x, 62%) var(--field-light-y, 58%), rgba(250, 248, 239, 0.2), rgba(231, 229, 217, 0.055) 37%, transparent 74%);
+  filter: blur(1.7rem);
+  transition: background-position 180ms ease-out;
+}
+
+.project-orbit-rim {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  border: 1px solid rgba(255, 255, 255, 0.31);
+  border-radius: 50%;
+  box-shadow: 0 0.45rem 2.25rem rgba(255, 255, 255, 0.055), inset 0 0 7rem rgba(0, 0, 0, 0.76), inset 0 -1rem 2rem rgba(255, 255, 255, 0.045);
+  transform: rotate(-9deg);
+  pointer-events: none;
+}
+
+.project-orbit-rim::before,
+.project-orbit-rim::after {
+  position: absolute;
+  content: "";
+  border: 1px solid rgba(255, 255, 255, 0.085);
+  border-radius: 50%;
+}
+.project-orbit-rim::before { inset: 9% 11%; }
+.project-orbit-rim::after { inset: 21% 23%; }
+
+.project-orbit-axis {
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  left: 4%;
+  width: 92%;
+  height: 1px;
+  pointer-events: none;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.38), transparent);
+  transform: rotate(-9deg);
+}
+
+.project-orbit-card {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: clamp(10rem, 14.5vw, 14.5rem);
+  min-height: clamp(6.25rem, 9.5vw, 8.6rem);
+  padding: 1rem 1.05rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 0.76rem;
+  background: linear-gradient(145deg, rgba(31, 31, 32, 0.96), rgba(6, 6, 6, 0.92));
+  box-shadow: 0 1rem 2.8rem rgba(0, 0, 0, 0.42);
+  color: var(--text);
+  text-decoration: none;
+  transform: translate(-50%, -50%) scale(var(--project-scale, 1));
+  opacity: var(--project-opacity, 1);
+  transition: transform 170ms ease-out, opacity 170ms ease-out, border-color 170ms ease-out, background 170ms ease-out, box-shadow 170ms ease-out;
+  will-change: left, top, transform;
+}
+
+.project-orbit-card:hover,
+.project-orbit-card:focus-visible,
+.project-orbit-card.is-selected {
+  border-color: rgba(255, 255, 255, 0.84);
+  background: linear-gradient(145deg, rgba(47, 47, 48, 0.98), rgba(10, 10, 10, 0.96));
+  box-shadow: 0 1.4rem 3.2rem rgba(0, 0, 0, 0.58), 0 0 0 1px rgba(255, 255, 255, 0.08);
+  outline: none;
+}
+
+.project-orbit-card:focus-visible { outline: 2px solid #fff; outline-offset: 0.25rem; }
+.project-orbit-number,
+.project-orbit-discipline { color: var(--muted); font: 500 0.56rem/1.3 var(--sf-mono); letter-spacing: 0.115em; text-transform: uppercase; }
+.project-orbit-card strong { display: block; margin-top: 0.5rem; color: var(--text); font: 600 clamp(1.15rem, 1.75vw, 1.75rem)/0.98 var(--display); letter-spacing: -0.04em; }
+.project-orbit-discipline { margin-top: 0.55rem; color: #c5c4bf; font-size: 0.5rem; letter-spacing: 0.09em; }
+
+.project-field-status {
+  grid-area: status;
+  display: grid;
+  align-self: start;
+  gap: 0.55rem;
+  max-width: 22rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--line);
+}
+.project-field-label,
+.project-field-instructions { margin: 0; color: var(--muted); font: 500 0.56rem/1.4 var(--sf-mono); letter-spacing: 0.13em; text-transform: uppercase; }
+.project-field-status h3 { margin: 0.1rem 0 0; font: 600 clamp(1.65rem, 2.45vw, 2.55rem)/0.96 var(--display); letter-spacing: -0.046em; }
+.project-field-status > p:not(.project-field-label) { margin: 0; color: var(--muted); font: 400 0.75rem/1.62 var(--sf-text); }
+.project-field-status .button { width: max-content; margin-top: 0.45rem; }
+.project-field-controls { display: flex; gap: 0.8rem; margin-top: 0.25rem; }
+.project-field-controls button { padding: 0; border: 0; background: transparent; color: var(--muted); cursor: pointer; font: 500 0.56rem var(--sf-mono); letter-spacing: 0.12em; text-transform: uppercase; }
+.project-field-controls button:hover,
+.project-field-controls button:focus-visible { color: var(--text); outline: none; }
+.project-field-instructions { grid-area: hint; color: var(--quiet); }
+.project-field-instructions span { color: var(--text); }
+
+@media (max-width: 840px) {
+  .project-field {
+    grid-template-columns: 1fr;
+    grid-template-areas: "intro" "orbit" "status" "hint";
+    gap: 1.7rem;
+    padding-top: 4rem;
+  }
+  .project-field-intro h2 { max-width: 12ch; }
+  .project-orbit-shell { width: min(100%, 44rem); min-height: min(31rem, 102vw); justify-self: center; }
+  .project-field-status { max-width: 28rem; }
+}
+
+@media (max-width: 640px) {
+  .project-field { padding: 3.65rem 1.25rem 2.5rem; }
+  .project-field-intro > p:last-child { font-size: 0.78rem; }
+  .project-field-intro h2 { font-size: clamp(2.65rem, 12vw, 4.25rem); }
+  .project-orbit-shell { width: calc(100% + 2.5rem); min-height: 27rem; margin-left: -1.25rem; }
+  .project-orbit-card { width: 8.9rem; min-height: 5.85rem; padding: 0.75rem; border-radius: 0.66rem; }
+  .project-orbit-card strong { margin-top: 0.35rem; font-size: 1.2rem; }
+  .project-orbit-number { font-size: 0.45rem; }
+  .project-orbit-discipline { display: none; }
+  .project-field-status { max-width: 18rem; }
+  .project-field-status > p:not(.project-field-label) { font-size: 0.72rem; }
+  .project-field-instructions { display: none; }
+}
+
+@media (max-height: 540px) and (min-aspect-ratio: 1 / 1) {
+  .project-field {
+    grid-template-columns: minmax(14rem, 0.6fr) minmax(28rem, 1.4fr);
+    grid-template-areas: "intro orbit" "status orbit";
+    gap: 0.75rem 2rem;
+    min-height: calc(100svh - 4.75rem);
+    padding: 1rem max(1.25rem, 7vw);
+  }
+  .project-field-intro .eyebrow { margin-bottom: 0.4rem; }
+  .project-field-intro h2 { font-size: clamp(2rem, 4.5vw, 3.15rem); }
+  .project-field-intro > p:last-child { display: none; }
+  .project-orbit-shell { min-height: min(15.5rem, calc(100svh - 6rem)); margin-inline: 0; }
+  .project-orbit-card { width: 6.75rem; min-height: 4.15rem; padding: 0.52rem; }
+  .project-orbit-card strong { font-size: 0.94rem; }
+  .project-orbit-number { font-size: 0.42rem; }
+  .project-orbit-discipline { display: none; }
+  .project-field-status { gap: 0.34rem; padding-top: 0.65rem; }
+  .project-field-status h3 { font-size: 1.5rem; }
+  .project-field-status > p:not(.project-field-label) { display: none; }
+  .project-field-status .button { min-height: 2rem; margin-top: 0.15rem; padding: 0.45rem 0.6rem; font-size: 0.48rem; }
+  .project-field-controls { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .project-orbit-shell::before,
+  .project-orbit-card { transition: none; }
+}
