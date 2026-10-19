@@ -141,7 +141,22 @@
       const noteTitle = document.querySelector('#note-title');
       const noteBody = document.querySelector('#note-body');
       let selectedIndex = 0;
-      let rotation = 1.35, startX = 0, startRotation = 0, dragging = false, moved = false;
+      let rotation = 1.35, startX = 0, startRotation = 0, dragging = false, moved = false, tickIndex = null, audioContext = null;
+      const playDetent = () => {
+        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+        if (!AudioContextClass) return;
+        audioContext ??= new AudioContextClass();
+        if (audioContext.state === 'suspended') audioContext.resume();
+        const now = audioContext.currentTime, oscillator = audioContext.createOscillator(), gain = audioContext.createGain();
+        oscillator.type = 'triangle'; oscillator.frequency.setValueAtTime(780, now);
+        gain.gain.setValueAtTime(.0001, now); gain.gain.exponentialRampToValueAtTime(.018, now + .002); gain.gain.exponentialRampToValueAtTime(.0001, now + .03);
+        oscillator.connect(gain).connect(audioContext.destination); oscillator.start(now); oscillator.stop(now + .035);
+      };
+      const tickForRotation = () => {
+        const nextTick = Math.round(rotation / (Math.PI * 2 / cards.length));
+        if (tickIndex === nextTick) return;
+        tickIndex = nextTick; playDetent();
+      };
       const render = () => {
         const box = orbit.getBoundingClientRect();
         const radiusX = box.width * .35, radiusY = box.height * .27;
@@ -168,6 +183,8 @@
       const cycleProject = direction => {
         selectedIndex = (selectedIndex + direction + cards.length) % cards.length;
         rotation = Math.PI / 2 - (selectedIndex / cards.length) * Math.PI * 2;
+        tickIndex = Math.round(rotation / (Math.PI * 2 / cards.length));
+        playDetent();
         render();
         select(cards[selectedIndex]);
       };
@@ -185,6 +202,7 @@
       nextProject.addEventListener('click', () => cycleProject(1));
       orbit.addEventListener('pointerdown', event => {
         startX = event.clientX; startRotation = rotation; dragging = true; moved = false;
+        tickIndex = Math.round(rotation / (Math.PI * 2 / cards.length));
         orbit.classList.add('is-dragging'); orbit.setPointerCapture(event.pointerId);
       });
       orbit.addEventListener('pointermove', event => {
@@ -192,6 +210,7 @@
         const delta = event.clientX - startX;
         moved ||= Math.abs(delta) > 5;
         rotation = startRotation + delta / Math.max(180, orbit.clientWidth * .45);
+        if (moved) tickForRotation();
         render();
       });
       orbit.addEventListener('pointerup', event => {
