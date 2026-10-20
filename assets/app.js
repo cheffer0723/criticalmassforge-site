@@ -99,11 +99,11 @@
             <h1 id="hero-title"><span>Built under</span><em>pressure.</em></h1>
             <p class="hero-description">Custom software, research, and experimental infrastructure for systems that need to hold.</p>
             <div class="hero-actions">
-              <a class="button button-primary" href="#solutions">Explore software solutions ${ICON.arrow}</a>
-              <a class="text-link" href="#project-field">Open the project field ${ICON.arrow}</a>
+              <a class="button button-primary" href="#project-field">Enter the project field ${ICON.arrow}</a>
+              <a class="text-link" href="mailto:${esc(CML.studio.email)}">Contact the lab ${ICON.arrow}</a>
             </div>
           </div>
-          <a class="scroll-cue" href="#about"><span>Scroll to explore</span>${ICON.down}</a>
+          <a class="scroll-cue" href="#project-field"><span>Enter the field</span>${ICON.down}</a>
         </section>
 
         <section class="project-field" id="project-field" aria-labelledby="project-field-title">
@@ -732,11 +732,11 @@
       oscillator.type = "triangle";
       oscillator.frequency.setValueAtTime(720, now);
       gain.gain.setValueAtTime(0.0001, now);
-      gain.gain.exponentialRampToValueAtTime(0.012, now + 0.002);
-      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.032);
+      gain.gain.exponentialRampToValueAtTime(0.03, now + 0.002);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.045);
       oscillator.connect(gain).connect(audioContext.destination);
       oscillator.start(now);
-      oscillator.stop(now + 0.036);
+      oscillator.stop(now + 0.05);
     };
 
     const select = (index) => {

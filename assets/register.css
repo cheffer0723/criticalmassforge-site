@@ -2342,3 +2342,8 @@ html.handheld-landscape .hero-city .scroll-cue { display: none; }
   .project-orbit-shell::before,
   .project-orbit-card { transition: none; }
 }
+
+/* The home route is deliberately finite: hero, interactive project field, and
+   footer. The detailed register remains in source while it is migrated to
+   explicit routes; it is not a hidden scroll obligation on the landing page. */
+.site-shell > main > .content-section { display: none; }

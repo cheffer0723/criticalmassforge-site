@@ -30,14 +30,9 @@ window.CML = {
   },
 
   nav: [
-    { label: "Studio", href: "#about" },
+    { label: "Home", href: "#top" },
     { label: "Projects", href: "#project-field" },
-    { label: "Software", href: "#solutions" },
-    { label: "Research", href: "#hold-zero" },
-    { label: "Updates", href: "#updates" },
-    { label: "Mobile beta", href: "#mobile" },
-    { label: "FAQ", href: "#faq" },
-    { label: "Contact", href: "#signal" },
+    { label: "Contact", href: "mailto:admin@asymmetria.io" },
   ],
 
   /* prominence:
