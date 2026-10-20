@@ -2347,3 +2347,141 @@ html.handheld-landscape .hero-city .scroll-cue { display: none; }
    footer. The detailed register remains in source while it is migrated to
    explicit routes; it is not a hidden scroll obligation on the landing page. */
 .site-shell > main > .content-section { display: none; }
+
+/* Hero composition correction — keep the forge plate as one uninterrupted
+   image. Older hero experiments left a generic lower-half fade on `.hero`,
+   which showed up as a visible horizontal slab on this image-led hero. The
+   forge variant owns its overlay and its three responsive compositions here. */
+.hero.hero-city::after {
+  display: none;
+  content: none;
+}
+
+.hero.hero-city::before {
+  z-index: 1;
+  background:
+    linear-gradient(90deg, rgba(3, 3, 4, 0.86) 0%, rgba(3, 3, 4, 0.62) 34%, rgba(3, 3, 4, 0.23) 65%, rgba(3, 3, 4, 0.08) 100%),
+    linear-gradient(0deg, rgba(3, 3, 4, 0.88) 0%, rgba(3, 3, 4, 0.42) 28%, rgba(3, 3, 4, 0.13) 58%, rgba(3, 3, 4, 0.15) 100%);
+}
+
+.hero.hero-city {
+  width: 100%;
+  max-width: none;
+  margin-inline: 0;
+}
+
+.hero-city .hero-content {
+  z-index: 3;
+  align-self: end;
+  width: min(44rem, 56%);
+  max-width: none;
+  padding: clamp(6.5rem, 13svh, 11rem) clamp(1.25rem, 8vw, 10rem) clamp(4.5rem, 8svh, 7.5rem);
+}
+
+@media (min-width: 641px) and (min-height: 601px) {
+  .hero-city .hero-content { align-self: center; }
+}
+
+/* Do not use width-based type for a portrait phone whose embedded browser
+   advertises a desktop layout width. The physical-height scale remains stable
+   in Safari, Chrome, and in-app browsers. */
+html.portrait-device .hero.hero-city {
+  min-height: max(44rem, calc(100svh - 68px));
+  align-items: end;
+}
+
+html.portrait-device .hero-city-image {
+  object-position: 56% 50%;
+}
+
+html.portrait-device .hero-city .hero-content {
+  width: 100%;
+  max-width: 31rem;
+  padding: clamp(9rem, 24svh, 14rem) 1.35rem clamp(4.75rem, 8svh, 6.5rem);
+}
+
+html.portrait-device .hero-city .hero-brand {
+  margin-bottom: 1rem;
+  font-size: 0.62rem;
+}
+
+html.portrait-device .hero-city .hero-kicker {
+  max-width: 22rem;
+  margin-bottom: 1.2rem;
+  font-size: 0.54rem;
+}
+
+html.portrait-device .hero-city h1 {
+  max-width: 9ch;
+  font-size: clamp(3rem, 7.5svh, 4.1rem);
+  line-height: 0.91;
+}
+
+html.portrait-device .hero-city .hero-description {
+  max-width: 23rem;
+  margin-top: 1.65rem;
+  font-size: 0.84rem;
+  line-height: 1.6;
+}
+
+html.portrait-device .hero-city .hero-actions {
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 1.7rem;
+}
+
+/* A short, wide phone is a separate full-bleed composition. `dvw` caused the
+   centered, undersized panel visible on iPhone landscape, so this uses the
+   page width rather than a browser-dependent dynamic-width calculation. */
+html.handheld-landscape .hero.hero-city {
+  width: 100%;
+  max-width: none;
+  margin-inline: 0;
+  min-height: calc(100svh - 68px);
+  align-items: end;
+}
+
+html.handheld-landscape .hero-city-image { object-position: 56% 50%; }
+
+html.handheld-landscape .hero-city .hero-content {
+  align-self: end;
+  width: min(62%, 42rem);
+  padding: 1.15rem clamp(1.25rem, 7vw, 5rem) 2.25rem;
+}
+
+html.handheld-landscape .hero-city .hero-brand { margin-bottom: 0.4rem; font-size: 0.54rem; }
+html.handheld-landscape .hero-city .hero-kicker { margin-bottom: 0.58rem; font-size: 0.47rem; }
+html.handheld-landscape .hero-city h1 { font-size: clamp(2.55rem, 7.1vh, 3.75rem); line-height: 0.91; }
+html.handheld-landscape .hero-city .hero-description { max-width: 29rem; margin-top: 0.75rem; font-size: 0.7rem; line-height: 1.45; }
+html.handheld-landscape .hero-city .hero-actions { gap: 0; margin-top: 0.85rem; }
+html.handheld-landscape .hero-city .button { min-height: 2.45rem; padding: 0.62rem 0.86rem; }
+html.handheld-landscape .hero-city .text-link,
+html.handheld-landscape .hero-city .scroll-cue { display: none; }
+
+@media (max-height: 600px) and (min-aspect-ratio: 1 / 1) {
+  .hero.hero-city {
+    width: 100%;
+    max-width: none;
+    margin-inline: 0;
+    min-height: calc(100svh - 68px);
+    align-items: end;
+  }
+
+  .hero-city-image { object-position: 56% 50%; }
+
+  .hero-city .hero-content {
+    align-self: end;
+    width: min(62%, 42rem);
+    padding: 1.15rem clamp(1.25rem, 7vw, 5rem) 2.25rem;
+  }
+
+  .hero-city .hero-brand { margin-bottom: 0.4rem; font-size: 0.54rem; }
+  .hero-city .hero-kicker { margin-bottom: 0.58rem; font-size: 0.47rem; }
+  .hero-city h1 { font-size: clamp(2.55rem, 7.1vh, 3.75rem); line-height: 0.91; }
+  .hero-city .hero-description { max-width: 29rem; margin-top: 0.75rem; font-size: 0.7rem; line-height: 1.45; }
+  .hero-city .hero-actions { gap: 0; margin-top: 0.85rem; }
+  .hero-city .button { min-height: 2.45rem; padding: 0.62rem 0.86rem; }
+  .hero-city .text-link,
+  .hero-city .scroll-cue { display: none; }
+}
