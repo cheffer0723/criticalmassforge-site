@@ -2486,98 +2486,98 @@ html.handheld-landscape .hero-city .scroll-cue { display: none; }
   .hero-city .scroll-cue { display: none; }
 }
 
-/* Petrol Relay live palette — kept last so it has one authoritative source
-   after earlier monochrome experiments and hero corrections. */
+/* Operational signal theme — the forge stays near-black; mint is reserved for
+   deliberate system signals, never used as a page-wide color wash. */
 :root {
-  --ink: #061415;
-  --ink-soft: #092326;
-  --panel: #0c292b;
-  --panel-lift: #153b3e;
-  --line: rgba(169, 221, 217, 0.23);
-  --line-strong: rgba(188, 235, 225, 0.45);
-  --text: #e2eee8;
-  --muted: #a3b9b7;
-  --quiet: #728d88;
-  --violet: #68c7b3;
-  --violet-bright: #a7ead9;
-  --cyan: #78d8c8;
+  --ink: #070809;
+  --ink-soft: #0d0e10;
+  --panel: #141517;
+  --panel-lift: #1b1d20;
+  --line: rgba(242, 243, 238, 0.16);
+  --line-strong: rgba(242, 243, 238, 0.34);
+  --text: #f0f0eb;
+  --muted: #aaa9a3;
+  --quiet: #777873;
+  --violet: #898a84;
+  --violet-bright: #f0f0eb;
+  --cyan: #7bcdb8;
 }
 
 .site-shell {
   background:
-    radial-gradient(ellipse 66% 34% at 54% 0%, rgba(83, 178, 159, 0.12), transparent 70%),
-    linear-gradient(180deg, #061415 0%, #092124 44%, #051112 100%);
+    radial-gradient(ellipse 72% 28% at 54% 0%, rgba(255, 255, 255, 0.045), transparent 70%),
+    linear-gradient(180deg, #070809 0%, #0b0c0e 44%, #050506 100%);
 }
 
 .site-header,
 .mobile-nav,
-.site-footer { background: #061112; }
+.site-footer { background: #080909; }
 
 .site-header .brand-mark,
 .site-footer .brand-mark {
-  filter: grayscale(1) sepia(1) hue-rotate(105deg) saturate(1.3) brightness(1.32);
+  filter: none;
 }
 
 .hero.hero-city::before {
   background:
-    linear-gradient(90deg, rgba(2, 19, 20, 0.88) 0%, rgba(2, 28, 29, 0.64) 34%, rgba(3, 52, 51, 0.22) 65%, rgba(4, 66, 62, 0.1) 100%),
-    linear-gradient(0deg, rgba(2, 16, 17, 0.9) 0%, rgba(2, 29, 30, 0.43) 28%, rgba(3, 48, 47, 0.13) 58%, rgba(2, 21, 22, 0.18) 100%);
+    linear-gradient(90deg, rgba(3, 4, 5, 0.91) 0%, rgba(3, 4, 5, 0.72) 34%, rgba(3, 4, 5, 0.25) 65%, rgba(3, 4, 5, 0.08) 100%),
+    linear-gradient(0deg, rgba(3, 4, 5, 0.9) 0%, rgba(3, 4, 5, 0.43) 28%, rgba(3, 4, 5, 0.13) 58%, rgba(3, 4, 5, 0.18) 100%);
 }
 
-.hero-city .hero-kicker { color: #a7ead9; }
+.hero-city .hero-kicker { color: #7bcdb8; }
 .hero-city .button-primary {
-  border-color: rgba(167, 234, 217, 0.72);
-  background: rgba(54, 150, 132, 0.16);
+  border-color: rgba(123, 205, 184, 0.68);
+  background: rgba(123, 205, 184, 0.055);
 }
 .hero-city .button-primary:hover,
 .hero-city .button-primary:focus-visible {
-  border-color: #c8f5e8;
-  background: rgba(86, 190, 167, 0.24);
+  border-color: #a4e1cf;
+  background: rgba(123, 205, 184, 0.13);
 }
 .hero-city .text-link,
 .hero-city .text-link:hover,
-.hero-city .text-link:focus-visible { color: #c4e5dc; }
+.hero-city .text-link:focus-visible { color: #d9ded9; }
 
 .content-section,
 .atlas-section,
 .portfolio-section,
 .featured-project {
-  --section-haze: rgba(86, 185, 167, 0.16);
+  --section-haze: rgba(255, 255, 255, 0.06);
   background:
-    radial-gradient(ellipse 55% 42% at 84% 16%, rgba(115, 214, 195, 0.075), transparent 74%),
-    linear-gradient(155deg, #0b2628 0%, #08191b 52%, #051112 100%);
+    radial-gradient(ellipse 55% 42% at 84% 16%, rgba(255, 255, 255, 0.04), transparent 74%),
+    linear-gradient(155deg, #111214 0%, #0a0b0c 52%, #060607 100%);
 }
 
 .project-field {
   background:
-    radial-gradient(ellipse 54% 70% at 72% 48%, rgba(90, 193, 171, 0.13), transparent 66%),
-    linear-gradient(136deg, #061617 0%, #0d2d2e 55%, #051112 100%);
+    radial-gradient(ellipse 54% 70% at 72% 48%, rgba(255, 255, 255, 0.045), transparent 66%),
+    linear-gradient(136deg, #0a0b0c 0%, #111315 55%, #060607 100%);
 }
 .project-field::before {
   background:
-    linear-gradient(90deg, transparent 0 14%, rgba(147, 229, 211, 0.08) 14.08%, transparent 14.16%),
-    linear-gradient(0deg, transparent 0 78%, rgba(147, 229, 211, 0.065) 78.08%, transparent 78.16%);
+    linear-gradient(90deg, transparent 0 14%, rgba(255, 255, 255, 0.055) 14.08%, transparent 14.16%),
+    linear-gradient(0deg, transparent 0 78%, rgba(255, 255, 255, 0.045) 78.08%, transparent 78.16%);
 }
 .project-orbit-shell::before {
-  background: radial-gradient(ellipse 30% 24% at var(--field-light-x, 62%) var(--field-light-y, 58%), rgba(108, 209, 187, 0.26), rgba(76, 164, 147, 0.07) 37%, transparent 74%);
+  background: radial-gradient(ellipse 30% 24% at var(--field-light-x, 62%) var(--field-light-y, 58%), rgba(123, 205, 184, 0.13), rgba(123, 205, 184, 0.028) 37%, transparent 74%);
 }
 .project-orbit-rim {
-  border-color: rgba(165, 230, 217, 0.38);
-  box-shadow: 0 0.45rem 2.25rem rgba(78, 190, 167, 0.13), inset 0 0 7rem rgba(0, 0, 0, 0.76), inset 0 -1rem 2rem rgba(141, 224, 205, 0.08);
+  border-color: rgba(242, 243, 238, 0.27);
+  box-shadow: 0 0.45rem 2.25rem rgba(0, 0, 0, 0.26), inset 0 0 7rem rgba(0, 0, 0, 0.76), inset 0 -1rem 2rem rgba(255, 255, 255, 0.035);
 }
 .project-orbit-rim::before,
-.project-orbit-rim::after { border-color: rgba(152, 225, 210, 0.13); }
-.project-orbit-axis { background: linear-gradient(90deg, transparent, rgba(159, 231, 216, 0.54), transparent); }
+.project-orbit-rim::after { border-color: rgba(242, 243, 238, 0.095); }
+.project-orbit-axis { background: linear-gradient(90deg, transparent, rgba(123, 205, 184, 0.38), transparent); }
 .project-orbit-card {
-  border-color: rgba(151, 219, 207, 0.28);
-  background: linear-gradient(145deg, rgba(22, 61, 62, 0.96), rgba(4, 18, 19, 0.94));
+  border-color: rgba(242, 243, 238, 0.19);
+  background: linear-gradient(145deg, rgba(29, 31, 33, 0.97), rgba(10, 11, 12, 0.96));
 }
 .project-orbit-card:hover,
 .project-orbit-card:focus-visible,
 .project-orbit-card.is-selected {
-  border-color: rgba(159, 237, 219, 0.9);
-  background: linear-gradient(145deg, rgba(40, 96, 93, 0.98), rgba(7, 31, 31, 0.96));
-  box-shadow: 0 1.4rem 3.2rem rgba(0, 0, 0, 0.58), 0 0 0 1px rgba(164, 237, 220, 0.13);
+  border-color: rgba(123, 205, 184, 0.84);
+  background: linear-gradient(145deg, rgba(37, 42, 42, 0.98), rgba(11, 15, 15, 0.97));
+  box-shadow: 0 1.4rem 3.2rem rgba(0, 0, 0, 0.58), 0 0 0 1px rgba(123, 205, 184, 0.1);
 }
 .project-orbit-number,
-.project-orbit-discipline { color: #a7c9c0; }
+.project-orbit-discipline { color: #aaa9a3; }
